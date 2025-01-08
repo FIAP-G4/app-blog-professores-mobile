@@ -1,13 +1,15 @@
-import { Slot, usePathname } from 'expo-router'
+import { Slot, usePathname, useSegments } from 'expo-router'
 import React, { useContext } from 'react'
 import Header from '../components/shared/Header'
 
 export default function AuthLayout() {
   const pathName = usePathname()
-  const screenName = pathName.charAt(1).toUpperCase() + pathName.slice(2)
-
-  console.log(screenName)
-  console.log(pathName)
+  const segments = useSegments()
+  const screenName =
+    segments.length > 1
+      ? segments.slice(-1)[0].charAt(0).toUpperCase() +
+        segments.slice(-1)[0].slice(1)
+      : pathName.charAt(1).toUpperCase() + pathName.slice(2)
 
   return (
     <>
