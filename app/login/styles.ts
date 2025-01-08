@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
   loginBox: {
     padding: 20,
-    borderRadius: '.5rem',
+    borderRadius: 10,
     backgroundColor: 'white',
     width: '99%',
   },
@@ -29,14 +29,14 @@ const styles = StyleSheet.create({
   },
   input: {
     padding: 10,
-    borderRadius: '.5rem',
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: '#ccc',
     marginBottom: 20,
   },
   buttonContainer: {
     marginBottom: 20,
-    borderRadius: '.5rem',
+    borderRadius: 10,
     overflow: 'hidden',
   },
   registerRow: {
