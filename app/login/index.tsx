@@ -1,11 +1,12 @@
 import React from 'react'
-import { Button, Text, TextInput, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { Button, TouchableOpacity, Text, TextInput, View } from 'react-native'
 import { Link } from 'expo-router'
 import styles from './styles'
 
 export default function Login(): JSX.Element {
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen}>
       <View style={styles.introText}>
         <Text style={styles.loginTitle}>Bem-vindo ao Blog Escolar!</Text>
         <Text style={styles.paragraph}>
@@ -41,6 +42,6 @@ export default function Login(): JSX.Element {
           </Link>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }

@@ -27,7 +27,7 @@ export default function Index(): JSX.Element {
       }).start(() => {
         setTimeout(() => {
           router.replace('/login')
-        }, 1000)
+        }, 500)
       })
     })
   }, [opacity])
