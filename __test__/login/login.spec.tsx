@@ -25,5 +25,7 @@ describe('Tela de login', () => {
     expect(getByText('E-mail')).toBeTruthy()
     expect(getByText('Senha')).toBeTruthy()
     expect(getByText('Confirmar Senha')).toBeTruthy()
+    expect(getByText('Confirmar Senha')).toBeTruthy()
+    expect(getByText('Faça login.')).toBeTruthy()
   })
 })
