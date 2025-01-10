@@ -1,0 +1,9 @@
+name: mobile-app
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mobile-app-container
+    restart: always
