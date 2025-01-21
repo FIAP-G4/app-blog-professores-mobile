@@ -9,7 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest",
-    "lint": "expo lint"
+    "lint": "eslint app"
   },
   "jest": {
     "preset": "jest-expo",
@@ -48,7 +48,9 @@
     "react-native-screens": "~4.4.0",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
-    "styled-components": "^6.1.14"
+    "styled-components": "^6.1.14",
+    "eslint": "8",
+    "eslint-config-expo": "~8.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

@@ -1,5 +1,5 @@
 import { Slot, usePathname, useSegments } from 'expo-router'
-import React, { useContext } from 'react'
+import React from 'react'
 import Header from '../components/shared/Header'
 
 export default function AuthLayout() {

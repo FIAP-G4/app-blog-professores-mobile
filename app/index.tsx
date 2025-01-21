@@ -30,7 +30,7 @@ export default function Index(): JSX.Element {
         }, 500)
       })
     })
-  }, [opacity])
+  }, [opacity, router])
 
   return (
     <View style={styles.screen}>
