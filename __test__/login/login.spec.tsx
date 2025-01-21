@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react-native'
-import Login from '@/app/login/index'
-import Register from '@/app/login/register'
+import Login from '@/app/(screens)/login/index'
+import Register from '@/app/(screens)/login/register'
 
 describe('Tela de login', () => {
   it('Deve renderizar a tela de login', () => {

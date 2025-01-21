@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Button, Text, TextInput, View } from 'react-native'
-import { Link } from 'expo-router'
+import { Button, Text, TextInput, View, Alert } from 'react-native'
+import { Link, router } from 'expo-router'
 import styles from './styles'
 
 export default function Login(): JSX.Element {
+  const [email, setEmail] = useState<string | undefined>('')
+  const [password, setPassword] = useState<string | undefined>('')
+
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.introText}>
@@ -25,14 +28,34 @@ export default function Login(): JSX.Element {
       <View style={styles.loginBox}>
         <Text style={styles.loginTitle}>Entre na sua conta</Text>
         <Text style={styles.label}>E-mail</Text>
-        <TextInput style={styles.input} />
+        <TextInput
+          style={styles.input}
+          editable
+          value={email}
+          keyboardType="email-address"
+          onChangeText={(text) => setEmail(text)}
+        />
         <Text style={styles.label}>Senha</Text>
-        <TextInput style={styles.input} />
+        <TextInput
+          style={styles.input}
+          editable
+          value={password}
+          onChangeText={(password) => setPassword(password)}
+        />
         <View style={styles.buttonContainer}>
           <Button
             title="Entrar"
             color="#4e46dd"
-            onPress={() => console.log('Simple Button pressed')}
+            onPress={() => {
+              console.log('Código temporário para login')
+
+              // if (!email || !password) {
+              //   Alert.alert('Preencha todos os campos')
+              //   return
+              // }
+
+              router.replace('/posts')
+            }}
           />
         </View>
         <View style={styles.registerRow}>

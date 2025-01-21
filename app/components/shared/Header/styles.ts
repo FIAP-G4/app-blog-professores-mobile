@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     columnGap: 20,
+    zIndex: 2,
   },
   headerLogo: {
     width: 35,

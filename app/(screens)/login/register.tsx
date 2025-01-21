@@ -67,7 +67,10 @@ export default function Register(): JSX.Element {
         </View>
         <View style={styles.buttonContainer}>
           <Text style={{ marginTop: -1, fontSize: 15 }}>
-            Já possui uma conta? <Link href="/login">Faça login.</Link>
+            Já possui uma conta?{' '}
+            <Link href="/login" style={{ color: 'rgb(78, 70, 221)' }}>
+              Faça login.
+            </Link>
           </Text>
         </View>
       </View>
