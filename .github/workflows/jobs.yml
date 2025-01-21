@@ -1,0 +1,26 @@
+name: CI/CD Pipeline
+run-name: ${{ github.actor }} está realizando o workflow.
+
+on:
+  pull_request: 
+  push:
+    branches: [main, develop]
+    
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        with:
+          node-version: '20.18.0'
+
+      - name: Instalando dependencias
+        run: npm install
+
+      - name: Rodando ESLint e realizando testes
+        run: | 
+          npm run lint
+          npm run test
