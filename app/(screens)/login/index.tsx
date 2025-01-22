@@ -54,7 +54,7 @@ export default function Login(): JSX.Element {
               //   return
               // }
 
-              router.replace('/posts')
+              router.replace('/postagens')
             }}
           />
         </View>

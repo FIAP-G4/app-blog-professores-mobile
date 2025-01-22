@@ -1,8 +1,9 @@
 import { Slot, usePathname, useSegments } from 'expo-router'
 import React from 'react'
-import Header from '@/app/components/shared/Header'
+import { Text, View } from 'react-native'
+import styles from './styles'
 
-export default function AuthLayout() {
+export default function PostsLayout() {
   const pathName = usePathname()
   const segments = useSegments()
   const screenName =
@@ -13,9 +14,9 @@ export default function AuthLayout() {
 
   return (
     <>
-      <Header
-        pageTitle={screenName !== 'Login' ? 'Blog Escolar' : screenName}
-      />
+      <View style={styles.subHeader}>
+        <Text style={styles.pageTitle}>{screenName}</Text>
+      </View>
       <Slot />
     </>
   )
