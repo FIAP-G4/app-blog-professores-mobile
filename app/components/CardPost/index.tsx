@@ -5,7 +5,7 @@ import formattedDate from '@/app/utils/functions/formattedDate'
 import styles from './styles'
 
 const CardPost = (props: Partial<Post>): JSX.Element => {
-  const { id, title, content, path_img, tags, created_at } = props
+  const { id, title, content, path_img, tags, created_at, teacher } = props
   const baseApiUrl = process.env.EXPO_PUBLIC_CORS_ORIGIN
 
   console.log(id)
@@ -24,7 +24,7 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
       )}
       <View style={styles.cardContentPadding}>
         <Text style={styles.cardTitle}>{title}</Text>
-        <Text style={styles.authorName}></Text>
+        <Text style={styles.authorName}>{teacher?.user?.name}</Text>
         <Text style={styles.cardContent}>{content}</Text>
         <View style={styles.cardTagsWrapper}>
           {tags &&

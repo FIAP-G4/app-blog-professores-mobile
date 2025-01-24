@@ -43,7 +43,11 @@ export type Post = {
   created_at: string
   updated_at: string
   teacher_id: number
-  teacher: object
+  teacher?: {
+    user?: {
+      name?: string
+    }
+  }
   tags: Tags[]
   comments: Comments[]
   commentCount: number
