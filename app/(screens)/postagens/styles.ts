@@ -1,13 +1,13 @@
-import { StyleSheet, TextInput } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   screen: {
-    paddingTop: 95,
+    paddingTop: 30,
     paddingHorizontal: 20,
     backgroundColor: '#f3f4f6',
-    flex: 1,
+    display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   subHeader: {
     padding: 20,

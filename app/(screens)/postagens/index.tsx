@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
-import CardPost from '@/app/components/shared/CartPost'
+import CardPost from '@/app/components/CardPost'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import styles from './styles'
 
@@ -38,17 +38,25 @@ export default function Posts(): JSX.Element {
           placeholder="Buscar por postagens"
         />
         <View style={styles.btnWrapper}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => {}}>
             <AntDesign name="search1" size={24} color="white" />
           </TouchableOpacity>
         </View>
       </View>
-      <View>
+      <View style={{ width: '100%' }}>
         <FlatList
           data={posts}
-          renderItem={({ item }) => <CardPost title={item.title} />}
+          renderItem={({ item }) => (
+            <CardPost
+              title={item.title}
+              content={item.content}
+              teacher={item.teacher}
+              path_img={item.path_img}
+              tags={item.tags}
+              created_at={item.created_at}
+            />
+          )}
           keyExtractor={(item) => item.id}
-          style={{ width: '100%' }}
         />
       </View>
     </SafeAreaView>
