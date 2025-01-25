@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
-import { getPosts } from '@/app/services/posts/getPosts'
+import { getPostById } from '@/app/services/posts/getPostById'
 import { Post } from '@/app/services/posts/IPost'
 
-const usePostList = () => {
-  const [posts, setPosts] = useState<Post[]>([])
+const usePost = (id: string = 'adbe2c41-6947-43f0-96bf-8f7f20d47f3c') => {
+  const [post, setPost] = useState<Post | undefined>()
   const [error, setError] = useState<Error | unknown>(null)
 
   useEffect(() => {
-    getPosts()
+    getPostById(id)
       .then((data) => {
         if (data) {
-          setPosts(data)
+          setPost(data)
         }
       })
       .catch((err) => {
@@ -18,7 +18,7 @@ const usePostList = () => {
       })
   }, [])
 
-  return { posts, error }
+  return { post, error }
 }
 
-export default usePostList
+export default usePost

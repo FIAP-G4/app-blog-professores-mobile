@@ -27,7 +27,7 @@ export default function Index(): JSX.Element {
         useNativeDriver: true,
       }).start(() => {
         setTimeout(() => {
-          router.replace('/login')
+          router.replace('/postagens')
         }, 500)
       })
     })

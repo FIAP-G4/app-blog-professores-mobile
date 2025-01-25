@@ -1,11 +1,5 @@
 import api from '@/app/services/api'
-
-type Post = {
-  id: string
-  title: string
-  content: string
-  path_img?: string
-}
+import { Post } from './IPost'
 
 export const getPosts = async (
   page = 1,
@@ -29,5 +23,3 @@ export const getPosts = async (
     throw error
   }
 }
-
-export type { Post }
