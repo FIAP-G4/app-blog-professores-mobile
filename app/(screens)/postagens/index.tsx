@@ -54,6 +54,8 @@ export default function Posts(): JSX.Element {
             path_img={item.path_img}
             tags={item.tags}
             created_at={item.created_at}
+            viewedCount={item.viewedCount}
+            commentCount={item.commentCount}
           />
         )}
         keyExtractor={(item) => item.id}

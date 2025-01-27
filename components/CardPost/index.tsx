@@ -6,10 +6,18 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 const CardPost = (props: Partial<Post>): JSX.Element => {
-  const { id, title, content, path_img, tags, created_at, teacher } = props
+  const {
+    id,
+    title,
+    content,
+    path_img,
+    tags,
+    created_at,
+    teacher,
+    viewedCount,
+    commentCount,
+  } = props
   const baseApiUrl = process.env.EXPO_PUBLIC_CORS_ORIGIN
-
-  console.log(id)
 
   return (
     <View key={id} style={styles.card}>
@@ -41,7 +49,7 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
           )}
           <View style={[styles.displayFlex, { columnGap: 5 }]}>
             <Ionicons name="eye-outline" size={24} color="rgb(156, 163, 175)" />
-            <Text style={{ color: 'rgb(156, 163, 175)' }}>1</Text>
+            <Text style={{ color: 'rgb(156, 163, 175)' }}>{viewedCount}</Text>
             <Text style={{ marginHorizontal: 5, color: 'rgb(156, 163, 175)' }}>
               |
             </Text>
@@ -50,7 +58,7 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
               size={24}
               color="rgb(156, 163, 175)"
             />
-            <Text style={{ color: 'rgb(156, 163, 175)' }}>1</Text>
+            <Text style={{ color: 'rgb(156, 163, 175)' }}>{commentCount}</Text>
           </View>
         </View>
       </View>
