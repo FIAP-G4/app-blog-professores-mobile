@@ -1,5 +1,5 @@
 import React, { createContext } from 'react'
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, SafeAreaView } from 'react-native'
 import styles from './styles'
 
 interface HeaderProps {
@@ -14,6 +14,7 @@ export default function Header(props: HeaderProps): JSX.Element {
   const logoPath = '../../../../assets/images/logo.png'
 
   return (
+    <SafeAreaView style={styles.headerSafeArea}>
     <HeaderContext.Provider value={props}>
       <View style={styles.headerContainer}>
         <Image style={styles.headerLogo} source={require(logoPath)} />
@@ -21,5 +22,6 @@ export default function Header(props: HeaderProps): JSX.Element {
         {children}
       </View>
     </HeaderContext.Provider>
+    </SafeAreaView>
   )
 }

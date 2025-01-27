@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
+  headerSafeArea: {
+    backgroundColor: '#212836',
+  },
 })
 
 export default styles
