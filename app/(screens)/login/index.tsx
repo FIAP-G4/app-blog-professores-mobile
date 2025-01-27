@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, Text, TextInput, View, Alert } from 'react-native'
 import { Link, router } from 'expo-router'
 import styles from './styles'
+import Toast from 'react-native-toast-message';
 
 export default function Login(): JSX.Element {
   const [email, setEmail] = useState<string | undefined>('')
@@ -65,6 +66,7 @@ export default function Login(): JSX.Element {
           </Link>
         </View>
       </View>
+      <Toast />
     </SafeAreaView>
   )
 }
