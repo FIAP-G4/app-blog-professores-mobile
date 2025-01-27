@@ -1,4 +1,4 @@
-import { Post } from '@/app/services/posts/IPost'
+import Post from '@/app/services/posts/IPost'
 import api from '@/app/services/api'
 
 export const getPostById = async (id: string): Promise<Post | undefined> => {
