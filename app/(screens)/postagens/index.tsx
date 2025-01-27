@@ -18,7 +18,7 @@ export default function Posts(): JSX.Element {
   const [tag, setTag] = useState('')
 
   return (
-    <SafeAreaView style={styles.screen}>
+    <SafeAreaView style={[styles.screen, { flex: 1 }]}>
       <View style={styles.optionSelect}>
         <Text style={styles.optionSeletText}>Selecione uma categoria...</Text>
         <Picker
@@ -43,22 +43,23 @@ export default function Posts(): JSX.Element {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ width: '100%' }}>
-        <FlatList
-          data={posts}
-          renderItem={({ item }) => (
-            <CardPost
-              title={item.title}
-              content={item.content}
-              teacher={item.teacher}
-              path_img={item.path_img}
-              tags={item.tags}
-              created_at={item.created_at}
-            />
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
+
+      <FlatList
+        data={posts}
+        renderItem={({ item }) => (
+          <CardPost
+            title={item.title}
+            content={item.content}
+            teacher={item.teacher}
+            path_img={item.path_img}
+            tags={item.tags}
+            created_at={item.created_at}
+          />
+        )}
+        keyExtractor={(item) => item.id}
+        initialNumToRender={1}
+        contentContainerStyle={{ paddingBottom: 20 }}
+      />
     </SafeAreaView>
   )
 }

@@ -5,9 +5,6 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingHorizontal: 20,
     backgroundColor: '#f3f4f6',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
   },
   subHeader: {
     padding: 20,

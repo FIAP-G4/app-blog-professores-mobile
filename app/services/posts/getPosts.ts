@@ -1,8 +1,7 @@
 import api from '@/app/services/api'
-import { Post } from './IPost'
+import Post from './IPost'
 
 export const getPosts = async (
-  page = 1,
   limit = 3,
   search = '',
   tag = [],
@@ -10,7 +9,6 @@ export const getPosts = async (
   try {
     const response = await api.get(`/posts`, {
       params: {
-        page,
         limit,
         term: search,
         tag,
