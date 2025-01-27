@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import usePostList from '@/app/utils/hooks/usePostList'
+import usePostList from '@/utils/hooks/usePostList'
 import {
   SafeAreaView,
   View,
@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
-import CardPost from '@/app/components/CardPost'
+import CardPost from '@/components/CardPost'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import styles from './styles'
 

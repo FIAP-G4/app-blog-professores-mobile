@@ -1,5 +1,5 @@
-import Student from '@/app/services/student/IStudent'
-import Teacher from '@/app/services/teachers/ITeacher'
+import Student from '@/services/student/IStudent'
+import Teacher from '@/services/teachers/ITeacher'
 
 type User = {
   id: number

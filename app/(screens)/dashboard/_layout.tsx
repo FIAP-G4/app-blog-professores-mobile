@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tabs } from 'expo-router'
-import Header from '../../components/shared/Header'
+import Header from '@/components/shared/Header'
 
 export default function TabLayout() {
   return (

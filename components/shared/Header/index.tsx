@@ -11,7 +11,7 @@ export const HeaderContext = createContext<HeaderProps | null>(null)
 
 export default function Header(props: HeaderProps): JSX.Element {
   const { pageTitle, children } = props
-  const logoPath = '../../../../assets/images/logo.png'
+  const logoPath = '../../../assets/images/logo.png'
 
   return (
     <HeaderContext.Provider value={props}>

@@ -1,6 +1,6 @@
 import { View, Text, Image } from 'react-native'
-import Post from '@/app/services/posts/IPost'
-import formattedDate from '@/app/utils/functions/formattedDate'
+import Post from '@/services/posts/IPost'
+import formattedDate from '@/utils/functions/formattedDate'
 import styles from './styles'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import FontAwesome from '@expo/vector-icons/FontAwesome'

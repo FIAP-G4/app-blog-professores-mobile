@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { getPosts } from '@/app/services/posts/getPosts'
-import Post from '@/app/services/posts/IPost'
+import { getPosts } from '@/services/posts/getPosts'
+import Post from '@/services/posts/IPost'
 
 const usePostList = () => {
   const [posts, setPosts] = useState<Post[]>([])
