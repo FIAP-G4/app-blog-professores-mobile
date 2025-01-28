@@ -77,11 +77,16 @@ export default function Posts(): JSX.Element {
           />
         )}
         keyExtractor={(item) => item.id}
-        initialNumToRender={1}
+        initialNumToRender={2}
         onEndReachedThreshold={0.5}
         onEndReached={() => {
           loadMorePosts()
         }}
+        ListFooterComponent={
+          loading && hasMorePosts ? (
+            <ActivityIndicator size="small" color="#0000ff" />
+          ) : null
+        }
         contentContainerStyle={{ paddingBottom: 20 }}
       />
     </SafeAreaView>

@@ -6,16 +6,23 @@ const usePostList = () => {
   const [posts, setPosts] = useState<Post[]>([])
   const [error, setError] = useState<Error | unknown>(null)
   const [loading, setLoading] = useState<boolean>(true)
+  const [currentPage, setCurrentPage] = useState<number>(1)
   const [searchTerm, setSearchTerm] = useState('')
   const [tags, setTags] = useState<never[string]>([] as never[string])
   const [hasMorePosts, setHasMorePosts] = useState<boolean>(false)
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (page = 1, limit = 2) => {
     setLoading(true)
     try {
-      const posts = await getPosts(1, 2, searchTerm, tags)
-      setPosts(posts || [])
-      setHasMorePosts((posts || []).length > 0)
+      const fetchedPosts = await getPosts(page, limit, searchTerm, tags)
+      if (page === 1) {
+        // Primeira página: substitui a lista de posts
+        setPosts(fetchedPosts || [])
+      } else {
+        // Páginas subsequentes: adiciona à lista existente
+        setPosts((prev) => [...prev, ...(fetchedPosts || [])])
+      }
+      setHasMorePosts((fetchedPosts || []).length === limit) // Verifica se há mais posts
     } catch (error) {
       setError(error)
     } finally {
@@ -25,20 +32,14 @@ const usePostList = () => {
 
   const loadMorePosts = async () => {
     if (loading || !hasMorePosts) return
-    setLoading(true)
+
+    const nextPage = currentPage + 1
+
     try {
-      const additionalPosts = await getPosts(
-        posts.length / 10 + 1,
-        10,
-        searchTerm,
-        tags,
-      )
-      setPosts((prev) => [...prev, ...(additionalPosts || [])])
-      setHasMorePosts((additionalPosts || []).length > 0)
+      await fetchPosts(nextPage, 2)
+      setCurrentPage(nextPage)
     } catch (error) {
-      setError(error)
-    } finally {
-      setLoading(false)
+      console.error('Erro ao carregar mais posts:', error)
     }
   }
 
