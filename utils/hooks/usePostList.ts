@@ -1,62 +1,62 @@
 import { useEffect, useState } from 'react'
 import { getPosts } from '@/services/posts/getPosts'
-import { postViewed } from '@/services/posts/postViewed'
 import Post from '@/services/posts/IPost'
 
 const usePostList = () => {
   const [posts, setPosts] = useState<Post[]>([])
   const [error, setError] = useState<Error | unknown>(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState<boolean>(true)
   const [searchTerm, setSearchTerm] = useState('')
-  // const [currentPage, setCurrentPage] = useState(initialPage)
-  // const [hasMorePosts, setHasMorePosts] = useState(false)
-  const [tags, setTags] = useState([])
+  const [tags, setTags] = useState<never[string]>([] as never[string])
+  const [hasMorePosts, setHasMorePosts] = useState<boolean>(false)
 
-  const handleSearchPosts = async () => {
+  const fetchPosts = async () => {
+    setLoading(true)
     try {
-      setLoading(true)
-      const search = searchTerm || ''
-      const posts = await getPosts(search, tags)
-      if (posts) {
-        setPosts(posts)
-      }
+      const posts = await getPosts(1, 2, searchTerm, tags)
+      setPosts(posts || [])
+      setHasMorePosts((posts || []).length > 0)
     } catch (error) {
-      console.error('Erro ao buscar posts:', error)
-      setError('Ocorreu um erro ao carregar os posts.')
-      setLoading(false)
+      setError(error)
     } finally {
       setLoading(false)
     }
   }
 
-  const handlePostViewed = async (postId: Partial<Post>) => {
+  const loadMorePosts = async () => {
+    if (loading || !hasMorePosts) return
+    setLoading(true)
     try {
-      await postViewed(postId)
-      setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post.id === postId
-            ? { ...post, viewedCount: post.viewedCount + 1 }
-            : post,
-        ),
+      const additionalPosts = await getPosts(
+        posts.length / 10 + 1,
+        10,
+        searchTerm,
+        tags,
       )
+      setPosts((prev) => [...prev, ...(additionalPosts || [])])
+      setHasMorePosts((additionalPosts || []).length > 0)
     } catch (error) {
-      console.error('Erro ao marcar post como visualizado:', error)
+      setError(error)
+    } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
-    getPosts()
-      .then((data) => {
-        if (data) {
-          setPosts(data)
-        }
-      })
-      .catch((err) => {
-        setError(err)
-      })
-  }, [])
+    fetchPosts()
+  }, [searchTerm, tags])
 
-  return { posts, error, handleSearchPosts, handlePostViewed }
+  return {
+    posts,
+    error,
+    loading,
+    searchTerm,
+    hasMorePosts,
+    loadMorePosts,
+    fetchPosts,
+    setSearchTerm,
+    setTags,
+  }
 }
 
 export default usePostList

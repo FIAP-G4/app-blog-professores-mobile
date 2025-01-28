@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import CardPost from '@/components/CardPost'
@@ -14,36 +15,53 @@ import AntDesign from '@expo/vector-icons/AntDesign'
 import styles from './styles'
 
 export default function Posts(): JSX.Element {
-  const { posts } = usePostList()
-  const [tag, setTag] = useState('')
+  const {
+    posts,
+    error,
+    loading,
+    searchTerm,
+    hasMorePosts,
+    loadMorePosts,
+    fetchPosts,
+    setSearchTerm,
+    setTags,
+  } = usePostList()
+
+  const tagsOptions = posts
+    ? Array.from(new Set(posts.flatMap((post) => post.tags)))
+    : []
+
+  const [tag, setTag] = useState<string>('')
 
   return (
     <SafeAreaView style={[styles.screen, { flex: 1 }]}>
       <View style={styles.optionSelect}>
         <Text style={styles.optionSeletText}>Selecione uma categoria...</Text>
         <Picker
-          style={styles.optionSelectPicker}
+          onValueChange={(itemValue) => setTags([itemValue])}
           selectedValue={tag}
           onValueChange={(itemValue) => setTag(itemValue)}
         >
-          <Picker.Item label="" value="" />
-          {/* Cödgio temporário para tags*/}
-          <Picker.Item label="Redação" value="Redação" />
-          <Picker.Item label="Oficina" value="Oficina" />
+          <Picker.Item label="Todas" value="" />
+          {tagsOptions.map((tag) => (
+            <Picker.Item key={tag} label={tag} value={tag} />
+          ))}
         </Picker>
       </View>
       <View style={styles.textInputWrapper}>
         <TextInput
           style={styles.textInput}
           placeholder="Buscar por postagens"
+          onChangeText={(value) => setSearchTerm(value)}
+          value={searchTerm}
         />
         <View style={styles.btnWrapper}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={fetchPosts}>
             <AntDesign name="search1" size={24} color="white" />
           </TouchableOpacity>
         </View>
       </View>
-
+      {loading && <ActivityIndicator size="large" color="#0000ff" />}
       <FlatList
         data={posts}
         renderItem={({ item }) => (
@@ -60,6 +78,10 @@ export default function Posts(): JSX.Element {
         )}
         keyExtractor={(item) => item.id}
         initialNumToRender={1}
+        onEndReachedThreshold={0.5}
+        onEndReached={() => {
+          loadMorePosts()
+        }}
         contentContainerStyle={{ paddingBottom: 20 }}
       />
     </SafeAreaView>

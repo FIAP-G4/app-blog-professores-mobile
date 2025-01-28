@@ -2,12 +2,16 @@ import api from '@/services/api'
 import Post from './IPost'
 
 export const getPosts = async (
+  page = 1,
+  limit = 2,
   search = '',
   tag = [],
 ): Promise<Post[] | undefined> => {
   try {
     const response = await api.get(`/posts`, {
       params: {
+        page,
+        limit,
         term: search,
         tag,
       },
