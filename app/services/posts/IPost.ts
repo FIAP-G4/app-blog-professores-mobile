@@ -1,6 +1,6 @@
-import User from '@/services/user/IUser'
-import Tags from '@/services/tags/ITags'
-import Comments from '@/services/comments/IComments'
+import User from '@/app/services/user/IUser'
+import Tags from '@/app/services/tags/ITag'
+import Comments from '@/app/services/comments/IComments'
 
 type Post = {
   id: string

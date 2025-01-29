@@ -1,28 +1,35 @@
 import { useEffect, useState } from 'react'
-import { getPosts } from '@/services/posts/getPosts'
-import Post from '@/services/posts/IPost'
+import { getPosts } from '@/app/services/posts/getPosts'
+import Post from '@/app/services/posts/IPost'
+import Tag from '@/app/services/tags/ITag'
 
-const usePostList = () => {
+const usePostList = (initial = 1, postsPerPage = 2) => {
   const [posts, setPosts] = useState<Post[]>([])
   const [error, setError] = useState<Error | unknown>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [searchTerm, setSearchTerm] = useState('')
-  const [tags, setTags] = useState<never[string]>([] as never[string])
+  const [tags, setTags] = useState<number[]>([])
   const [hasMorePosts, setHasMorePosts] = useState<boolean>(false)
 
-  const fetchPosts = async (page = 1, limit = 2) => {
+  const fetchPosts = async (
+    nextPage: number,
+    p0: number,
+    searchTerm: string,
+    tags: number[],
+  ) => {
     setLoading(true)
     try {
-      const fetchedPosts = await getPosts(page, limit, searchTerm, tags)
-      if (page === 1) {
-        // Primeira página: substitui a lista de posts
-        setPosts(fetchedPosts || [])
-      } else {
-        // Páginas subsequentes: adiciona à lista existente
-        setPosts((prev) => [...prev, ...(fetchedPosts || [])])
-      }
-      setHasMorePosts((fetchedPosts || []).length === limit) // Verifica se há mais posts
+      const fetchedPosts = await getPosts(
+        currentPage,
+        postsPerPage,
+        searchTerm,
+        tags,
+      )
+
+      setPosts(fetchedPosts || [])
+      setPosts((prev) => [...prev, ...(fetchedPosts || [])])
+      setHasMorePosts((fetchedPosts || []).length === postsPerPage) // Verifica se há mais posts
     } catch (error) {
       setError(error)
     } finally {
@@ -34,9 +41,10 @@ const usePostList = () => {
     if (loading || !hasMorePosts) return
 
     const nextPage = currentPage + 1
+    setCurrentPage(nextPage)
 
     try {
-      await fetchPosts(nextPage, 2)
+      await fetchPosts(nextPage, 2, searchTerm, tags)
       setCurrentPage(nextPage)
     } catch (error) {
       console.error('Erro ao carregar mais posts:', error)
@@ -44,15 +52,17 @@ const usePostList = () => {
   }
 
   useEffect(() => {
-    fetchPosts()
-  }, [searchTerm, tags])
+    fetchPosts(currentPage, 2, searchTerm, tags)
+  }, [currentPage])
 
   return {
     posts,
     error,
     loading,
+    currentPage,
     searchTerm,
     hasMorePosts,
+    tags,
     loadMorePosts,
     fetchPosts,
     setSearchTerm,

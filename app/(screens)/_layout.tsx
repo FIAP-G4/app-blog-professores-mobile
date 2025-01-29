@@ -1,6 +1,6 @@
 import { Slot, usePathname, useSegments } from 'expo-router'
 import React from 'react'
-import Header from '@/components/shared/Header'
+import Header from '@/app/components/shared/Header'
 
 export default function AuthLayout() {
   const pathName = usePathname()

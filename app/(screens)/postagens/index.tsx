@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import usePostList from '@/utils/hooks/usePostList'
+import { useState } from 'react'
+import usePostList from '@/app/utils/hooks/usePostList'
+import useTagsList from '@/app/utils/hooks/useTagList'
 import {
   SafeAreaView,
   View,
@@ -9,8 +10,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native'
-import { Picker } from '@react-native-picker/picker'
-import CardPost from '@/components/CardPost'
+import { MultipleSelectList } from 'react-native-dropdown-select-list'
+import CardPost from '@/app/components/CardPost'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import styles from './styles'
 
@@ -19,34 +20,30 @@ export default function Posts(): JSX.Element {
     posts,
     error,
     loading,
+    currentPage,
     searchTerm,
     hasMorePosts,
     loadMorePosts,
     fetchPosts,
     setSearchTerm,
-    setTags,
   } = usePostList()
-
-  const tagsOptions = posts
-    ? Array.from(new Set(posts.flatMap((post) => post.tags)))
-    : []
-
-  const [tag, setTag] = useState<string>('')
+  const { tags } = useTagsList()
+  const [selected, setSelected] = useState<[]>([])
+  const categoryOptions = tags.map((tag) => ({ key: tag.id, value: tag.name }))
 
   return (
     <SafeAreaView style={[styles.screen, { flex: 1 }]}>
-      <View style={styles.optionSelect}>
-        <Text style={styles.optionSeletText}>Selecione uma categoria...</Text>
-        <Picker
-          onValueChange={(itemValue) => setTags([itemValue])}
-          selectedValue={tag}
-          onValueChange={(itemValue) => setTag(itemValue)}
-        >
-          <Picker.Item label="Todas" value="" />
-          {tagsOptions.map((tag) => (
-            <Picker.Item key={tag} label={tag} value={tag} />
-          ))}
-        </Picker>
+      <View>
+        <MultipleSelectList
+          setSelected={(val: any) => setSelected(val)}
+          data={categoryOptions}
+          save="key"
+          label="Categorias"
+          onSelect={() => console.log('Selected:' + selected)}
+          placeholder="Buscar por categrorias"
+          searchPlaceholder="Filtre por categoria"
+          boxStyles={styles.optionSelect}
+        />
       </View>
       <View style={styles.textInputWrapper}>
         <TextInput
@@ -56,12 +53,18 @@ export default function Posts(): JSX.Element {
           value={searchTerm}
         />
         <View style={styles.btnWrapper}>
-          <TouchableOpacity onPress={fetchPosts}>
+          <TouchableOpacity
+            onPress={() => {
+              console.log('Pagina', currentPage)
+              console.log('Termo de busca', searchTerm)
+              console.log('tags', selected)
+              fetchPosts(currentPage, 2, searchTerm, selected)
+            }}
+          >
             <AntDesign name="search1" size={24} color="white" />
           </TouchableOpacity>
         </View>
       </View>
-      {loading && <ActivityIndicator size="large" color="#0000ff" />}
       <FlatList
         data={posts}
         renderItem={({ item }) => (
@@ -80,7 +83,7 @@ export default function Posts(): JSX.Element {
         initialNumToRender={2}
         onEndReachedThreshold={0.5}
         onEndReached={() => {
-          loadMorePosts()
+          //loadMorePosts()
         }}
         ListFooterComponent={
           loading && hasMorePosts ? (
