@@ -7,10 +7,11 @@ import React, {
   ReactNode,
 } from 'react'
 import { useRouter } from 'expo-router'
-
-import { Alert } from 'react-native'
+import { ActivityIndicator, Alert, View } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import JWT from 'expo-jwt'
+import 'core-js/stable/atob'
+import { jwtDecode } from 'jwt-decode'
+import { TokenPayload } from '@/interfaces/IAuth'
 
 interface AuthContextProps {
   isAuthenticated: boolean
@@ -22,7 +23,6 @@ interface AuthContextProps {
   logout: () => Promise<void>
   handleTokenExpiration: () => Promise<void>
 }
-const jwtSecret = process.env.JWT_SECRET
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined)
 
@@ -44,15 +44,14 @@ export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   const [isStudent, setIsStudent] = useState(false)
   const [loggedInUserId, setLoggedInUserId] = useState<number | null>(null)
   const [user, setUser] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
   const router = useRouter()
 
   const handleUserType = useCallback((token: string) => {
     try {
-      if (!jwtSecret) {
-        throw new Error('JWT secret is not defined')
-      }
-      const jwt = JWT.decode(token, jwtSecret)
-      const userType = jwt.payload?.type
+      const jwt = jwtDecode<TokenPayload>(token)
+      console.log('DECODED JWT: ', jwt)
+      const userType = jwt.type
       setIsTeacher(userType === 'teacher')
       setIsStudent(userType === 'student')
     } catch (error) {
@@ -62,12 +61,9 @@ export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
 
   const loggedUserId = (token: string): number | null => {
     try {
-      if (!jwtSecret) {
-        throw new Error('JWT secret is not defined')
-      }
-      const jwt = JWT.decode(token, jwtSecret)
-      setLoggedInUserId(jwt.payload?.id)
-      return jwt.payload?.id || null
+      const jwt = jwtDecode<TokenPayload>(token)
+      setLoggedInUserId(jwt.id)
+      return jwt.id || null
     } catch (error) {
       console.error('Erro ao extrair userId do token:', error)
       return null
@@ -96,12 +92,9 @@ export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
 
   const isTokenExpired = useCallback((token: string): boolean => {
     try {
-      if (!jwtSecret) {
-        throw new Error('JWT secret is not defined')
-      }
-      const decoded = JWT.decode(token, jwtSecret)
+      const decoded = jwtDecode<TokenPayload>(token)
       const currentTime = Math.floor(Date.now() / 1000)
-      return decoded.payload?.exp < currentTime
+      return decoded.exp < currentTime
     } catch (error) {
       console.error('Erro ao verificar validade do token:', error)
       return true
@@ -133,10 +126,19 @@ export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
           logout()
         }
       }
+      setLoading(false)
     }
 
     checkAuth()
   }, [handleUserType, isTokenExpired, logout])
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size='large' color='#0000ff' />
+      </View>
+    )
+  }
 
   const value: AuthContextProps = {
     isAuthenticated,

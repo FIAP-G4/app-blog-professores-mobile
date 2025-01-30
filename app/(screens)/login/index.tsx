@@ -1,13 +1,22 @@
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Button, Text, TextInput, View, Alert } from 'react-native'
-import { Link, router } from 'expo-router'
+import { Alert, Button, Text, TextInput, View } from 'react-native'
 import styles from './styles'
+import useLogin from '@/app/utils/hooks/useLogin'
 
 export default function Login(): JSX.Element {
   const [email, setEmail] = useState<string | undefined>('')
   const [password, setPassword] = useState<string | undefined>('')
+  const { setCredentials, handleLogin } = useLogin()
 
+  const handleLoginPress = () => {
+    if (!email || !password) {
+      Alert.alert('Erro', 'Preencha todos os campos')
+      return
+    }
+    setCredentials({ email, password })
+    handleLogin()
+  }
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.introText}>
@@ -32,7 +41,7 @@ export default function Login(): JSX.Element {
           style={styles.input}
           editable
           value={email}
-          keyboardType="email-address"
+          keyboardType='email-address'
           onChangeText={(text) => setEmail(text)}
         />
         <Text style={styles.label}>Senha</Text>
@@ -44,26 +53,27 @@ export default function Login(): JSX.Element {
         />
         <View style={styles.buttonContainer}>
           <Button
-            title="Entrar"
-            color="#4e46dd"
-            onPress={() => {
-              console.log('Código temporário para login')
+            title='Entrar'
+            color='#4e46dd'
+            // onPress={() => {
+            //   console.log('Código temporário para login')
 
-              // if (!email || !password) {
-              //   Alert.alert('Preencha todos os campos')
-              //   return
-              // }
+            //   // if (!email || !password) {
+            //   //   Alert.alert('Preencha todos os campos')
+            //   //   return
+            //   // }
 
-              router.replace('/postagens')
-            }}
+            //   router.replace('/postagens')
+            // }}
+            onPress={handleLoginPress}
           />
         </View>
-        <View style={styles.registerRow}>
+        {/* <View style={styles.registerRow}>
           <Text>Não tem uma conta? </Text>
-          <Link href="/login/register" style={{ color: '#4e46dd' }}>
+          <Link href='/login/register' style={{ color: '#4e46dd' }}>
             <Text style={{ color: '#4e46dd' }}>Cadastre-se</Text>
           </Link>
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   )

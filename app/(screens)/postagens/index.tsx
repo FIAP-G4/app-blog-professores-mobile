@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import usePostList from '@/app/utils/hooks/usePostList'
 import {
   SafeAreaView,
@@ -12,10 +12,20 @@ import { Picker } from '@react-native-picker/picker'
 import CardPost from '@/app/components/CardPost'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import styles from './styles'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Posts(): JSX.Element {
   const { posts } = usePostList()
   const [tag, setTag] = useState('')
+  const [credenciais, setCredenciais] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchCredentials = async () => {
+      const credentials = await AsyncStorage.getItem('credentials')
+      setCredenciais(credentials)
+    }
+    fetchCredentials()
+  }, [])
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -26,20 +36,20 @@ export default function Posts(): JSX.Element {
           selectedValue={tag}
           onValueChange={(itemValue) => setTag(itemValue)}
         >
-          <Picker.Item label="" value="" />
+          <Picker.Item label='' value='' />
           {/* Cödgio temporário para tags*/}
-          <Picker.Item label="Redação" value="Redação" />
-          <Picker.Item label="Oficina" value="Oficina" />
+          <Picker.Item label='Redação' value='Redação' />
+          <Picker.Item label='Oficina' value='Oficina' />
         </Picker>
       </View>
       <View style={styles.textInputWrapper}>
         <TextInput
           style={styles.textInput}
-          placeholder="Buscar por postagens"
+          placeholder='Buscar por postagens'
         />
         <View style={styles.btnWrapper}>
           <TouchableOpacity onPress={() => {}}>
-            <AntDesign name="search1" size={24} color="white" />
+            <AntDesign name='search1' size={24} color='white' />
           </TouchableOpacity>
         </View>
       </View>

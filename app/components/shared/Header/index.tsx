@@ -22,8 +22,6 @@ export default function Header(props: HeaderProps): JSX.Element {
 
   const isLoginRoute = segments.includes('login')
 
-  console.log(isLoginRoute)
-
   return (
     <HeaderContext.Provider value={props}>
       <View style={styles.headerContainer}>

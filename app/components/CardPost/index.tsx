@@ -1,5 +1,5 @@
 import { View, Text, Image } from 'react-native'
-import { Post } from '@/app/services/posts/IPost'
+import { Post } from '@/services/posts/IPost'
 import usePost from '@/app/utils/hooks/usePost'
 import formattedDate from '@/app/utils/functions/formattedDate'
 import styles from './styles'
@@ -8,7 +8,7 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
   const { id, title, content, path_img, tags, created_at } = props
   const baseApiUrl = process.env.EXPO_PUBLIC_CORS_ORIGIN
 
-  console.log(id)
+  // console.log(id)
 
   //console.log(post?.title)
 
