@@ -47,13 +47,6 @@ export default function Login(): JSX.Element {
             title="Entrar"
             color="#4e46dd"
             onPress={() => {
-              //console.log('Código temporário para login')
-
-              // if (!email || !password) {
-              //   Alert.alert('Preencha todos os campos')
-              //   return
-              // }
-
               router.replace('/postagens')
             }}
           />

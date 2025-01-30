@@ -18,7 +18,6 @@ export default function Posts(): JSX.Element {
   const {
     posts,
     loading,
-    currentPage,
     searchTerm,
     hasMorePosts,
     loadMorePosts,
@@ -42,6 +41,7 @@ export default function Posts(): JSX.Element {
           placeholder="Buscar por categrorias"
           searchPlaceholder="Filtre por categoria"
           boxStyles={styles.optionSelect}
+          dropdownStyles={styles.dropdwon}
         />
       </View>
       <View style={styles.textInputWrapper}>
@@ -53,10 +53,8 @@ export default function Posts(): JSX.Element {
         />
         <View style={styles.btnWrapper}>
           <TouchableOpacity
+            style={styles.btn}
             onPress={() => {
-              console.log('Pagina', currentPage)
-              console.log('Termo de busca', searchTerm)
-              console.log('tags', selected)
               fetchPosts(1, 2, searchTerm, selected)
               setCurrentPage(1)
             }}
@@ -65,6 +63,7 @@ export default function Posts(): JSX.Element {
           </TouchableOpacity>
         </View>
       </View>
+      {loading && <ActivityIndicator size="large" color="#0000ff" />}
       <FlatList
         data={posts}
         renderItem={({ item }) => (
@@ -83,7 +82,6 @@ export default function Posts(): JSX.Element {
         initialNumToRender={1}
         onEndReachedThreshold={0.5}
         onEndReached={() => {
-          console.log(loading, hasMorePosts)
           if (!loading && hasMorePosts) {
             loadMorePosts(searchTerm, selected)
           }
