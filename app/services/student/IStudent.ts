@@ -1,7 +1,5 @@
-type IStudent = {
-  id: number
-  email: string
+export type Student = {
   name: string
+  email: string
+  password: string
 }
-
-export default IStudent

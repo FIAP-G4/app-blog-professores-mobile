@@ -48,6 +48,10 @@ const styles = StyleSheet.create({
   paragraph: {
     marginBottom: 10,
   },
+  error:{
+    color: 'red',
+    marginBottom: 10,
+  }
 })
 
 export default styles
