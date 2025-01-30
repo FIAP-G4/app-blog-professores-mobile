@@ -42,6 +42,8 @@ export default function Posts(): JSX.Element {
           searchPlaceholder="Filtre por categoria"
           boxStyles={styles.optionSelect}
           dropdownStyles={styles.dropdwon}
+          badgeStyles={{ backgroundColor: 'rgb(239, 246, 255)' }}
+          badgeTextStyles={{ color: 'rgb(29, 78, 216)', fontWeight: 500 }}
         />
       </View>
       <View style={styles.textInputWrapper}>
