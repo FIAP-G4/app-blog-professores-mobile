@@ -37,7 +37,6 @@ export default function Posts(): JSX.Element {
           data={categoryOptions}
           save="key"
           label="Categorias"
-          onSelect={() => console.log('Selected:' + selected)}
           placeholder="Buscar por categrorias"
           searchPlaceholder="Filtre por categoria"
           boxStyles={styles.optionSelect}
