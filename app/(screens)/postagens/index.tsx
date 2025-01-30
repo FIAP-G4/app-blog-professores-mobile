@@ -5,7 +5,6 @@ import {
   SafeAreaView,
   View,
   FlatList,
-  Text,
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
@@ -18,13 +17,13 @@ import styles from './styles'
 export default function Posts(): JSX.Element {
   const {
     posts,
-    error,
     loading,
     currentPage,
     searchTerm,
     hasMorePosts,
     loadMorePosts,
     fetchPosts,
+    setCurrentPage,
     setSearchTerm,
   } = usePostList()
   const { tags } = useTagsList()
@@ -58,7 +57,8 @@ export default function Posts(): JSX.Element {
               console.log('Pagina', currentPage)
               console.log('Termo de busca', searchTerm)
               console.log('tags', selected)
-              fetchPosts(currentPage, 2, searchTerm, selected)
+              fetchPosts(1, 2, searchTerm, selected)
+              setCurrentPage(1)
             }}
           >
             <AntDesign name="search1" size={24} color="white" />
@@ -80,10 +80,13 @@ export default function Posts(): JSX.Element {
           />
         )}
         keyExtractor={(item) => item.id}
-        initialNumToRender={2}
+        initialNumToRender={1}
         onEndReachedThreshold={0.5}
         onEndReached={() => {
-          //loadMorePosts()
+          console.log(loading, hasMorePosts)
+          if (!loading && hasMorePosts) {
+            loadMorePosts(searchTerm, selected)
+          }
         }}
         ListFooterComponent={
           loading && hasMorePosts ? (

@@ -4,7 +4,7 @@ import Tag from '../tags/ITag'
 
 export const getPosts = async (
   page = 1,
-  limit = 2,
+  limit = 1,
   search = '',
   tag: number[] = [],
 ): Promise<Post[] | undefined> => {

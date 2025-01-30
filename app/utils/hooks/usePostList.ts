@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getPosts } from '@/app/services/posts/getPosts'
 import Post from '@/app/services/posts/IPost'
-import Tag from '@/app/services/tags/ITag'
 
 const usePostList = (initial = 1, postsPerPage = 2) => {
   const [posts, setPosts] = useState<Post[]>([])
@@ -14,22 +13,20 @@ const usePostList = (initial = 1, postsPerPage = 2) => {
 
   const fetchPosts = async (
     nextPage: number,
-    p0: number,
+    limit: number,
     searchTerm: string,
     tags: number[],
   ) => {
     setLoading(true)
     try {
-      const fetchedPosts = await getPosts(
-        currentPage,
-        postsPerPage,
-        searchTerm,
-        tags,
-      )
+      const fetchedPosts = await getPosts(nextPage, limit, searchTerm, tags)
 
-      setPosts(fetchedPosts || [])
-      setPosts((prev) => [...prev, ...(fetchedPosts || [])])
-      setHasMorePosts((fetchedPosts || []).length === postsPerPage) // Verifica se há mais posts
+      if (nextPage === 1) {
+        setPosts(fetchedPosts || [])
+      } else {
+        setPosts((prev) => [...prev, ...(fetchedPosts || [])])
+      }
+      setHasMorePosts((fetchedPosts || []).length === limit) // Verifica se há mais posts
     } catch (error) {
       setError(error)
     } finally {
@@ -37,23 +34,22 @@ const usePostList = (initial = 1, postsPerPage = 2) => {
     }
   }
 
-  const loadMorePosts = async () => {
+  const loadMorePosts = async (searchTerm: string, tags: number[]) => {
     if (loading || !hasMorePosts) return
 
     const nextPage = currentPage + 1
     setCurrentPage(nextPage)
 
     try {
-      await fetchPosts(nextPage, 2, searchTerm, tags)
-      setCurrentPage(nextPage)
+      await fetchPosts(nextPage, postsPerPage, searchTerm, tags)
     } catch (error) {
       console.error('Erro ao carregar mais posts:', error)
     }
   }
 
   useEffect(() => {
-    fetchPosts(currentPage, 2, searchTerm, tags)
-  }, [currentPage])
+    fetchPosts(currentPage, postsPerPage, searchTerm, tags)
+  }, [])
 
   return {
     posts,
@@ -65,6 +61,7 @@ const usePostList = (initial = 1, postsPerPage = 2) => {
     tags,
     loadMorePosts,
     fetchPosts,
+    setCurrentPage,
     setSearchTerm,
     setTags,
   }
