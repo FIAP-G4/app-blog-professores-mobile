@@ -1,11 +1,12 @@
 import api from '@/app/services/api'
-import { Post } from './IPost'
+import Post from './IPost'
+import Tag from '../tags/ITag'
 
 export const getPosts = async (
   page = 1,
-  limit = 3,
+  limit = 1,
   search = '',
-  tag = [],
+  tag: number[] = [],
 ): Promise<Post[] | undefined> => {
   try {
     const response = await api.get(`/posts`, {

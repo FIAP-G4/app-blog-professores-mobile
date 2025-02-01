@@ -49,6 +49,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'rgba(0, 0, 0, .5)',
   },
+  displayFlex: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 })
 
 export default styles
