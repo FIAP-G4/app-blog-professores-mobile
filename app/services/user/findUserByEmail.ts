@@ -1,5 +1,5 @@
 import api from '@/app/services/api'
-import { User } from './Iuser'
+import { User } from './IUser'
 
 export const findUserByEmail = async (email: string): Promise<User> => {
   try {
