@@ -1,5 +1,5 @@
-import { getPosts } from '@/services/posts/getPosts'
-import Post from '@/services/posts/IPost'
+import { getPosts } from '@/app/services/posts/getPosts'
+import Post from '@/app/services/posts/IPost'
 import { useEffect, useState } from 'react'
 
 const usePostList = (initial = 1, postsPerPage = 2) => {

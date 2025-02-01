@@ -11,7 +11,7 @@ import { ActivityIndicator, Alert, View } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import 'core-js/stable/atob'
 import { jwtDecode } from 'jwt-decode'
-import { TokenPayload } from '@/services/auth/IAuth'
+import { TokenPayload } from '@/app/services/auth/IAuth'
 
 interface AuthContextProps {
   isAuthenticated: boolean
