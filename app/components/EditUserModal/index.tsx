@@ -11,7 +11,6 @@ interface EditUserModalProps {
   onSave: (updatedUser: User) => void;
 }
 
-// Definição do esquema de validação com Yup
 const schema = Yup.object().shape({
   name: Yup.string().required('Nome é obrigatório'),
   email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
@@ -31,17 +30,13 @@ const schema = Yup.object().shape({
   }),
 });
 
-
-
 const EditUserModal: React.FC<EditUserModalProps> = ({ visible, user, onClose, onSave }) => {
-  
   return (
     <Modal visible={visible} animationType="slide" transparent>
       <View style={styles.overlay}>
         <View style={styles.modalContainer}>
           <Text style={styles.title}>Editar Usuário</Text>
           
-          {/* Formulário com Formik */}
           <Formik
             enableReinitialize
             initialValues={{
@@ -107,7 +102,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ visible, user, onClose, o
                       value={values.changePassword} 
                       onValueChange={(value) => {
                         setFieldValue('changePassword', value);
-                        validateForm(); // Revalida os campos ao mudar o estado da senha
+                        validateForm();
                       }} 
                   />
                 </View>
