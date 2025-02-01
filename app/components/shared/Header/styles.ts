@@ -19,6 +19,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
+  loginButton: {
+    marginLeft: 'auto',
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#007bff',
+    borderRadius: 5,
+    justifyContent: 'flex-end',
+  },
+  loginButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    textAlign: 'center',
+  },
   headerSafeArea: {
     backgroundColor: '#212836',
   },

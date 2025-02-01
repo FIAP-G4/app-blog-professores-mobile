@@ -48,10 +48,29 @@ const styles = StyleSheet.create({
   paragraph: {
     marginBottom: 10,
   },
-  error:{
+  inputPassword: {
+    flex: 1,
+    padding: 10,
+    marginLeft: 0,
+    paddingHorizontal: 10,
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    marginBottom: 20,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+  },
+  eyeIcon: {
+    marginLeft: 10,
+    padding: 0,
+  },
+  error: {
     color: 'red',
     marginBottom: 10,
-  }
+  },
 })
 
 export default styles

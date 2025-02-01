@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
 import { getPostById } from '@/app/services/posts/getPostById'
-import { Post } from '@/app/services/posts/IPost'
+import Post from '@/app/services/posts/IPost'
+import { useEffect, useState } from 'react'
 
 const usePost = (id: string = 'adbe2c41-6947-43f0-96bf-8f7f20d47f3c') => {
   const [post, setPost] = useState<Post | undefined>()
