@@ -36,7 +36,7 @@ const useUpdateUser = (): UseUpdateUserResult => {
             }
             Toast.show({
                 type: 'success',
-                text1: 'Usuário atualizado com sucesso aa!',
+                text1: 'Usuário atualizado com sucesso!',
 
             });
         } catch (error: any) {

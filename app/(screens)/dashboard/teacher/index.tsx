@@ -6,7 +6,6 @@ import useUpdateUser from '@/app/utils/hooks/useUserUpdate';
 import EditUserModal from '@/app/components/EditUserModal';
 import { SafeAreaView } from 'react-native';
 import { User } from '@/app/services/user/IUser';
-import Toast from 'react-native-toast-message';
 
 
 export default function DashboardTeacher(): JSX.Element {
