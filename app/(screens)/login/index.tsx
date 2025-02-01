@@ -1,18 +1,28 @@
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Alert, Button, Text, TextInput, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Button,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import styles from './styles'
-import useLogin from '@/app/utils/hooks/useLogin'
+import { useState } from 'react'
+import { Ionicons } from '@expo/vector-icons'
+import * as Yup from 'yup'
+import { Formik } from 'formik'
+import useLoginForm from '@/app/utils/hooks/useLoginForm'
+
+const schema = Yup.object().shape({
+  email: Yup.string().email().required('E-mail é obrigatório'),
+  password: Yup.string().required('Senha é obrigatória'),
+})
 
 export default function Login(): JSX.Element {
-  const { email, setEmail, password, setPassword, handleLogin } = useLogin()
+  const { loading, handleLogin } = useLoginForm()
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
-  const handleLoginPress = () => {
-    if (!email || !password) {
-      Alert.alert('Erro', 'Preencha todos os campos')
-      return
-    }
-    handleLogin(email, password)
-  }
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.introText}>
@@ -32,24 +42,74 @@ export default function Login(): JSX.Element {
       </View>
       <View style={styles.loginBox}>
         <Text style={styles.loginTitle}>Entre na sua conta</Text>
-        <Text style={styles.label}>E-mail</Text>
-        <TextInput
-          style={styles.input}
-          editable
-          value={email}
-          keyboardType="email-address"
-          onChangeText={(email) => setEmail(email)}
-        />
-        <Text style={styles.label}>Senha</Text>
-        <TextInput
-          style={styles.input}
-          editable
-          value={password}
-          onChangeText={(password) => setPassword(password)}
-        />
-        <View style={styles.buttonContainer}>
-          <Button title="Entrar" color="#4e46dd" onPress={handleLoginPress} />
-        </View>
+        <Formik
+          initialValues={{ email: '', password: '' }}
+          validationSchema={schema}
+          onSubmit={handleLogin}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+            setFieldValue,
+          }) => (
+            <>
+              <Text style={styles.label}>E-mail</Text>
+              <TextInput
+                style={styles.input}
+                editable
+                value={values.email}
+                keyboardType='email-address'
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+              />
+              {touched.email && errors.email && (
+                <Text style={styles.error}>{errors.email}</Text>
+              )}
+              <Text style={styles.label}>Senha</Text>
+              <View style={styles.passwordContainer}>
+                <TextInput
+                  style={styles.inputPassword}
+                  secureTextEntry={!isPasswordVisible}
+                  // editable
+                  value={values.password}
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                ></TextInput>
+                {touched.password && errors.password && (
+                  <Text style={styles.error}>{errors.password}</Text>
+                )}
+                <TouchableOpacity
+                  onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                  style={styles.eyeIcon}
+                >
+                  <Ionicons
+                    name={isPasswordVisible ? 'eye-off' : 'eye'}
+                    size={24}
+                    color='gray'
+                  />
+                </TouchableOpacity>
+              </View>
+              {errors.password && (
+                <Text style={{ color: 'red' }}>{errors.password}</Text>
+              )}
+              <View style={styles.buttonContainer}>
+                {loading ? (
+                  <ActivityIndicator size='large' color='#4e46dd' />
+                ) : (
+                  <Button
+                    title='Entrar'
+                    color='#4e46dd'
+                    onPress={handleSubmit as any}
+                  />
+                )}
+              </View>
+            </>
+          )}
+        </Formik>
       </View>
     </SafeAreaView>
   )
