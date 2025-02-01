@@ -1,5 +1,5 @@
 import React, { createContext } from 'react'
-import { View, Text, Image, Pressable } from 'react-native'
+import { View, Text, Image, SafeAreaView, Pressable } from 'react-native'
 import styles from './styles'
 import { useRouter, useSegments } from 'expo-router'
 import { useAuth } from '@/context/AuthContext'
@@ -30,22 +30,24 @@ export default function Header(props: HeaderProps): JSX.Element {
   const isLoginRoute = segments.includes('login')
 
   return (
-    <HeaderContext.Provider value={props}>
-      <View style={styles.headerContainer}>
-        <Image style={styles.headerLogo} source={require(logoPath)} />
-        <Text style={styles.headerText}>{pageTitle}</Text>
-        {children}
-        {!isLoginRoute && !isAuthenticated && (
-          <Pressable onPress={handleLogin} style={styles.loginButton}>
-            <Text style={styles.loginButtonText}>Login</Text>
-          </Pressable>
-        )}
-        {!isLoginRoute && isAuthenticated && (
-          <Pressable onPress={handleLogout} style={styles.loginButton}>
-            <Text style={styles.loginButtonText}>Logout</Text>
-          </Pressable>
-        )}
-      </View>
-    </HeaderContext.Provider>
+    <SafeAreaView style={styles.headerSafeArea}>
+      <HeaderContext.Provider value={props}>
+        <View style={styles.headerContainer}>
+          <Image style={styles.headerLogo} source={require(logoPath)} />
+          <Text style={styles.headerText}>{pageTitle}</Text>
+          {children}
+          {!isLoginRoute && !isAuthenticated && (
+            <Pressable onPress={handleLogin} style={styles.loginButton}>
+              <Text style={styles.loginButtonText}>Login</Text>
+            </Pressable>
+          )}
+          {!isLoginRoute && isAuthenticated && (
+            <Pressable onPress={handleLogout} style={styles.loginButton}>
+              <Text style={styles.loginButtonText}>Logout</Text>
+            </Pressable>
+          )}
+        </View>
+      </HeaderContext.Provider>
+    </SafeAreaView>
   )
 }

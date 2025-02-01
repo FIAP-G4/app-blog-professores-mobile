@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router'
 import React, { useEffect } from 'react'
+import Toast from 'react-native-toast-message';
 
 import {
   Image,
@@ -10,7 +11,7 @@ import {
   useAnimatedValue,
 } from 'react-native'
 
-export default function Index(): JSX.Element {
+const Index = (): JSX.Element => {
   const router = useRouter()
   const opacity = useAnimatedValue(0)
 
@@ -34,6 +35,7 @@ export default function Index(): JSX.Element {
 
   return (
     <View style={styles.screen}>
+      <Toast />
       <Animated.View style={{ opacity: opacity }}>
         <Image
           style={styles.image}
@@ -64,3 +66,5 @@ const styles = StyleSheet.create({
     objectFit: 'cover',
   },
 })
+
+export default Index

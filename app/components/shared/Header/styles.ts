@@ -32,6 +32,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
+  headerSafeArea: {
+    backgroundColor: '#212836',
+  },
 })
 
 export default styles
