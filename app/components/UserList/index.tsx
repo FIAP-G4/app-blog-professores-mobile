@@ -9,6 +9,7 @@ import AntDesign from '@expo/vector-icons/AntDesign'
 import styles from './styles'
 import { useState } from 'react';
 import ConfirmationModal from '../ConfirmationModal';
+import { ITeacher } from '@/app/utils/hooks/useTeacherList';
 
 interface IUser {
     users: {
@@ -17,10 +18,11 @@ interface IUser {
         email: string;
 }[],
     onDelete?: (id: number) => void;
+    onEdit: (user: ITeacher) => void;
     loading?: boolean; 
 }
 
-const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
+const UserList = ({ users = [], onDelete, onEdit, loading }: IUser): JSX.Element => {
 
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
@@ -37,7 +39,7 @@ const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
         setModalVisible(false); 
     };
 
-    const renderItem = ({ item }: { item: { id: number, name: string; email: string } }) => (
+    const renderItem = ({ item }: { item: ITeacher }) => (
         <View style={styles.cardWrapper}>
             <View style={styles.card}>
                 <View style={[styles.cardImg, styles.cardAvatar]}>
@@ -49,7 +51,7 @@ const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
                 </View>
                 <View style={styles.cardAction}>
                     <TouchableOpacity>
-                        <AntDesign name="edit" size={22} style={[styles.buttonAction, styles.buttonActionEdit]} />
+                        <AntDesign name="edit" onPress={() => onEdit(item)}  size={22} style={[styles.buttonAction, styles.buttonActionEdit]} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => handleDelete(item.id)}>
                         <AntDesign name="delete" size={22} style={[styles.buttonAction, styles.buttonActionDelete]} />
@@ -67,7 +69,7 @@ const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
         ) : (
             <>
             <FlatList
-                data={users}
+                data={users as ITeacher[]} 
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
                 contentContainerStyle={styles.searchContent}

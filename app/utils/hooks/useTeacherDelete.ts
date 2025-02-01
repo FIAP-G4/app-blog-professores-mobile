@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { deleteTeacher } from '@/app/services/teacher/deleteTeacher'
 import Toast from "react-native-toast-message";
 import errorsMessage from '@/app/utils/messageError';
@@ -15,7 +14,7 @@ const useDeleteTeacher = () => {
         await deleteTeacher(teacherId);
         Toast.show({
           type: 'success',
-          text1: 'Usuário criado com sucesso!',
+          text1: 'Usuário deletado com sucesso!',
         });
   
         if (callback) {

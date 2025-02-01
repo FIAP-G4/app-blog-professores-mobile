@@ -6,6 +6,7 @@ export interface ITeacher {
   user_id: number;
   email: string;
   name: string;
+  password: string;
   subject: Array<object>;
 }
 
