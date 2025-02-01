@@ -4,7 +4,6 @@ import { createPost } from '@/app/services/posts/createPost';
 import errorsMessage from '@/app/utils/messageError';
 import Toast from 'react-native-toast-message';
 import { AxiosError } from 'axios';
-import { Alert } from 'react-native';
 
 interface ErrorResponse {
   message: string;
@@ -13,7 +12,7 @@ interface ErrorResponse {
 interface FormPost {
   title: string;
   content: string;
-  tag: string;
+  tags: string[];
 }
 
 const useCreatePostForm = () => {
@@ -21,36 +20,37 @@ const useCreatePostForm = () => {
   const [formPost, setFormPost] = useState<FormPost>({
     title: '',
     content: '',
-    tag: '',
+    tags: [],
   });
 
   const router = useRouter();
 
-  const handleChange = (field: keyof FormPost, value: string) => {
+  const handleChange = (field: keyof FormPost, value: string | string[]) => {
     setFormPost((prevState) => ({
       ...prevState,
       [field]: value,
     }));
   };
 
-  const handleCreatePost = async (values: FormPost) => {
+  const handleCreatePost = async (values: FormPost & { selectedTags: { id: number; name: string }[]; attachment?: File }) => {
     try {
       setLoading(true);
 
-      // Verifica e exibe os dados antes de criar o post
-      console.log('Criando post com os dados:', values);
+      const formData = new FormData();
+      formData.append('title', values.title);
+      formData.append('content', values.content);
+      formData.append('teacher_id', '2'); // Enviando como string, pois FormData não suporta números diretamente
 
-      // Envia somente o array de tags
-      const postData = {
-        ...values,
-        teacher_id: 2,
-        tags: [], // Transformando a tag em um array
-      };
+      values.selectedTags.forEach((tag, index) => {
+        formData.append(`tags[${index}][id]`, tag.id.toString());
+        formData.append(`tags[${index}][name]`, tag.name);
+      });
 
-      // Agora, o campo tag não será enviado separadamente, apenas tags
-      delete postData.tag;
+      if (values.attachment) {
+        formData.append('attachment', values.attachment);
+      }
 
-      await createPost(postData); // Envia os dados ajustados
+      await createPost(formData);
 
       setLoading(false);
 
@@ -67,6 +67,7 @@ const useCreatePostForm = () => {
       errorsMessage(error as AxiosError<ErrorResponse>);
     }
   };
+
 
   return {
     loading,

@@ -9,10 +9,14 @@ import {
 import { Picker } from '@react-native-picker/picker';
 import styles from './styles';
 import useCreatePostForm from '@/app/utils/hooks/useCreatePostForm';
+import useTagsList from '@/app/utils/hooks/useTagList'
+
 
 export default function CreatePost(): JSX.Element {
     const { handleCreatePost, formPost, handleChange, loading } = useCreatePostForm();
     const { title, content } = formPost;
+    const { tags } = useTagsList()
+    const categoryOptions = tags.map((tag) => ({ key: tag.id, value: tag.name }))
 
     const handlePublish = () => {
         console.log('Publicando...'); // Adicione um log para verificar se a função é chamada

@@ -3,12 +3,11 @@ import api from '@/app/services/api'
 
 export const createPost = async (postData: Post): Promise<Post | undefined> => {
   try {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0ZUBob3RtYWlsLmNvbSIsInR5cGUiOiJ0ZWFjaGVyIiwiaWF0IjoxNzM4MTk0NzA3LCJleHAiOjE3MzgxOTgzMDd9.2nl-O5JvbygQWNlIOaIxcYCL1ucERmCHpycVLePuWcg';
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0ZUBob3RtYWlsLmNvbSIsInR5cGUiOiJ0ZWFjaGVyIiwiaWF0IjoxNzM4NDM0ODA0LCJleHAiOjE3Mzg0Mzg0MDR9.IZRID1UpgCNc1Lkhabg6jvhOL8ZYWdYfiheMBQX92BM';
 
-    // Enviando a requisição com o token no cabeçalho Authorization
     const response = await api.post('/posts', postData, {
       headers: {
-        Authorization: `Bearer ${token}`, // Passando o token corretamente no cabeçalho
+        Authorization: `Bearer ${token}`,
       },
     });
 
