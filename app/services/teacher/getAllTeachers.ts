@@ -2,11 +2,7 @@ import api from '@/app/services/api'
 
 export const getAllTeachers = async (): Promise<any> => {
     try {
-      const response = await api.get(`/teacher`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await api.get(`/teacher`);
   
       return response.data;
     } catch (error: any) {
