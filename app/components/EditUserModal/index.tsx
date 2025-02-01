@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Modal, View, Text, TextInput, Button, StyleSheet, Switch } from 'react-native';
+import React from 'react';
+import { Modal, View, Text, TextInput, Button, Switch } from 'react-native';
 import { User } from '@/app/services/user/IUser';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import styles from './styles';
 
 interface EditUserModalProps {
   visible: boolean;
@@ -140,8 +141,12 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ visible, user, onClose, o
                 )}  
 
                 <View style={styles.buttonContainer}>
-                  <Button title="Cancelar" onPress={onClose} color="red" />
-                  <Button title="Salvar" onPress={() => handleSubmit()} />
+                    <View style={styles.buttonWrapper}>
+                      <Button title="Cancelar" onPress={onClose} color="red" />
+                    </View>
+                    <View style={styles.buttonWrapper}>
+                      <Button title="Salvar"  color="#4e46dd" onPress={() => handleSubmit()} />
+                    </View>
                 </View>
               </>
             )}
@@ -151,46 +156,5 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ visible, user, onClose, o
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContainer: {
-    width: '80%',
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    elevation: 5,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  error:{
-    color: 'red',
-    marginBottom: 10,
-  },
-  label: {
-    marginBottom: 7,
-    fontWeight: 'bold',
-  },
-});
 
 export default EditUserModal;
