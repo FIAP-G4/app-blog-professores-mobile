@@ -1,4 +1,4 @@
-import api from '@/app/services/api'
+import api from '../api'
 import Post from './IPost'
 
 export const postViewed = async (postId: Partial<Post>) => {
