@@ -2,6 +2,7 @@ import React, { createContext } from 'react'
 import { View, Text, Image, Pressable } from 'react-native'
 import styles from './styles'
 import { useRouter, useSegments } from 'expo-router'
+import { useAuth } from '@/context/AuthContext'
 
 interface HeaderProps {
   pageTitle: string
@@ -15,8 +16,14 @@ export default function Header(props: HeaderProps): JSX.Element {
   const logoPath = '../../../../assets/images/logo.png'
   const router = useRouter()
   const segments = useSegments() as string[]
+  const { isAuthenticated, logout } = useAuth()
 
   const handleLogin = () => {
+    router.push('/login')
+  }
+
+  const handleLogout = () => {
+    logout()
     router.push('/login')
   }
 
@@ -28,9 +35,14 @@ export default function Header(props: HeaderProps): JSX.Element {
         <Image style={styles.headerLogo} source={require(logoPath)} />
         <Text style={styles.headerText}>{pageTitle}</Text>
         {children}
-        {!isLoginRoute && (
+        {!isLoginRoute && !isAuthenticated && (
           <Pressable onPress={handleLogin} style={styles.loginButton}>
             <Text style={styles.loginButtonText}>Login</Text>
+          </Pressable>
+        )}
+        {!isLoginRoute && isAuthenticated && (
+          <Pressable onPress={handleLogout} style={styles.loginButton}>
+            <Text style={styles.loginButtonText}>Logout</Text>
           </Pressable>
         )}
       </View>
