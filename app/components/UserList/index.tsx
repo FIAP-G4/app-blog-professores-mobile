@@ -71,7 +71,7 @@ const UserList = ({ users = [], onDelete, onEdit, loading }: IUser): JSX.Element
             <FlatList
                 data={users as ITeacher[]} 
                 renderItem={renderItem}
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={(item) => item.id.toString()}
                 contentContainerStyle={styles.searchContent}
                 ListEmptyComponent={<Text style={styles.searchEmpty}>Sem resultados</Text>}
             />

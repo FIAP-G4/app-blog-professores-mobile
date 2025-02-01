@@ -4,6 +4,8 @@ import Toast from "react-native-toast-message";
 import errorsMessage from '@/app/utils/messageError';
 import { AxiosError } from 'axios';
 import { User } from '@/app/services/user/IUser';
+import { IStudent } from './useStudentList';
+import { ITeacher } from './useTeacherList';
 
 
 interface ErrorResponse {
@@ -14,7 +16,7 @@ interface UseUpdateUserResult {
     loadingUpdate: boolean;
     handleUpdateUser: (
         id: number,
-        values: User,
+        values: ITeacher | IStudent,
         callback?: () => void
     ) => Promise<void>;
 }
@@ -24,7 +26,7 @@ const useUpdateUser = (): UseUpdateUserResult => {
 
     const handleUpdateUser = async (
         id: number,
-        values: User,
+        values: ITeacher | IStudent,
         callback?: () => void
     ): Promise<void> => {
         try {
