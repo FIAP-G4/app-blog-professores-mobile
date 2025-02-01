@@ -4,12 +4,14 @@ import { User } from '@/app/services/user/IUser';
 import { Formik } from 'formik';
 import styles from './styles';
 import schema from './schema';
+import { ITeacher } from '@/app/utils/hooks/useTeacherList';
+import { IStudent } from '@/app/utils/hooks/useStudentList';
 
 interface EditUserModalProps {
   visible: boolean;
   user: User | null;
   onClose: () => void;
-  onSave: (updatedUser: User) => void;
+  onSave: (updatedUser: ITeacher | IStudent) => void;
 }
 
 const EditUserModal: React.FC<EditUserModalProps> = ({ visible, user, onClose, onSave }) => {
@@ -30,13 +32,13 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ visible, user, onClose, o
             }}
             validationSchema={schema}
             onSubmit={(values) => {
-              const updatedUser: User = {
-                ...user!,
+              const updatedUser = {
+                ...user,
                 name: values.name,
                 email: values.email,
                 ...(values.changePassword ? { password: values.password } : {}),
               };
-              onSave(updatedUser);
+              onSave(updatedUser as ITeacher | IStudent);
             }}
             
           >

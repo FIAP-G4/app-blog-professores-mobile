@@ -7,7 +7,7 @@ export interface ITeacher {
   email: string;
   name: string;
   password: string;
-  subject: Array<object>;
+  subject: object[];
 }
 
 const useTeacherList = () => {

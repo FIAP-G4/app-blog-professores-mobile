@@ -6,6 +6,7 @@ import useUpdateUser from '@/app/utils/hooks/useUserUpdate';
 import EditUserModal from '@/app/components/EditUserModal';
 import { SafeAreaView } from 'react-native';
 import { User } from '@/app/services/user/IUser';
+import ITeacher from '@/app/services/teachers/ITeacher';
 
 
 export default function DashboardTeacher(): JSX.Element {
@@ -24,9 +25,10 @@ export default function DashboardTeacher(): JSX.Element {
     setModalVisible(true);
   };
 
-  const handleSaveUser = async (updatedUser: User) => {
+  const handleSaveUser = async (updatedUser: ITeacher) => {
+    
     setModalVisible(false);
-    await handleUpdateUser(updatedUser.id, updatedUser, fetchTeachers);
+    await handleUpdateUser(updatedUser.user_id, updatedUser, fetchTeachers);
   };
   
   return (
