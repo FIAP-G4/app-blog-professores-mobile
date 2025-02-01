@@ -1,40 +1,8 @@
-type User = {
-  id: number
-  email: string
-  name: string
-  students: Student[]
-  teachers: Teacher[]
-}
+import User from '@/app/services/user/IUser'
+import Tags from '@/app/services/tags/ITag'
+import Comments from '@/app/services/comments/IComments'
 
-type Student = {
-  id: number
-  email: string
-  name: string
-}
-
-type Teacher = {
-  id: number
-  email: string
-  name: string
-}
-
-type Tags = {
-  id: number
-  name: string
-}
-
-type Comments = {
-  id: number
-  content: string
-  created_at: string
-  user: {
-    id: number
-    name: string
-    email: string
-  }
-}
-
-export type Post = {
+type Post = {
   id: string
   title: string
   content: string
@@ -43,9 +11,15 @@ export type Post = {
   created_at: string
   updated_at: string
   teacher_id: number
-  teacher: object
+  teacher?: {
+    user?: {
+      name?: string
+    } & User
+  }
   tags: Tags[]
   comments: Comments[]
   commentCount: number
   viewedCount: number
 }
+
+export default Post

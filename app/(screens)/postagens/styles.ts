@@ -5,9 +5,6 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingHorizontal: 20,
     backgroundColor: '#f3f4f6',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
   },
   subHeader: {
     padding: 20,
@@ -18,8 +15,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   optionSelect: {
-    marginBottom: 20,
     paddingHorizontal: 15,
+    paddingVertical: 17,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#ccc',
@@ -31,16 +28,12 @@ const styles = StyleSheet.create({
     columnGap: 15,
     width: '100%',
   },
-  optionSeletText: {
-    borderRightColor: '#ccc',
-    borderRightWidth: 1,
-    width: '90%',
-    color: '#9f9f9f',
-  },
-  optionSelectPicker: {
-    width: '10%',
+  dropdwon: {
+    backgroundColor: 'white',
+    borderColor: '#ccc',
   },
   textInputWrapper: {
+    marginTop: 20,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#ccc',
@@ -60,6 +53,13 @@ const styles = StyleSheet.create({
   btnWrapper: {
     width: '15%',
     backgroundColor: 'rgb(156, 163, 175)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btn: {
+    width: '100%',
+    height: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
