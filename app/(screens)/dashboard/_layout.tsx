@@ -24,7 +24,7 @@ export default function TabLayout() {
           options={{
             title: 'Professor',
           }}
-        />
+          />
       </Tabs>
     </>
   )
