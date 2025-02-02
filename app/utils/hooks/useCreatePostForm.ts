@@ -9,13 +9,18 @@ interface ErrorResponse {
   message: string;
 }
 
+interface Tag {
+  id: string;
+  name: string;
+}
+
 interface FormPost {
   title: string;
   content: string;
   tags: string[];
 }
 
-const useCreatePostForm = () => {
+const useCreatePostForm = (availableTags: Tag[]) => { // Recebe as tags disponíveis
   const [loading, setLoading] = useState<boolean>(false);
   const [formPost, setFormPost] = useState<FormPost>({
     title: '',
@@ -32,25 +37,19 @@ const useCreatePostForm = () => {
     }));
   };
 
-  const handleCreatePost = async (values: FormPost & { selectedTags: { id: number; name: string }[]; attachment?: File }) => {
+  const handleCreatePost = async (values: FormPost) => {
     try {
       setLoading(true);
 
-      const formData = new FormData();
-      formData.append('title', values.title);
-      formData.append('content', values.content);
-      formData.append('teacher_id', '2'); // Enviando como string, pois FormData não suporta números diretamente
+      console.log('Criando post com os dados:', values);
 
-      values.selectedTags.forEach((tag, index) => {
-        formData.append(`tags[${index}][id]`, tag.id.toString());
-        formData.append(`tags[${index}][name]`, tag.name);
-      });
+      const postData = {
+        ...values,
+        teacher_id: 2,
+        tags: values.tags,
+      };
 
-      if (values.attachment) {
-        formData.append('attachment', values.attachment);
-      }
-
-      await createPost(formData);
+      await createPost(postData);
 
       setLoading(false);
 

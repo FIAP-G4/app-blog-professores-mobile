@@ -3,7 +3,7 @@ import api from '@/app/services/api'
 
 export const createPost = async (postData: Post): Promise<Post | undefined> => {
   try {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0ZUBob3RtYWlsLmNvbSIsInR5cGUiOiJ0ZWFjaGVyIiwiaWF0IjoxNzM4NDM0ODA0LCJleHAiOjE3Mzg0Mzg0MDR9.IZRID1UpgCNc1Lkhabg6jvhOL8ZYWdYfiheMBQX92BM';
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0ZUBob3RtYWlsLmNvbSIsInR5cGUiOiJ0ZWFjaGVyIiwiaWF0IjoxNzM4NTExMTczLCJleHAiOjE3Mzg1MTQ3NzN9.wSIntez27PLfXc-L2hH7nta9mcU1UhImM-Z8VDQUckk';
 
     const response = await api.post('/posts', postData, {
       headers: {

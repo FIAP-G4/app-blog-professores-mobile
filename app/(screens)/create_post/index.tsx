@@ -6,27 +6,36 @@ import {
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import styles from './styles';
 import useCreatePostForm from '@/app/utils/hooks/useCreatePostForm';
 import useTagsList from '@/app/utils/hooks/useTagList'
-
+import {MultipleSelectList} from "react-native-dropdown-select-list";
+import {useState} from "react";
 
 export default function CreatePost(): JSX.Element {
-    const { handleCreatePost, formPost, handleChange, loading } = useCreatePostForm();
-    const { title, content } = formPost;
-    const { tags } = useTagsList()
-    const categoryOptions = tags.map((tag) => ({ key: tag.id, value: tag.name }))
+    const {handleCreatePost, formPost, handleChange, loading} = useCreatePostForm();
+    const {title, content} = formPost;
+    const {tags} = useTagsList()
+    const categoryOptions = tags.map((tag) => ({key: tag.id, value: tag.name}))
+    const [selected, setSelected] = useState<[]>([])
 
     const handlePublish = () => {
-        console.log('Publicando...'); // Adicione um log para verificar se a função é chamada
+        console.log('Publicando...');
+
         if (!title || !content) {
             console.log('Erro: título, conteúdo ou categoria estão vazios.');
             return;
         }
 
-        console.log('Dados do post:', formPost);
-        handleCreatePost(formPost);
+        const selectedTags = selected.map((id) => {
+            const tag = tags.find((t) => t.id === id);
+            return tag ? {id: tag.id, name: tag.name} : null;
+        }).filter(Boolean);
+
+        const updatedPost = {...formPost, tags: selectedTags};
+
+        console.log('Dados do post:', updatedPost);
+        handleCreatePost(updatedPost);
     };
 
     return (
@@ -49,7 +58,7 @@ export default function CreatePost(): JSX.Element {
                 <View style={styles.inputContainer}>
                     <Text style={styles.label}>Conteúdo</Text>
                     <TextInput
-                        style={[styles.input, { height: 100 }]}
+                        style={[styles.input, {height: 100}]}
                         placeholder="Digite o conteúdo"
                         value={content}
                         onChangeText={(value) => handleChange('content', value)}
@@ -57,25 +66,25 @@ export default function CreatePost(): JSX.Element {
                     />
                 </View>
 
-                {/*<View style={styles.inputContainer}>*/}
-                {/*    <Text style={styles.label}>Categoria</Text>*/}
-                {/*    <View style={styles.dropdown}>*/}
-                {/*        <Picker*/}
-                {/*            selectedValue={tag}*/}
-                {/*            onValueChange={(itemValue) => handleChange('tag', itemValue)}*/}
-                {/*            style={{ flex: 1 }}*/}
-                {/*        >*/}
-                {/*            <Picker.Item label="Selecione uma categoria..." value="" />*/}
-                {/*            <Picker.Item label="Redação" value="Redação" />*/}
-                {/*            <Picker.Item label="Oficina" value="Oficina" />*/}
-                {/*        </Picker>*/}
-                {/*    </View>*/}
-                {/*</View>*/}
+                <View>
+                    <MultipleSelectList
+                        setSelected={(val: any) => setSelected(val)}
+                        data={categoryOptions}
+                        save='key'
+                        label='Categorias'
+                        placeholder='Buscar por categrorias'
+                        searchPlaceholder='Filtre por categoria'
+                        boxStyles={styles.optionSelect}
+                        dropdownStyles={styles.dropdwon}
+                        badgeStyles={{backgroundColor: 'rgb(239, 246, 255)'}}
+                        badgeTextStyles={{color: 'rgb(29, 78, 216)', fontWeight: 500}}
+                    />
+                </View>
 
                 <TouchableOpacity
                     style={styles.button}
                     onPress={handlePublish}
-                    disabled={loading} // Desabilita o botão se estiver carregando
+                    disabled={loading}
                 >
                     <Text style={styles.buttonText}>{loading ? 'Publicando...' : 'Publicar'}</Text>
                 </TouchableOpacity>
