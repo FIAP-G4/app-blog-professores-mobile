@@ -90,6 +90,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
+  imageContainer: {
+    marginVertical: 15,
+    alignItems: 'center',
+  },
+  imageButton: {
+    backgroundColor: '#007bff',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  imageButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;

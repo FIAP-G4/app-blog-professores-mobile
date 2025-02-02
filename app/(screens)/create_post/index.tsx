@@ -5,19 +5,34 @@ import {
     TextInput,
     TouchableOpacity,
     ScrollView,
+    Image,
 } from 'react-native';
+import * as ImagePicker from 'react-native-image-picker';
 import styles from './styles';
 import useCreatePostForm from '@/app/utils/hooks/useCreatePostForm';
 import useTagsList from '@/app/utils/hooks/useTagList'
-import {MultipleSelectList} from "react-native-dropdown-select-list";
-import {useState} from "react";
+import { MultipleSelectList } from "react-native-dropdown-select-list";
+import { useState } from "react";
 
 export default function CreatePost(): JSX.Element {
-    const {handleCreatePost, formPost, handleChange, loading} = useCreatePostForm();
-    const {title, content} = formPost;
-    const {tags} = useTagsList()
-    const categoryOptions = tags.map((tag) => ({key: tag.id, value: tag.name}))
-    const [selected, setSelected] = useState<[]>([])
+    const { handleCreatePost, formPost, handleChange, loading } = useCreatePostForm();
+    const { title, content } = formPost;
+    const { tags } = useTagsList();
+    const categoryOptions = tags.map((tag) => ({ key: tag.id, value: tag.name }));
+    const [selected, setSelected] = useState<[]>([]);
+    const [image, setImage] = useState<string | null>(null);
+
+    const handleSelectImage = () => {
+        ImagePicker.launchImageLibrary({ mediaType: 'photo', quality: 1 }, (response) => {
+            if (response.didCancel) {
+                console.log('Usuário cancelou a seleção de imagem');
+            } else if (response.errorMessage) {
+                console.log('Erro ao selecionar imagem:', response.errorMessage);
+            } else if (response.assets && response.assets.length > 0) {
+                setImage(response.assets[0].uri);
+            }
+        });
+    };
 
     const handlePublish = () => {
         console.log('Publicando...');
@@ -29,10 +44,10 @@ export default function CreatePost(): JSX.Element {
 
         const selectedTags = selected.map((id) => {
             const tag = tags.find((t) => t.id === id);
-            return tag ? {id: tag.id, name: tag.name} : null;
+            return tag ? { id: tag.id, name: tag.name } : null;
         }).filter(Boolean);
 
-        const updatedPost = {...formPost, tags: selectedTags};
+        const updatedPost = { ...formPost, tags: selectedTags, image };
 
         console.log('Dados do post:', updatedPost);
         handleCreatePost(updatedPost);
@@ -58,12 +73,22 @@ export default function CreatePost(): JSX.Element {
                 <View style={styles.inputContainer}>
                     <Text style={styles.label}>Conteúdo</Text>
                     <TextInput
-                        style={[styles.input, {height: 100}]}
+                        style={[styles.input, { height: 100 }]}
                         placeholder="Digite o conteúdo"
                         value={content}
                         onChangeText={(value) => handleChange('content', value)}
                         multiline
                     />
+                </View>
+
+                {/* Seção de Upload de Imagem */}
+                <View style={styles.imageContainer}>
+                    <Text style={styles.label}>Imagem</Text>
+                    <TouchableOpacity style={styles.imageButton} onPress={handleSelectImage}>
+                        <Text style={styles.imageButtonText}>Selecionar Imagem</Text>
+                    </TouchableOpacity>
+
+                    {image && <Image source={{ uri: image }} style={styles.imagePreview} />}
                 </View>
 
                 <View>
@@ -72,12 +97,12 @@ export default function CreatePost(): JSX.Element {
                         data={categoryOptions}
                         save='key'
                         label='Categorias'
-                        placeholder='Buscar por categrorias'
+                        placeholder='Buscar por categorias'
                         searchPlaceholder='Filtre por categoria'
                         boxStyles={styles.optionSelect}
                         dropdownStyles={styles.dropdwon}
-                        badgeStyles={{backgroundColor: 'rgb(239, 246, 255)'}}
-                        badgeTextStyles={{color: 'rgb(29, 78, 216)', fontWeight: 500}}
+                        badgeStyles={{ backgroundColor: 'rgb(239, 246, 255)' }}
+                        badgeTextStyles={{ color: 'rgb(29, 78, 216)', fontWeight: "500" }}
                     />
                 </View>
 
