@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, Switch, SafeAreaView } from 'react-nativ
 import { Formik } from 'formik';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import styles from './styles';
+import principalStyles from '@/app/styles';
 import schema from './schema';
 import { ITeacher } from '@/app/utils/hooks/useTeacherList';
 import { IStudent } from '@/app/utils/hooks/useStudentList';
@@ -19,7 +20,9 @@ export default function editUser(): JSX.Element {
 
   return (
     <SafeAreaView>
-      {/* <Text style={styles.title}>Editar Usuário</Text> */}
+      <View style={principalStyles.subHeader}>
+        <Text style={principalStyles.pageTitle}>Editar usuario</Text>
+      </View>
       
       <Formik
         enableReinitialize
@@ -39,6 +42,7 @@ export default function editUser(): JSX.Element {
             ...(values.changePassword ? { password: values.password } : {}),
           };
 
+          await handleUpdateUser(updatedUser.user_id, updatedUser);
           // await handleUpdateUser(updatedUser.user_id, updatedUser, fetchUsersFunc);
           router.back();
         }}
