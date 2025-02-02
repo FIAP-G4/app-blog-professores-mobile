@@ -1,10 +1,12 @@
 import { AuthProvider } from '@/context/AuthContext'
-import { Stack } from 'expo-router'
+import { Slot } from 'expo-router'
+import { RouterProtector } from './middleware/RouterProtector'
 
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <Stack screenOptions={{ headerShown: false }} />
+      {RouterProtector('/register')}
+      <Slot />
     </AuthProvider>
   )
 }
