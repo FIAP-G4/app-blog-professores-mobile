@@ -41,7 +41,7 @@ const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
     };
 
     const handleEditUser = (user: ITeacher | IStudent) => {
-        console.log(user);
+        console.log(user,'user');
         router.push({
             pathname: '/(screens)/dashboard/editUser',
             params: { user: JSON.stringify(user) },
