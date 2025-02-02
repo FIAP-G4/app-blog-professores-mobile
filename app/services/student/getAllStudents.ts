@@ -1,8 +1,8 @@
 import api from '@/app/services/api'
 
-export const getAllTeachers = async (): Promise<any> => {
+export const getAllStudents = async (): Promise<any> => {
     try {
-      const response = await api.get(`/teacher`);
+      const response = await api.get(`/student`);
   
       return response.data;
     } catch (error: any) {

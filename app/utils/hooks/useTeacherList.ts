@@ -1,24 +1,39 @@
-// import { useEffect, useState } from 'react'
-// import { getPosts } from '@/app/services/posts/getPosts'
-// // import { Post } from '@/app/services/posts/IPost'
+import { useEffect, useState } from 'react';
+import { getAllTeachers } from '@/app/services/teacher/getAllTeachers';
 
-// const usePostList = () => {
-//   const [posts, setPosts] = useState<Post[]>([])
-//   const [error, setError] = useState<Error | unknown>(null)
+export interface ITeacher {
+  id: number;
+  user_id: number;
+  email: string;
+  name: string;
+  password: string;
+  subject: object[];
+}
 
-//   useEffect(() => {
-//     getPosts()
-//       .then((data) => {
-//         if (data) {
-//           setPosts(data)
-//         }
-//       })
-//       .catch((err) => {
-//         setError(err)
-//       })
-//   }, [])
+const useTeacherList = () => {
+  const [teachers, setTeachers] = useState<ITeacher[]>([]);
+  const [error, setError] = useState<Error | unknown>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-//   return { posts, error }
-// }
+  const fetchTeachers = async () => {
+    try {
+      setLoading(true);
+      const data = await getAllTeachers();
+      if (data) {
+        setTeachers(data);
+      }
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-// export default usePostList
+  useEffect(() => {
+    fetchTeachers();
+  }, []);
+
+  return { teachers, error, loading, fetchTeachers };
+};
+
+export default useTeacherList;
