@@ -4,10 +4,11 @@ import { Button, Text, TextInput, View, ActivityIndicator } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { Link } from 'expo-router'
 import styles from './styles'
 import useCreateAccountForm from '@/app/utils/hooks/useCreateAccountForm'
 import Toast from 'react-native-toast-message'
+import { useAuth } from '@/context/AuthContext'
+import { Redirect } from 'expo-router'
 
 // Definição do esquema de validação com Yup
 const schema = Yup.object().shape({
@@ -22,8 +23,11 @@ const schema = Yup.object().shape({
 
 export default function Register(): JSX.Element {
   const { handleCreateUser, loading } = useCreateAccountForm()
+  const { isAuthenticated } = useAuth()
 
-  return (
+  return !isAuthenticated ? (
+    <Redirect href='/postagens' />
+  ) : (
     <SafeAreaView style={styles.screen}>
       <View style={styles.loginBox}>
         <Text style={styles.loginTitle}>Crie seu usuário</Text>
