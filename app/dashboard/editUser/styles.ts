@@ -7,12 +7,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContainer: {
-    width: '80%',
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    elevation: 5,
+  container: {
+    width: '100%',
+    backgroundColor: 'rgb(255, 255, 255)',
+    padding: 30,
+
   },
   title: {
     fontSize: 18,
@@ -29,11 +28,12 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
       overflow: 'hidden',
+      margin: 5,
       borderRadius: 10,
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
   },
   error:{
     color: 'red',

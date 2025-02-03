@@ -22,9 +22,9 @@ export default function TabLayout() {
         <Tabs.Screen
           name="/dashboard/student"
           options={{
-            title: 'Professor',
+            title: 'Estudante',
           }}
-        />
+          />
       </Tabs>
     </>
   )
