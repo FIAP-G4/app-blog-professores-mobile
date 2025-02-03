@@ -2,8 +2,6 @@ import { Slot, usePathname, useSegments } from 'expo-router'
 import React from 'react'
 import Header from '@/app/components/shared/Header'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text } from 'react-native';
-
 
 export default function AuthLayout() {
     const Tab = createBottomTabNavigator();

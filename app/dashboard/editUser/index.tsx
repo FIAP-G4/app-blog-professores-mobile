@@ -19,7 +19,7 @@ export default function editUser(): JSX.Element {
   // const fetchUsersFunc = fetchUsers ? new Function(`return ${fetchUsers}`)() : null;
 
   return (
-    <SafeAreaView>
+    <SafeAreaView >
       <View style={principalStyles.subHeader}>
         <Text style={principalStyles.pageTitle}>Editar usuario</Text>
       </View>
@@ -56,7 +56,7 @@ export default function editUser(): JSX.Element {
           setFieldValue,
           validateForm,
         }) => (
-          <>
+          <View   style={principalStyles.screen}>
             <View style={{ marginBottom: 10 }}>
               <Text style={styles.label}>Nome</Text>
               <TextInput 
@@ -82,17 +82,19 @@ export default function editUser(): JSX.Element {
               {touched.email && errors.email && <Text style={styles.error}>{errors.email}</Text>}
             </View>
 
-            <View style={{ marginBottom: 10 }}>
+            <View style={{ marginBottom: 10, justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
               <Text style={{ fontSize: 14, fontWeight: "500", color: "#111827" }}>
-                Deseja alterar a senha?
-              </Text>
-              <Switch 
+                Deseja alterar a senha?     
+                </Text>        
+                 <Switch 
+                  style={{ marginLeft: 10 }}
                   value={values.changePassword} 
                   onValueChange={(value) => {
                     setFieldValue('changePassword', value);
                     validateForm();
                   }} 
               />
+
             </View>
 
             {values.changePassword && (
@@ -135,7 +137,7 @@ export default function editUser(): JSX.Element {
                   <Button title="Salvar"  color="#4e46dd" onPress={() => handleSubmit()} />
                 </View>
             </View>
-          </>
+          </View>
         )}
       </Formik>
     </SafeAreaView>

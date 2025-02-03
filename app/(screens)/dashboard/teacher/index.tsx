@@ -18,6 +18,7 @@ export default function DashboardTeacher(): JSX.Element {
       fetchTeachers();
     }, [])
   );
+  
   return (
     <SafeAreaView>
       <UserList users={teachers} onDelete={handleDeleteUser} loading={loading}/>
