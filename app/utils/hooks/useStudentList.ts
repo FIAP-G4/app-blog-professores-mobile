@@ -11,11 +11,11 @@ export interface IStudent {
 const useStudentList = () => {
   const [students, setStudents] = useState<IStudent[]>([]);
   const [error, setError] = useState<Error | unknown>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchStudents = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const data = await getAllStudents();
       if (data) {
         setStudents(data);
@@ -26,10 +26,6 @@ const useStudentList = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchStudents();
-  }, []);
 
   return { students, error, loading, fetchStudents };
 };

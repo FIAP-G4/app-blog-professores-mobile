@@ -6,12 +6,12 @@ import styles from './styles';
 import principalStyles from '@/app/styles';
 import schema from './schema';
 import { ITeacher } from '@/app/utils/hooks/useTeacherList';
-import { IStudent } from '@/app/utils/hooks/useStudentList';
 import useUpdateUser from '@/app/utils/hooks/useUserUpdate';
+import { IStudent } from '@/app/utils/hooks/useStudentList';
 
 export default function editUser(): JSX.Element {
   const router = useRouter();
-  const { user, fetchUsers } = useLocalSearchParams();
+  const { user } = useLocalSearchParams();
   const { handleUpdateUser } = useUpdateUser();
 
   // Convertendo os parâmetros recebidos
@@ -23,7 +23,7 @@ export default function editUser(): JSX.Element {
       <View style={principalStyles.subHeader}>
         <Text style={principalStyles.pageTitle}>Editar usuario</Text>
       </View>
-      
+
       <Formik
         enableReinitialize
         initialValues={{
@@ -43,7 +43,6 @@ export default function editUser(): JSX.Element {
           };
 
           await handleUpdateUser(updatedUser.user_id, updatedUser);
-          // await handleUpdateUser(updatedUser.user_id, updatedUser, fetchUsersFunc);
           router.back();
         }}
       >
