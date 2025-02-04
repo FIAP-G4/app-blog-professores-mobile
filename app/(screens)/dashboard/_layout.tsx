@@ -5,7 +5,6 @@ import Header from '@/app/components/shared/Header'
 export default function TabLayout() {
   return (
     <>
-      <Header pageTitle="Dashboard" />
       <Tabs screenOptions={{ headerShown: false }}>
         <Tabs.Screen
           name="/dashboard/super-admin"

@@ -1,7 +1,7 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, Text, TextInput, View, ActivityIndicator } from 'react-native'
-import { Picker } from '@react-native-picker/picker'
+import { SelectList } from 'react-native-dropdown-select-list'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import styles from './styles'
@@ -9,6 +9,7 @@ import useCreateAccountForm from '@/app/utils/hooks/useCreateAccountForm'
 import Toast from 'react-native-toast-message'
 import { useAuth } from '@/context/AuthContext'
 import { Redirect } from 'expo-router'
+import globalStyles from '@/app/styles'
 
 // Definição do esquema de validação com Yup
 const schema = Yup.object().shape({
@@ -54,36 +55,37 @@ export default function Register(): JSX.Element {
             setFieldValue,
           }) => (
             <>
-              <Text style={styles.label}>Tipo de Usuário</Text>
-              <Picker
-                style={styles.input}
-                selectedValue={values.typeUser}
-                onValueChange={(itemValue) =>
-                  setFieldValue('typeUser', itemValue)
-                }
-              >
-                <Picker.Item label='Professor' value='1' />
-                <Picker.Item label='Aluno' value='2' />
-              </Picker>
+              <Text style={globalStyles.label}>Tipo de Usuário</Text>
+              <SelectList
+                data={[
+                  { key: '1', value: 'Professor' },
+                  { key: '2', value: 'Aluno' }
+                ]}
+                setSelected={(itemValue: string) => setFieldValue('typeUser', itemValue)}
+                defaultOption={{ key: '1', value: 'Professor' }}
+                boxStyles={globalStyles.optionSelect}
+                dropdownStyles={globalStyles.dropdwon}
+
+              />
               {touched.typeUser && errors.typeUser && (
-                <Text style={styles.error}>{errors.typeUser}</Text>
+                <Text style={globalStyles.error}>{errors.typeUser}</Text>
               )}
 
-              <Text style={styles.label}>Nome</Text>
+              <Text style={globalStyles.label}>Nome</Text>
               <TextInput
-                style={styles.input}
+                style={globalStyles.input}
                 value={values.name}
                 placeholder='Digite seu nome'
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
               />
               {touched.name && errors.name && (
-                <Text style={styles.error}>{errors.name}</Text>
+                <Text style={globalStyles.error}>{errors.name}</Text>
               )}
 
-              <Text style={styles.label}>E-mail</Text>
+              <Text style={globalStyles.label}>E-mail</Text>
               <TextInput
-                style={styles.input}
+                style={globalStyles.input}
                 value={values.email}
                 placeholder='Digite seu e-mail'
                 onChangeText={handleChange('email')}
@@ -91,12 +93,12 @@ export default function Register(): JSX.Element {
                 keyboardType='email-address'
               />
               {touched.email && errors.email && (
-                <Text style={styles.error}>{errors.email}</Text>
+                <Text style={globalStyles.error}>{errors.email}</Text>
               )}
 
-              <Text style={styles.label}>Senha</Text>
+              <Text style={globalStyles.label}>Senha</Text>
               <TextInput
-                style={styles.input}
+                style={globalStyles.input}
                 secureTextEntry
                 value={values.password}
                 placeholder='Digite sua senha'
@@ -104,12 +106,12 @@ export default function Register(): JSX.Element {
                 onBlur={handleBlur('password')}
               />
               {touched.password && errors.password && (
-                <Text style={styles.error}>{errors.password}</Text>
+                <Text style={globalStyles.error}>{errors.password}</Text>
               )}
 
-              <Text style={styles.label}>Confirmar Senha</Text>
+              <Text style={globalStyles.label}>Confirmar Senha</Text>
               <TextInput
-                style={styles.input}
+                style={globalStyles.input}
                 secureTextEntry
                 value={values.confirmPassword}
                 placeholder='Confirme sua senha'
@@ -117,7 +119,7 @@ export default function Register(): JSX.Element {
                 onBlur={handleBlur('confirmPassword')}
               />
               {touched.confirmPassword && errors.confirmPassword && (
-                <Text style={styles.error}>{errors.confirmPassword}</Text>
+                <Text style={globalStyles.error}>{errors.confirmPassword}</Text>
               )}
 
               <View style={styles.buttonContainer}>
