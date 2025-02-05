@@ -7,6 +7,9 @@ import login from './login'
 import teacher from './dashboard/teacher'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MenuTab from '../components/MenuTab'
+import { Entypo, FontAwesome, FontAwesome5, FontAwesome6 } from '@expo/vector-icons';
+import student from './dashboard/student'
+
 
 const Tab = createBottomTabNavigator()
 
@@ -24,24 +27,41 @@ export default function AuthLayout() {
     {
       name: 'Postagens',
       component: postagens,
-      activeIcon: 'home',
+      activeIcon: 'newspaper-o',
       accessibilityState: { selected: false },
+      byIcon: FontAwesome
+    },
+    {
+      name: 'Novo Post',
+      component: postagens,//icone de colocar postagem
+      activeIcon: 'new-message',
+      accessibilityState: { selected: false },
+      byIcon: Entypo
     },
     {
       name: 'Cadastrar',
       component: register,
-      activeIcon: 'home',
+      activeIcon: 'user-plus',
+      byIcon: FontAwesome5
     },
     {
-      name: 'login',
-      component: login,
-      activeIcon: 'home',
+      name: 'Alunos',
+      component: student,
+      activeIcon: 'user-graduate',
+      byIcon: FontAwesome6
     },	
     {
       name: 'Professores',
       component: teacher,
-      activeIcon: 'home',
+      activeIcon: 'chalkboard-teacher',
+      byIcon: FontAwesome5
     },	
+    // {
+    //   name: 'login',
+    //   component: login,
+    //   activeIcon: 'home',
+    //   byIcon: Entypo
+    // },	
   ]
   return (
     <>

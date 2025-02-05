@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useRef } from 'react'
 import * as Animatable from 'react-native-animatable';
 import { TouchableOpacity, View } from 'react-native'
-import Entypo from '@expo/vector-icons/Entypo';
 import { StyleSheet } from 'react-native'
 
 const MenuTab: FC<any> = (props) => {
@@ -29,7 +28,7 @@ const MenuTab: FC<any> = (props) => {
           animation="zoomIn"
           duration={2000}
           style={styleButton.container}>
-          <Entypo size={30} name={item.activeIcon as keyof typeof Entypo.glyphMap} color={focused ? '#007bff' : '#80bdff'} />
+          <item.byIcon size={30} name={item.activeIcon as keyof typeof item.byIconr.glyphMap} color={focused ? '#007bff' : '#80bdff'} />
         </Animatable.View>
     </TouchableOpacity>
   )
