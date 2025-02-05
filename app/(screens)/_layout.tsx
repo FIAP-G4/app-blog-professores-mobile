@@ -3,12 +3,11 @@ import React from 'react'
 import Header from '@/app/components/shared/Header'
 import register from './register'
 import postagens from './postagens'
-import login from './login'
-import teacher from './dashboard/teacher'
+import teacher from './teacher'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MenuTab from '../components/MenuTab'
 import { Entypo, FontAwesome, FontAwesome5, FontAwesome6 } from '@expo/vector-icons';
-import student from './dashboard/student'
+import student from './student'
 
 
 const Tab = createBottomTabNavigator()
@@ -55,13 +54,7 @@ export default function AuthLayout() {
       component: teacher,
       activeIcon: 'chalkboard-teacher',
       byIcon: FontAwesome5
-    },	
-    // {
-    //   name: 'login',
-    //   component: login,
-    //   activeIcon: 'home',
-    //   byIcon: Entypo
-    // },	
+    }
   ]
   return (
     <>
