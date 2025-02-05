@@ -59,17 +59,18 @@ export default function Register(): JSX.Element {
               <SelectList
                 data={[
                   { key: '1', value: 'Professor' },
-                  { key: '2', value: 'Aluno' }
+                  { key: '2', value: 'Aluno' },
                 ]}
-                setSelected={(itemValue: string) => setFieldValue('typeUser', itemValue)}
+                setSelected={(itemValue: string) =>
+                  setFieldValue('typeUser', itemValue)
+                }
                 defaultOption={{ key: '1', value: 'Professor' }}
                 boxStyles={globalStyles.optionSelect}
                 dropdownStyles={globalStyles.dropdwon}
-
               />
-              {touched.typeUser && errors.typeUser && (
-                <Text style={globalStyles.error}>{errors.typeUser}</Text>
-              )}
+              <Text style={globalStyles.error}>
+                {touched.typeUser && errors.typeUser ? errors.typeUser : ''}
+              </Text>
 
               <Text style={globalStyles.label}>Nome</Text>
               <TextInput
@@ -80,9 +81,9 @@ export default function Register(): JSX.Element {
                 onBlur={handleBlur('name')}
                 placeholderTextColor={'#888'}
               />
-              {touched.name && errors.name && (
-                <Text style={globalStyles.error}>{errors.name}</Text>
-              )}
+              <Text style={globalStyles.error}>
+                {touched.name && errors.name ? errors.name : ''}
+              </Text>
 
               <Text style={globalStyles.label}>E-mail</Text>
               <TextInput
@@ -94,9 +95,9 @@ export default function Register(): JSX.Element {
                 keyboardType='email-address'
                 placeholderTextColor={'#888'}
               />
-              {touched.email && errors.email && (
-                <Text style={globalStyles.error}>{errors.email}</Text>
-              )}
+              <Text style={globalStyles.error}>
+                {touched.email && errors.email ? errors.email : ''}
+              </Text>
 
               <Text style={globalStyles.label}>Senha</Text>
               <TextInput
@@ -108,9 +109,9 @@ export default function Register(): JSX.Element {
                 onBlur={handleBlur('password')}
                 placeholderTextColor={'#888'}
               />
-              {touched.password && errors.password && (
-                <Text style={globalStyles.error}>{errors.password}</Text>
-              )}
+              <Text style={globalStyles.error}>
+                {touched.password && errors.password ? errors.password : ''}
+              </Text>
 
               <Text style={globalStyles.label}>Confirmar Senha</Text>
               <TextInput
@@ -122,9 +123,11 @@ export default function Register(): JSX.Element {
                 onBlur={handleBlur('confirmPassword')}
                 placeholderTextColor={'#888'}
               />
-              {touched.confirmPassword && errors.confirmPassword && (
-                <Text style={globalStyles.error}>{errors.confirmPassword}</Text>
-              )}
+              <Text style={globalStyles.error}>
+                {touched.confirmPassword && errors.confirmPassword
+                  ? errors.confirmPassword
+                  : ''}
+              </Text>
 
               <View style={styles.buttonContainer}>
                 {loading ? (

@@ -1,29 +1,28 @@
 import React from 'react'
 import { Tabs } from 'expo-router'
-import Header from '@/app/components/shared/Header'
 
 export default function TabLayout() {
   return (
     <>
       <Tabs screenOptions={{ headerShown: false }}>
         <Tabs.Screen
-          name="/dashboard/super-admin"
+          name='/dashboard/super-admin'
           options={{
             title: 'Admin',
           }}
         />
         <Tabs.Screen
-          name="/dashboard/teacher"
+          name='/dashboard/teacher'
           options={{
             title: 'Professor',
           }}
         />
         <Tabs.Screen
-          name="/dashboard/student"
+          name='/dashboard/student'
           options={{
             title: 'Estudante',
           }}
-          />
+        />
       </Tabs>
     </>
   )
