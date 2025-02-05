@@ -1,18 +1,12 @@
 import React from 'react'
-import {
-  Slot,
-  usePathname,
-  useSegments,
-  useRouter,
-  useLocalSearchParams,
-} from 'expo-router'
+import { Slot, usePathname, useSegments, useRouter } from 'expo-router'
 import { Text, View, TouchableOpacity } from 'react-native'
 import styles from './styles'
+import Feather from '@expo/vector-icons/Feather'
 
 export default function PostsLayout() {
   const pathName = usePathname() || '' // Garante que pathName nunca seja undefined
   const segments = useSegments() as string[]
-  const params = useLocalSearchParams()
   const router = useRouter()
 
   // Verifica se há um postId válido nos segmentos (evita 'undefined')
@@ -21,13 +15,6 @@ export default function PostsLayout() {
     segments.includes('[postId]') &&
     !pathName.includes('undefined')
 
-  console.log('Path name:', pathName)
-  console.log('Has pathname:', pathName.includes('undefined'))
-  console.log('Params:', params)
-  console.log('Has Segment:', segmentCheck)
-  console.log('Segments:', segments)
-  console.log('Segment length:', segments.length)
-
   return (
     <>
       <View style={styles.subHeader}>
@@ -35,7 +22,18 @@ export default function PostsLayout() {
           {segmentCheck ? 'Postagem' : 'Postagens'}
         </Text>
         {segmentCheck && (
-          <TouchableOpacity onPress={() => router.replace('/postagens')}>
+          <TouchableOpacity
+            style={[
+              styles.btnWrapper,
+              {
+                backgroundColor: 'transparent',
+                flexDirection: 'row',
+                columnGap: 5,
+              },
+            ]}
+            onPress={() => router.navigate('/postagens')}
+          >
+            <Feather name="arrow-left" size={24} color="black" />
             <Text>Voltar</Text>
           </TouchableOpacity>
         )}
