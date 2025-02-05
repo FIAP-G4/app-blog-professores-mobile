@@ -68,9 +68,9 @@ export default function Login(): JSX.Element {
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
               />
-              {touched.email && errors.email && (
-                <Text style={styles.error}>{errors.email}</Text>
-              )}
+              <Text style={styles.error}>
+                {touched.email && errors.email ? errors.email : ''}
+              </Text>
               <Text style={styles.label}>Senha</Text>
               <View style={styles.passwordContainer}>
                 <TextInput
@@ -81,9 +81,6 @@ export default function Login(): JSX.Element {
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}
                 ></TextInput>
-                {touched.password && errors.password && (
-                  <Text style={styles.error}>{errors.password}</Text>
-                )}
                 <TouchableOpacity
                   onPress={() => setIsPasswordVisible(!isPasswordVisible)}
                   style={styles.eyeIcon}
@@ -95,9 +92,9 @@ export default function Login(): JSX.Element {
                   />
                 </TouchableOpacity>
               </View>
-              {errors.password && (
-                <Text style={{ color: 'red' }}>{errors.password}</Text>
-              )}
+              <Text style={styles.error}>
+                {touched.password && errors.password ? errors.password : ''}
+              </Text>
               <View style={styles.buttonContainer}>
                 {loading ? (
                   <ActivityIndicator size='large' color='#4e46dd' />
