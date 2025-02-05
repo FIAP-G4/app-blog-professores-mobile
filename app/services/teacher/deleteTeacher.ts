@@ -1,9 +1,8 @@
 import api from '@/app/services/api'
-import { Teacher } from './ITeacher';
 
-export const updateTeacher = async (id: string, param: Partial<Teacher>): Promise<any> => {
+export const deleteTeacher = async (id: number): Promise<any> => {
   try {
-    const response = await api.put(`/teacher/${id}`, param, {
+    const response = await api.delete(`/teacher/${id}`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -12,7 +11,7 @@ export const updateTeacher = async (id: string, param: Partial<Teacher>): Promis
     return response.data;
   } catch (error: any) {
     console.error(
-      'Erro ao atualizar professor:',
+      'Erro ao remover professor:',
       error.response ? error.response.data : error.message
     );
     throw error;
