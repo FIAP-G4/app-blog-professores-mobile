@@ -104,6 +104,22 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  imagePreviewContainer: {
+    position: 'relative',
+    marginTop: 10,
+  },
+  removeImageButton: {
+    position: 'absolute',
+    top: 10,
+    right: 1,
+    backgroundColor: 'rgba(255, 0, 0, 0.7)',
+    padding: 5,
+    borderRadius: 20, // Deixe o botão redondo
+    width: 30, // Tamanho do botão
+    height: 30, // Tamanho do botão
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default styles;

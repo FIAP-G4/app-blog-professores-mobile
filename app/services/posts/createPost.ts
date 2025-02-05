@@ -1,22 +1,23 @@
-import { Post } from '@/app/services/posts/IPost'
-import api from '@/app/services/api'
+import {Post} from '@/app/services/posts/IPost';
+import api from '@/app/services/api';
 
-export const createPost = async (postData: Post): Promise<Post | undefined> => {
-  try {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0ZUBob3RtYWlsLmNvbSIsInR5cGUiOiJ0ZWFjaGVyIiwiaWF0IjoxNzM4NTExMTczLCJleHAiOjE3Mzg1MTQ3NzN9.wSIntez27PLfXc-L2hH7nta9mcU1UhImM-Z8VDQUckk';
+export const createPost = async (postData: FormData): Promise<Post | undefined> => {
+    try {
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0ZUBob3RtYWlsLmNvbSIsInR5cGUiOiJ0ZWFjaGVyIiwiaWF0IjoxNzM4NzkyNDUwLCJleHAiOjE3Mzg3OTYwNTB9.RZzXxQIm4GkK_J4vcC_CC1qEBikc2y68wUgCP5GbFzM';
 
-    const response = await api.post('/posts', postData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+        const response = await api.post('/posts', postData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
-    if (response.data) {
-      console.log('Post criado:', response.data);
-      return response.data;
+        if (response.data) {
+            console.log('Post criado:', response.data);
+            return response.data;
+        }
+    } catch (error) {
+        alert('Erro ao criar post:' + error);
+        throw error;
     }
-  } catch (error) {
-    alert('Erro ao criar post:'+ error);
-    throw error;
-  }
-}
+};
