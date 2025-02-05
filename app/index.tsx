@@ -1,18 +1,15 @@
 import { useRouter } from 'expo-router'
 import React, { useEffect } from 'react'
-
-import {
-  Image,
-  Text,
-  View,
-  Animated,
-  StyleSheet,
-  useAnimatedValue,
-} from 'react-native'
+import { Image, Text, View, StyleSheet } from 'react-native'
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated'
 
 const Index = (): JSX.Element => {
   const router = useRouter()
-  const opacity = useAnimatedValue(0)
+  const opacity = useSharedValue(0)
 
   useEffect(() => {
     Animated.timing(opacity, {
@@ -30,12 +27,22 @@ const Index = (): JSX.Element => {
         }, 500)
       })
     })
+    opacity.value = withTiming(1, { duration: 2000 })
+    setTimeout(() => {
+      opacity.value = withTiming(0, { duration: 2000 })
+      setTimeout(() => {
+        router.replace('/postagens')
+      }, 2000)
+    }, 2000)
   }, [opacity, router])
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }))
 
   return (
     <View style={styles.screen}>
-      
-      <Animated.View style={{ opacity: opacity }}>
+      <Animated.View style={animatedStyle}>
         <Image
           style={styles.image}
           source={require('../assets/images/logo.png')}

@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#ccc',
-    marginBottom: 10,
+    marginBottom: 20,
   },
   buttonContainer: {
     marginBottom: 20,
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    marginBottom: 10,
+    marginBottom: 20,
     borderColor: '#ccc',
     borderRadius: 10,
     paddingHorizontal: 10,
@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginBottom: 10,
-    minHeight: 20, // Evita que o layout "salte" quando a mensagem aparece
   },
 })
 

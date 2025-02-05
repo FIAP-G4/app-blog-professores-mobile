@@ -13,7 +13,6 @@ import { MultipleSelectList } from 'react-native-dropdown-select-list'
 import CardPost from '@/app/components/CardPost'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import styles from './styles'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Posts(): JSX.Element {
   const {

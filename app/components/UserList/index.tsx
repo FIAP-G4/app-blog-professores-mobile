@@ -10,6 +10,8 @@ import styles from './styles'
 import { useState } from 'react';
 import ConfirmationModal from '../ConfirmationModal';
 import { ITeacher } from '@/app/utils/hooks/useTeacherList';
+import { useRouter } from 'expo-router';
+import { IStudent } from '@/app/utils/hooks/useStudentList';
 
 interface IUser {
     users: {
@@ -18,12 +20,11 @@ interface IUser {
         email: string;
 }[],
     onDelete?: (id: number) => void;
-    onEdit: (user: ITeacher) => void;
     loading?: boolean; 
 }
 
-const UserList = ({ users = [], onDelete, onEdit, loading }: IUser): JSX.Element => {
-
+const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
+    const router = useRouter();
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
@@ -39,6 +40,17 @@ const UserList = ({ users = [], onDelete, onEdit, loading }: IUser): JSX.Element
         setModalVisible(false); 
     };
 
+    const handleEditUser = (user: ITeacher | IStudent) => {
+        router.push({
+            pathname: '/dashboard/editUser',
+            params: {
+                user: JSON.stringify(user)
+            },
+        });
+
+    };
+
+
     const renderItem = ({ item }: { item: ITeacher }) => (
         <View style={styles.cardWrapper}>
             <View style={styles.card}>
@@ -51,7 +63,7 @@ const UserList = ({ users = [], onDelete, onEdit, loading }: IUser): JSX.Element
                 </View>
                 <View style={styles.cardAction}>
                     <TouchableOpacity>
-                        <AntDesign name="edit" onPress={() => onEdit(item)}  size={22} style={[styles.buttonAction, styles.buttonActionEdit]} />
+                        <AntDesign name="edit" onPress={() => handleEditUser(item)}  size={22} style={[styles.buttonAction, styles.buttonActionEdit]} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => handleDelete(item.id)}>
                         <AntDesign name="delete" size={22} style={[styles.buttonAction, styles.buttonActionDelete]} />
@@ -59,8 +71,7 @@ const UserList = ({ users = [], onDelete, onEdit, loading }: IUser): JSX.Element
                 </View>
             </View>
         </View>
-    );
-
+    ); 
 
   return (
         <>
@@ -71,7 +82,7 @@ const UserList = ({ users = [], onDelete, onEdit, loading }: IUser): JSX.Element
             <FlatList
                 data={users as ITeacher[]} 
                 renderItem={renderItem}
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={(item) => item.id.toString()}
                 contentContainerStyle={styles.searchContent}
                 ListEmptyComponent={<Text style={styles.searchEmpty}>Sem resultados</Text>}
             />
