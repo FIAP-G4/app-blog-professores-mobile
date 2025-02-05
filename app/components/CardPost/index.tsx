@@ -1,5 +1,5 @@
-import { Redirect } from 'expo-router'
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { Link } from 'expo-router'
+import { View, Text, Image } from 'react-native'
 import formattedDate from '@/app/utils/functions/formattedDate'
 import styles from './styles'
 import Ionicons from '@expo/vector-icons/Ionicons'
@@ -21,17 +21,13 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
   const baseApiUrl = process.env.EXPO_PUBLIC_CORS_ORIGIN
 
   return (
-    <TouchableOpacity
-      key={id}
-      id={id}
-      style={styles.card}
-      onPress={() => <Redirect href={`/postagens/${id}`} />}
-    >
+    <Link key={id} id={id} style={styles.card} href={`/postagens/${id}`}>
       {path_img && (
         <View>
           <Image
             source={{ uri: `${baseApiUrl}/${path_img}` }}
             style={styles.cardImage}
+            alt={title}
           />
         </View>
       )}
@@ -68,7 +64,7 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </Link>
   )
 }
 
