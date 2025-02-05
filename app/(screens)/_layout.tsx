@@ -8,6 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MenuTab from '../components/MenuTab'
 import { Entypo, FontAwesome, FontAwesome5, FontAwesome6 } from '@expo/vector-icons';
 import student from './student'
+import Toast from 'react-native-toast-message'
 
 
 const Tab = createBottomTabNavigator()
@@ -58,6 +59,7 @@ export default function AuthLayout() {
   ]
   return (
     <>
+      <Toast />
       <Header
         pageTitle={screenName !== 'Login' ? 'Blog Escolar' : screenName}
       />
