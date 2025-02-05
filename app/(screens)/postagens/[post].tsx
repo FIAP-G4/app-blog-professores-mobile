@@ -1,8 +1,13 @@
+import usePost from '@/app/utils/hooks/usePost'
+import React from 'react'
+import { Text } from 'react-native'
+
 const Post = () => {
+  const { post, error } = usePost()
   return (
-    <div>
-      <h1>Post</h1>
-    </div>
+    <>
+      <Text>{post?.title}</Text>
+    </>
   )
 }
 

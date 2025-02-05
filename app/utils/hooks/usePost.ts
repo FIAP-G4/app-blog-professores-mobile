@@ -16,7 +16,7 @@ const usePost = (id: string = 'adbe2c41-6947-43f0-96bf-8f7f20d47f3c') => {
       .catch((err) => {
         setError(err)
       })
-  }, [])
+  }, [id])
 
   return { post, error }
 }
