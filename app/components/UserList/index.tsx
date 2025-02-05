@@ -16,13 +16,13 @@ import { IStudent } from '@/app/utils/hooks/useStudentList';
 interface IUser {
     users: { id: number; name: string; email: string; }[];
     onDelete?: (id: number) => void;
-    onEdit: (user: ITeacher | IStudent) => void; // Recebe a função de navegação
     loading?: boolean; 
 }
 
-const UserList = ({ users = [], onDelete, onEdit, loading }: IUser): JSX.Element => {
+const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+      const router = useRouter();
 
     const handleDelete = (id: number) => {
         setSelectedUserId(id);
@@ -36,6 +36,13 @@ const UserList = ({ users = [], onDelete, onEdit, loading }: IUser): JSX.Element
         setModalVisible(false); 
     };
 
+    const handleEdit = (user: ITeacher | IStudent) => {
+        router.push({ // Use router.push for navigation with params
+            pathname: './editUser',
+            params: { user: JSON.stringify(user) }, // Serialize the user object
+        });
+    };
+
     const renderItem = ({ item }: { item: ITeacher }) => (
         <View style={styles.cardWrapper}>
             <View style={styles.card}>
@@ -47,7 +54,7 @@ const UserList = ({ users = [], onDelete, onEdit, loading }: IUser): JSX.Element
                     <Text style={styles.cardMail}>{item.email}</Text>
                 </View>
                 <View style={styles.cardAction}>
-                    <TouchableOpacity onPress={() => onEdit(item)}>
+                    <TouchableOpacity onPress={() => handleEdit(item)}>
                         <AntDesign name="edit" size={22} style={[styles.buttonAction, styles.buttonActionEdit]} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => handleDelete(item.id)}>

@@ -14,9 +14,20 @@ export default function EditUser(): JSX.Element {
   const { user } = useLocalSearchParams();
   const { handleUpdateUser } = useUpdateUser();
 
-  // Convertendo os parâmetros recebidos
-  const parsedUser: ITeacher | IStudent = user ? JSON.parse(user as string) : null;
-  // const fetchUsersFunc = fetchUsers ? new Function(`return ${fetchUsers}`)() : null;
+  // Deserialize the user object.  Important: handle potential parsing errors!
+  let parsedUser: ITeacher | IStudent | null = null;
+  try {
+    parsedUser = user ? JSON.parse(user as string) : null;
+  } catch (error) {
+    console.error("Error parsing user object:", error);
+    // Handle the error appropriately, e.g., redirect back or display an error message
+    router.back(); // Or other error handling
+    return <Text>Error loading user data.</Text> // Or a more user-friendly message
+  }
+
+  if (!parsedUser) { // Handle the case where user is still null after parsing (or if parsing failed).
+    return <Text>No user data provided.</Text>; // Or other handling
+  }
 
   return (
     <SafeAreaView >
@@ -27,8 +38,8 @@ export default function EditUser(): JSX.Element {
       <Formik
         enableReinitialize
         initialValues={{
-          name: parsedUser?.name || '',
-          email: parsedUser?.email || '',
+          name: parsedUser.name || '',
+          email: parsedUser.email || '',
           password: '',
           confirmPassword: '',
           changePassword: false,

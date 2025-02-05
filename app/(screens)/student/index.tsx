@@ -15,15 +15,6 @@ export default function DashboardStudent(): JSX.Element {
     await handleDeleteStudent(id, fetchStudents);
   };
 
-  const handleEditUser = (user: ITeacher | IStudent) => {
-    router.replace({
-      pathname: './editUser',
-      params: { user: JSON.stringify(user) }
-  });
-  
-};
-
-
   useFocusEffect(
     useCallback(() => {
       fetchStudents();
@@ -32,7 +23,7 @@ export default function DashboardStudent(): JSX.Element {
 
   return (
     <SafeAreaView>
-      <UserList users={students} onDelete={handleDeleteUser} onEdit={handleEditUser} loading={loading} />
+      <UserList users={students} onDelete={handleDeleteUser} loading={loading} />
     </SafeAreaView>
   );
 }

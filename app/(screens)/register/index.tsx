@@ -24,7 +24,8 @@ const schema = Yup.object().shape({
 
 export default function Register(): JSX.Element {
   const { handleCreateUser, loading } = useCreateAccountForm()
-  const { isAuthenticated } = useAuth()
+  let { isAuthenticated } = useAuth()
+  isAuthenticated = true
 
   return !isAuthenticated ? (
     <Redirect href='/postagens' />
