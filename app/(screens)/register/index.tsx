@@ -78,6 +78,7 @@ export default function Register(): JSX.Element {
                 placeholder='Digite seu nome'
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
+                placeholderTextColor={'#888'}
               />
               {touched.name && errors.name && (
                 <Text style={globalStyles.error}>{errors.name}</Text>
@@ -91,6 +92,7 @@ export default function Register(): JSX.Element {
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
                 keyboardType='email-address'
+                placeholderTextColor={'#888'}
               />
               {touched.email && errors.email && (
                 <Text style={globalStyles.error}>{errors.email}</Text>
@@ -104,6 +106,7 @@ export default function Register(): JSX.Element {
                 placeholder='Digite sua senha'
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
+                placeholderTextColor={'#888'}
               />
               {touched.password && errors.password && (
                 <Text style={globalStyles.error}>{errors.password}</Text>
@@ -117,6 +120,7 @@ export default function Register(): JSX.Element {
                 placeholder='Confirme sua senha'
                 onChangeText={handleChange('confirmPassword')}
                 onBlur={handleBlur('confirmPassword')}
+                placeholderTextColor={'#888'}
               />
               {touched.confirmPassword && errors.confirmPassword && (
                 <Text style={globalStyles.error}>{errors.confirmPassword}</Text>
