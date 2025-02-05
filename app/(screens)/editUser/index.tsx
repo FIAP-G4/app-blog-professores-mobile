@@ -14,19 +14,17 @@ export default function EditUser(): JSX.Element {
   const { user } = useLocalSearchParams();
   const { handleUpdateUser } = useUpdateUser();
 
-  // Deserialize the user object.  Important: handle potential parsing errors!
   let parsedUser: ITeacher | IStudent | null = null;
   try {
     parsedUser = user ? JSON.parse(user as string) : null;
   } catch (error) {
     console.error("Error parsing user object:", error);
-    // Handle the error appropriately, e.g., redirect back or display an error message
-    router.back(); // Or other error handling
-    return <Text>Error loading user data.</Text> // Or a more user-friendly message
+    router.back(); 
+    return <Text>Error loading user data.</Text>
   }
 
-  if (!parsedUser) { // Handle the case where user is still null after parsing (or if parsing failed).
-    return <Text>No user data provided.</Text>; // Or other handling
+  if (!parsedUser) {
+    return <Text>No user data provided.</Text>;
   }
 
   return (

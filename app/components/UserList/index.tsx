@@ -37,9 +37,9 @@ const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
     };
 
     const handleEdit = (user: ITeacher | IStudent) => {
-        router.push({ // Use router.push for navigation with params
-            pathname: './editUser',
-            params: { user: JSON.stringify(user) }, // Serialize the user object
+        router.push({ 
+            pathname: '/editUser',
+            params: { user: JSON.stringify(user) },
         });
     };
 
