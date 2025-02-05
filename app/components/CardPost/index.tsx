@@ -23,8 +23,9 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
   return (
     <Link key={id} id={id} style={styles.card} href={`/postagens/${id}`}>
       {path_img && (
-        <View>
+        <View style={styles.cardImageWrapper}>
           <Image
+            resizeMode="cover"
             source={{ uri: `${baseApiUrl}/${path_img}` }}
             style={styles.cardImage}
             alt={title}
@@ -49,7 +50,7 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
               <Text style={styles.cardDate}>{formattedDate(created_at)}</Text>
             </View>
           )}
-          <View style={[styles.displayFlex, { columnGap: 5 }]}>
+          <View style={{ columnGap: 5, display: 'none' }}>
             <Ionicons name="eye-outline" size={24} color="rgb(156, 163, 175)" />
             <Text style={{ color: 'rgb(156, 163, 175)' }}>{viewedCount}</Text>
             <Text style={{ marginHorizontal: 5, color: 'rgb(156, 163, 175)' }}>

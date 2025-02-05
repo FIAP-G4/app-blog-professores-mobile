@@ -16,8 +16,9 @@ const SinglePost = () => {
       {post ? (
         <View style={postStyle.card}>
           {post.path_img && (
-            <View>
+            <View style={postStyle.cardImageWrapper}>
               <Image
+                resizeMode="cover"
                 source={{ uri: `${baseApiUrl}/${post.path_img}` }}
                 style={postStyle.cardImage}
                 alt={post.title}
