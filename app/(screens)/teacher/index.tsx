@@ -2,9 +2,8 @@ import React, { useCallback } from 'react';
 import { SafeAreaView } from 'react-native';
 import UserList from '@/app/components/UserList';
 import useDeleteTeacher from '@/app/utils/hooks/useTeacherDelete';
-import useTeacherList, { ITeacher } from '@/app/utils/hooks/useTeacherList';
+import useTeacherList from '@/app/utils/hooks/useTeacherList';
 import { useFocusEffect, useRouter } from 'expo-router';
-import { IStudent } from '@/app/utils/hooks/useStudentList';
 
 export default function DashboardTeacher(): JSX.Element {
   const { teachers, loading, fetchTeachers } = useTeacherList();

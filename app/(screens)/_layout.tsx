@@ -1,16 +1,7 @@
-import { Slot, usePathname, useSegments } from 'expo-router'
+import { Tabs, usePathname, useSegments} from 'expo-router'
 import React from 'react'
-import Header from '@/app/components/shared/Header'
-import register from './register'
-import postagens from './postagens'
-import teacher from './teacher'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import MenuTab from '../components/MenuTab'
-import { Entypo, FontAwesome, FontAwesome5, FontAwesome6 } from '@expo/vector-icons';
-import student from './student'
 import Toast from 'react-native-toast-message'
-
-const Tab = createBottomTabNavigator()
+import Header from '../components/shared/Header'
 
 export default function AuthLayout() {
   const pathName = usePathname()
@@ -21,73 +12,19 @@ export default function AuthLayout() {
         segments.slice(-1)[0].slice(1)
       : pathName.charAt(1).toUpperCase() + pathName.slice(2)
 
-
-  const TabArr = [
-    {
-      name: 'Postagens',
-      component: postagens,
-      activeIcon: 'newspaper-o',
-      accessibilityState: { selected: false },
-      byIcon: FontAwesome
-    },
-    {
-      name: 'Novo Post',
-      component: postagens,//icone de colocar postagem
-      activeIcon: 'new-message',
-      accessibilityState: { selected: false },
-      byIcon: Entypo
-    },
-    {
-      name: 'Cadastrar',
-      component: register,
-      activeIcon: 'user-plus',
-      byIcon: FontAwesome5
-    },
-    {
-      name: 'Alunos',
-      component: student,
-      activeIcon: 'user-graduate',
-      byIcon: FontAwesome6
-    },	
-    {
-      name: 'Professores',
-      component: teacher,
-      activeIcon: 'chalkboard-teacher',
-      byIcon: FontAwesome5
-    },
-  ]
-
   return (
     <>
       <Toast />
-      <Header
-        pageTitle={screenName !== 'Login' ? 'Blog Escolar' : screenName}
-      />
-      {/* <Tab.Navigator
-        screenOptions={{
-          headerShown: false,
-          tabBarStyle: {
-            height: 60,
-            position: 'absolute',
-            bottom: 5,
-            right: 16,
-            left: 16,
-            borderRadius: 16,
-            paddingBottom: 0,
-            margin: 16,
-          },
-        }}
-      >
-        {TabArr.map((tab, index) => (
-          <Tab.Screen key={index} name={tab.name} component={tab.component}
-            options={{
-              tabBarShowLabel: false,
-              tabBarButton: (props) => <MenuTab {...props}  item={tab}/>,
-            }}
+          <Header
+            pageTitle={screenName !== 'Login' ? 'Blog Escolar' : screenName}
           />
-        ))}
-      </Tab.Navigator> */}
-      <Slot />
+      <Tabs>
+          <Tabs.Screen name="(screens)/postagens/index" options={{title: "Postagens a"}} />
+          <Tabs.Screen name="(screens)/super-admin/index" options={{title: "admin"}} />
+          <Tabs.Screen name="(screens)/register/index" options={{title: "register"}} />
+          <Tabs.Screen name="(screens)/student/index" options={{title: "student"}} />
+          <Tabs.Screen name="(screens)/teacher/index" options={{title: "teacher"}} />
+      </Tabs>
     </>
   )
 }
