@@ -8,6 +8,7 @@ import schema from './schema';
 import { ITeacher } from '@/app/utils/hooks/useTeacherList';
 import useUpdateUser from '@/app/utils/hooks/useUserUpdate';
 import { IStudent } from '@/app/utils/hooks/useStudentList';
+import Header from '../components/shared/Header';
 
 export default function (): JSX.Element {
   const router = useRouter();
@@ -29,6 +30,9 @@ export default function (): JSX.Element {
 
   return (
     <SafeAreaView >
+      <Header
+        pageTitle='Blog Escolar'
+      />
       <View style={principalStyles.subHeader}>
         <Text style={principalStyles.pageTitle}>Editar usuario</Text>
       </View>
