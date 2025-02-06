@@ -32,6 +32,14 @@ const AnimatedTabIcon: React.FC<AnimatedTabIconProps> = ({ IconComponent, name, 
   )
 }
 
+const tabScreens = [
+  { name: 'postagens', title: '', headerShown: false, icon: 'home' },
+  { name: 'super-admin', title: 'Super Admin', headerShown: true, icon: 'user' },
+  { name: 'register', title: 'Cadastrar um usuário', headerShown: true, icon: 'adduser' },
+  { name: 'student', title: 'Estudantes', headerShown: true, icon: 'team' },
+  { name: 'teacher', title: 'Professor', headerShown: true, icon: 'solution1' },
+]
+
 export default function AuthLayout() {
   return (
     <>
@@ -47,45 +55,20 @@ export default function AuthLayout() {
           tabBarLabelStyle: styles.tabLabel,
         }}
       >
-        <Tabs.Screen
-          name="postagens"
-          options={{
-            tabBarLabel: '',
-            headerShown: false,
-            tabBarIcon: ({ color, size, focused }) => (
-              <AnimatedTabIcon IconComponent={AntDesign} name="home" focused={focused} />
-            ),
-          }}
-        />
-        <Tabs.Screen name="super-admin" options={{ 
-          tabBarLabel: '',
-          title: 'Super Admin',
-          tabBarIcon: ({ color, size, focused }) => (
-            <AnimatedTabIcon IconComponent={AntDesign} name="home" focused={focused} />
-          ),
-          }} />
-        <Tabs.Screen name="register" options={{ 
-          tabBarLabel: '',
-          title: 'Cadastrar um usuário',
-          tabBarIcon: ({ color, size, focused }) => (
-            <AnimatedTabIcon IconComponent={AntDesign} name="home" focused={focused} />
-          ),
-          }} />
-        <Tabs.Screen name="student" 
-        options={{ 
-          tabBarLabel: '',
-          title: 'Estudantes',
-          tabBarIcon: ({ color, size, focused }) => (
-            <AnimatedTabIcon IconComponent={AntDesign} name="home" focused={focused} />
-          ),
-          }} />
-        <Tabs.Screen name="teacher" options={{ 
-          tabBarLabel: '',
-          title: 'Professor',
-          tabBarIcon: ({ color, size, focused }) => (
-            <AnimatedTabIcon IconComponent={AntDesign} name="home" focused={focused} />
-          ),
-          }} />
+      {tabScreens.map(({ name, title, headerShown, icon }) => (
+          <Tabs.Screen
+            key={name}
+            name={name}
+            options={{
+              tabBarLabel: '',
+              title,
+              headerShown,
+              tabBarIcon: ({ focused }) => (
+                <AnimatedTabIcon IconComponent={AntDesign} name={icon as keyof typeof AntDesign.glyphMap} focused={focused} />
+              ),
+            }}
+          />
+        ))}
       </Tabs>
     </>
   )
