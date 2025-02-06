@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     columnGap: 20,
     zIndex: 2,
+    minHeight:82,
   },
   headerLogo: {
     width: 35,
