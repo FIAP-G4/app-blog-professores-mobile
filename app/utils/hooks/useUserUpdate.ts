@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { updateUser } from '@/app/services/user/updateUser';
 import Toast from "react-native-toast-message";
-import errorsMessage from '@/app/utils/messageError';
+import errorsMessage from '@/app/utils/functions/messageError';
 import { AxiosError } from 'axios';
 import { IStudent } from './useStudentList';
 import { ITeacher } from './useTeacherList';
