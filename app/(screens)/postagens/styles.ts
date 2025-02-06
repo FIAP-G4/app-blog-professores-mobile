@@ -1,14 +1,19 @@
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   screen: {
     paddingTop: 30,
     paddingHorizontal: 20,
     backgroundColor: '#f3f4f6',
+    margin: Platform.OS == 'ios' ? 20 : 0,
   },
   subHeader: {
     padding: 20,
     backgroundColor: 'white',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   pageTitle: {
     fontSize: 24,

@@ -1,6 +1,6 @@
 import { deleteStudent } from '@/app/services/student/deleteStudent'
 import Toast from "react-native-toast-message";
-import errorsMessage from '@/app/utils/messageError';
+import errorsMessage from '@/app/utils/functions/messageError';
 import { AxiosError } from 'axios';
 
 interface ErrorResponse {

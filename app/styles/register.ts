@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-const styles = StyleSheet.create({
+const register = StyleSheet.create({
   screen: {
     padding: 20,
     backgroundColor: '#f3f4f6',
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default styles
+export default register

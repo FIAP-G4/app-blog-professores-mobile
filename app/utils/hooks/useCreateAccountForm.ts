@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'expo-router'; 
 import { createTeacher } from '@/app/services/teacher/createTeacher';
 import { createStudent } from '@/app/services/student/createStudent';
-import errorsMessage from '@/app/utils/messageError';
+import errorsMessage from '@/app/utils/functions/messageError';
 import Toast from 'react-native-toast-message';
 import { AxiosError } from 'axios';
 

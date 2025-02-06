@@ -3,11 +3,12 @@ import { SafeAreaView } from 'react-native';
 import UserList from '@/app/components/UserList';
 import useDeleteStudent from '@/app/utils/hooks/useStudentDelete';
 import useStudentList from '@/app/utils/hooks/useStudentList';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 
 export default function DashboardStudent(): JSX.Element {
   const { students, loading, fetchStudents } = useStudentList();
   const { handleDeleteStudent } = useDeleteStudent();
+  const router = useRouter();
 
   const handleDeleteUser = async (id: number) => {
     await handleDeleteStudent(id, fetchStudents);
@@ -18,9 +19,10 @@ export default function DashboardStudent(): JSX.Element {
       fetchStudents();
     }, [])
   );
+
   return (
     <SafeAreaView>
-      <UserList users={students} onDelete={handleDeleteUser} loading={loading}  />
+      <UserList users={students} onDelete={handleDeleteUser} loading={loading} typeUser='student'/>
     </SafeAreaView>
   );
 }

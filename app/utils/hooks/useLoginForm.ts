@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useRouter } from 'expo-router'
 import Toast from 'react-native-toast-message'
 import { AxiosError } from 'axios'
-import errorsMessage from '../messageError'
+import errorsMessage from '../functions/messageError'
 import api from '@/app/services/api'
 import { useAuth } from '@/context/AuthContext'
 

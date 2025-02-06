@@ -14,19 +14,16 @@ import { useRouter } from 'expo-router';
 import { IStudent } from '@/app/utils/hooks/useStudentList';
 
 interface IUser {
-    users: {
-        id: number;
-        name: string;
-        email: string;
-}[],
+    users: { id: number; name: string; email: string; }[];
     onDelete?: (id: number) => void;
     loading?: boolean; 
+    typeUser: 'teacher' | 'student';
 }
 
-const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
-    const router = useRouter();
+const UserList = ({ users = [], onDelete, loading, typeUser }: IUser): JSX.Element => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+      const router = useRouter();
 
     const handleDelete = (id: number) => {
         setSelectedUserId(id);
@@ -36,20 +33,16 @@ const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
     const confirmDelete = () => {
         if (selectedUserId && onDelete) {
             onDelete(selectedUserId);
-          }
+        }
         setModalVisible(false); 
     };
 
-    const handleEditUser = (user: ITeacher | IStudent) => {
-        router.push({
-            pathname: '/dashboard/editUser',
-            params: {
-                user: JSON.stringify(user)
-            },
+    const handleEdit = (user: ITeacher | IStudent) => {
+        router.push({ 
+            pathname: '/edituser',
+            params: { user: JSON.stringify(user), typeUser },
         });
-
     };
-
 
     const renderItem = ({ item }: { item: ITeacher }) => (
         <View style={styles.cardWrapper}>
@@ -62,8 +55,8 @@ const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
                     <Text style={styles.cardMail}>{item.email}</Text>
                 </View>
                 <View style={styles.cardAction}>
-                    <TouchableOpacity>
-                        <AntDesign name="edit" onPress={() => handleEditUser(item)}  size={22} style={[styles.buttonAction, styles.buttonActionEdit]} />
+                    <TouchableOpacity onPress={() => handleEdit(item)}>
+                        <AntDesign name="edit" size={22} style={[styles.buttonAction, styles.buttonActionEdit]} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => handleDelete(item.id)}>
                         <AntDesign name="delete" size={22} style={[styles.buttonAction, styles.buttonActionDelete]} />
@@ -71,9 +64,9 @@ const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
                 </View>
             </View>
         </View>
-    ); 
+    );
 
-  return (
+    return (
         <>
         {loading ? (
             <ActivityIndicator size="large" color="#0000ff" style={{ height: '100%' }}/>
@@ -96,7 +89,7 @@ const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
             </>
         )}
         </>
-  )
-}
+    );
+};
 
-export default UserList
+export default UserList;
