@@ -10,6 +10,10 @@ const styles = StyleSheet.create({
   subHeader: {
     padding: 20,
     backgroundColor: 'white',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   pageTitle: {
     fontSize: 24,
