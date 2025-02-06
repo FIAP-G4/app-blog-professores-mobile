@@ -22,7 +22,7 @@ const AnimatedTabIcon: React.FC<AnimatedTabIconProps> = ({ IconComponent, name, 
 
   return (
     <Animatable.View ref={viewRef} animation="zoomIn" duration={2000} style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <IconComponent name={name} size={30} color={focused ? '#007bff' : '#80bdff'} />
+      <IconComponent name={name} size={25} color={focused ? '#007bff' : '#80bdff'} />
     </Animatable.View>
   )
 }
