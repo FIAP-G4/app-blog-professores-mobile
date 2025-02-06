@@ -22,7 +22,7 @@ export default function DashboardStudent(): JSX.Element {
 
   return (
     <SafeAreaView>
-      <UserList users={students} onDelete={handleDeleteUser} loading={loading} />
+      <UserList users={students} onDelete={handleDeleteUser} loading={loading} typeUser='student'/>
     </SafeAreaView>
   );
 }

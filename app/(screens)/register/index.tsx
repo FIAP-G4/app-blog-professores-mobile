@@ -32,8 +32,6 @@ export default function Register(): JSX.Element {
   ) : (
     <SafeAreaView style={styles.screen}>
       <View style={styles.loginBox}>
-        <Text style={styles.loginTitle}>Crie seu usuário</Text>
-
         {/* Formulário com Formik */}
         <Formik
           initialValues={{

@@ -12,7 +12,7 @@ import Header from '../components/shared/Header';
 
 export default function (): JSX.Element {
   const router = useRouter();
-  const { user } = useLocalSearchParams();
+  const { user, typeUser } = useLocalSearchParams();
   const { handleUpdateUser } = useUpdateUser();
 
   let parsedUser: ITeacher | IStudent | null = null;
@@ -56,7 +56,9 @@ export default function (): JSX.Element {
           };
 
           await handleUpdateUser(updatedUser.user_id, updatedUser);
-          router.back();
+          console.log("User updated:", updatedUser);
+          if(typeUser === 'teacher') router.push('/(screens)/teacher');
+          if(typeUser === 'student') router.push('/(screens)/student');
         }}
       >
         {({

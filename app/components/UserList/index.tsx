@@ -17,9 +17,10 @@ interface IUser {
     users: { id: number; name: string; email: string; }[];
     onDelete?: (id: number) => void;
     loading?: boolean; 
+    typeUser: 'teacher' | 'student';
 }
 
-const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
+const UserList = ({ users = [], onDelete, loading, typeUser }: IUser): JSX.Element => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
       const router = useRouter();
@@ -39,7 +40,7 @@ const UserList = ({ users = [], onDelete, loading }: IUser): JSX.Element => {
     const handleEdit = (user: ITeacher | IStudent) => {
         router.push({ 
             pathname: '/edituser',
-            params: { user: JSON.stringify(user) },
+            params: { user: JSON.stringify(user), typeUser },
         });
     };
 
