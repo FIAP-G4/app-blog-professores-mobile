@@ -4,7 +4,7 @@ import { Button, Text, TextInput, View, ActivityIndicator } from 'react-native'
 import { SelectList } from 'react-native-dropdown-select-list'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import styles from './styles'
+import styles from '@/app/styles/register'
 import useCreateAccountForm from '@/app/utils/hooks/useCreateAccountForm'
 import Toast from 'react-native-toast-message'
 import { useAuth } from '@/context/AuthContext'
@@ -24,15 +24,14 @@ const schema = Yup.object().shape({
 
 export default function Register(): JSX.Element {
   const { handleCreateUser, loading } = useCreateAccountForm()
-  const { isAuthenticated } = useAuth()
+  let { isAuthenticated } = useAuth()
+  isAuthenticated = true
 
   return !isAuthenticated ? (
     <Redirect href='/postagens' />
   ) : (
     <SafeAreaView style={styles.screen}>
       <View style={styles.loginBox}>
-        <Text style={styles.loginTitle}>Crie seu usuário</Text>
-
         {/* Formulário com Formik */}
         <Formik
           initialValues={{

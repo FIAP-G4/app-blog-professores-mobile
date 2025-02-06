@@ -8,18 +8,31 @@ import schema from './schema';
 import { ITeacher } from '@/app/utils/hooks/useTeacherList';
 import useUpdateUser from '@/app/utils/hooks/useUserUpdate';
 import { IStudent } from '@/app/utils/hooks/useStudentList';
+import Header from '../components/shared/Header';
 
-export default function EditUser(): JSX.Element {
+export default function (): JSX.Element {
   const router = useRouter();
-  const { user } = useLocalSearchParams();
+  const { user, typeUser } = useLocalSearchParams();
   const { handleUpdateUser } = useUpdateUser();
 
-  // Convertendo os parâmetros recebidos
-  const parsedUser: ITeacher | IStudent = user ? JSON.parse(user as string) : null;
-  // const fetchUsersFunc = fetchUsers ? new Function(`return ${fetchUsers}`)() : null;
+  let parsedUser: ITeacher | IStudent | null = null;
+  try {
+    parsedUser = user ? JSON.parse(user as string) : null;
+  } catch (error) {
+    console.error("Error parsing user object:", error);
+    router.back(); 
+    return <Text>Error loading user data.</Text>
+  }
+
+  if (!parsedUser) {
+    return <Text>No user data provided.</Text>;
+  }
 
   return (
     <SafeAreaView >
+      <Header
+        pageTitle='Blog Escolar'
+      />
       <View style={principalStyles.subHeader}>
         <Text style={principalStyles.pageTitle}>Editar usuario</Text>
       </View>
@@ -27,8 +40,8 @@ export default function EditUser(): JSX.Element {
       <Formik
         enableReinitialize
         initialValues={{
-          name: parsedUser?.name || '',
-          email: parsedUser?.email || '',
+          name: parsedUser.name || '',
+          email: parsedUser.email || '',
           password: '',
           confirmPassword: '',
           changePassword: false,
@@ -43,7 +56,9 @@ export default function EditUser(): JSX.Element {
           };
 
           await handleUpdateUser(updatedUser.user_id, updatedUser);
-          router.back();
+          console.log("User updated:", updatedUser);
+          if(typeUser === 'teacher') router.push('/(screens)/teacher');
+          if(typeUser === 'student') router.push('/(screens)/student');
         }}
       >
         {({
