@@ -17,7 +17,7 @@ const tabScreens = [
 ]
 
 export default function AuthLayout() {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, isTeacher } = useAuth()
 
   return (
     <>
@@ -25,7 +25,7 @@ export default function AuthLayout() {
       <Header
         pageTitle='Blog Escolar'
       />
-      {isAuthenticated && (
+      {isAuthenticated && isTeacher && (
         <Tabs
           screenOptions={{
             tabBarActiveTintColor: 'blue',
@@ -49,9 +49,7 @@ export default function AuthLayout() {
           ))}
         </Tabs>
       )}
-      {!isAuthenticated && (
-        <Slot/>
-      )}
+      {(!isAuthenticated || !isTeacher) && <Slot />}
     </>
   )
 }
