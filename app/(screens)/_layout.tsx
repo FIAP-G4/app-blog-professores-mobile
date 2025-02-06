@@ -1,4 +1,4 @@
-import { usePathname, useSegments } from 'expo-router'
+import { Slot, usePathname, useSegments } from 'expo-router'
 import React from 'react'
 import Header from '@/app/components/shared/Header'
 import register from './register'
@@ -9,7 +9,6 @@ import MenuTab from '../components/MenuTab'
 import { Entypo, FontAwesome, FontAwesome5, FontAwesome6 } from '@expo/vector-icons';
 import student from './student'
 import Toast from 'react-native-toast-message'
-
 
 const Tab = createBottomTabNavigator()
 
@@ -55,15 +54,16 @@ export default function AuthLayout() {
       component: teacher,
       activeIcon: 'chalkboard-teacher',
       byIcon: FontAwesome5
-    }
+    },
   ]
+
   return (
     <>
       <Toast />
       <Header
         pageTitle={screenName !== 'Login' ? 'Blog Escolar' : screenName}
       />
-      <Tab.Navigator
+      {/* <Tab.Navigator
         screenOptions={{
           headerShown: false,
           tabBarStyle: {
@@ -86,8 +86,8 @@ export default function AuthLayout() {
             }}
           />
         ))}
-      </Tab.Navigator>
+      </Tab.Navigator> */}
+      <Slot />
     </>
   )
 }
-

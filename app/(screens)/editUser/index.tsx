@@ -9,7 +9,7 @@ import { ITeacher } from '@/app/utils/hooks/useTeacherList';
 import useUpdateUser from '@/app/utils/hooks/useUserUpdate';
 import { IStudent } from '@/app/utils/hooks/useStudentList';
 
-export default function EditUser(): JSX.Element {
+export default function (): JSX.Element {
   const router = useRouter();
   const { user } = useLocalSearchParams();
   const { handleUpdateUser } = useUpdateUser();
