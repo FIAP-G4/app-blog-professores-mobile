@@ -1,6 +1,13 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Button, Text, TextInput, View, ActivityIndicator } from 'react-native'
+import {
+  Button,
+  Text,
+  TextInput,
+  View,
+  ActivityIndicator,
+  ScrollView,
+} from 'react-native'
 import { SelectList } from 'react-native-dropdown-select-list'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
@@ -31,7 +38,7 @@ export default function Register(): JSX.Element {
     <Redirect href='/postagens' />
   ) : (
     <SafeAreaView style={styles.screen}>
-      <View style={styles.loginBox}>
+      <ScrollView style={styles.loginBox}>
         {/* Formulário com Formik */}
         <Formik
           initialValues={{
@@ -53,7 +60,7 @@ export default function Register(): JSX.Element {
             touched,
             setFieldValue,
           }) => (
-            <>
+            <View style={styles.fields}>
               <Text style={globalStyles.label}>Tipo de Usuário</Text>
               <SelectList
                 data={[
@@ -64,7 +71,7 @@ export default function Register(): JSX.Element {
                   setFieldValue('typeUser', itemValue)
                 }
                 defaultOption={{ key: '1', value: 'Professor' }}
-                boxStyles={globalStyles.optionSelect}
+                boxStyles={globalStyles.registerOptionSelect}
                 dropdownStyles={globalStyles.dropdwon}
               />
               <Text style={globalStyles.error}>
@@ -139,10 +146,10 @@ export default function Register(): JSX.Element {
                   />
                 )}
               </View>
-            </>
+            </View>
           )}
         </Formik>
-      </View>
+      </ScrollView>
       <Toast />
     </SafeAreaView>
   )

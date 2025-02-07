@@ -18,6 +18,8 @@ const register = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: 'white',
     width: '99%',
+    margin: 30,
+    height: 'auto',
   },
   loginTitle: {
     marginBottom: 20,
@@ -64,6 +66,7 @@ const register = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
   },
+
   eyeIcon: {
     marginLeft: 10,
     padding: 0,
@@ -71,6 +74,9 @@ const register = StyleSheet.create({
   error: {
     color: 'red',
     marginBottom: 10,
+  },
+  fields: {
+    marginBottom: 30,
   },
 })
 
