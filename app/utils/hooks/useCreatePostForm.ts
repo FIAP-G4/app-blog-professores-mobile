@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useRouter} from 'expo-router';
 import {createPost} from '@/app/services/posts/createPost';
-import errorsMessage from '@/app/utils/messageError';
+import errorsMessage from '../functions/messageError'
 import Toast from 'react-native-toast-message';
 import {AxiosError} from 'axios';
 

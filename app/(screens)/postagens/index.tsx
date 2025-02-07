@@ -66,34 +66,36 @@ export default function Posts(): JSX.Element {
       </View>
       {loading && <ActivityIndicator size="large" color="#0000ff" />}
       <FlatList
-        data={posts}
-        renderItem={({ item }) => (
-          <CardPost
-            id={item.id}
-            title={item.title}
-            content={item.content}
-            teacher={item.teacher}
-            path_img={item.path_img}
-            tags={item.tags}
-            created_at={item.created_at}
-            viewedCount={item.viewedCount}
-            commentCount={item.commentCount}
-          />
-        )}
-        keyExtractor={(item) => item.id}
-        initialNumToRender={1}
-        onEndReachedThreshold={0.5}
-        onEndReached={() => {
-          if (!loading && hasMorePosts) {
-            loadMorePosts(searchTerm, selected)
+          data={posts}
+          renderItem={({ item }) => {
+            return (
+                <CardPost
+                    id={item.id}
+                    title={item.title}
+                    content={item.content}
+                    teacher={item.teacher}
+                    path_img={`${item.path_img}`}
+                    tags={item.tags}
+                    created_at={item.created_at}
+                    viewedCount={item.viewedCount}
+                    commentCount={item.commentCount}
+                />
+            )
+          }}
+          keyExtractor={(item) => item.id}
+          initialNumToRender={1}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => {
+            if (!loading && hasMorePosts) {
+              loadMorePosts(searchTerm, selected)
+            }
+          }}
+          ListFooterComponent={
+            loading && hasMorePosts ? (
+                <ActivityIndicator size="small" color="#0000ff" />
+            ) : null
           }
-        }}
-        ListFooterComponent={
-          loading && hasMorePosts ? (
-            <ActivityIndicator size="small" color="#0000ff" />
-          ) : null
-        }
-        contentContainerStyle={{ paddingBottom: 20 }}
+          contentContainerStyle={{ paddingBottom: 20 }}
       />
     </SafeAreaView>
   )
