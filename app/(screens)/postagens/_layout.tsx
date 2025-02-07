@@ -5,11 +5,10 @@ import styles from './styles'
 import Feather from '@expo/vector-icons/Feather'
 
 export default function PostsLayout() {
-  const pathName = usePathname() || '' // Garante que pathName nunca seja undefined
+  const pathName = usePathname() || '' 
   const segments = useSegments() as string[]
   const router = useRouter()
 
-  // Verifica se há um postId válido nos segmentos (evita 'undefined')
   const segmentCheck =
     segments.length >= 3 &&
     segments.includes('[postId]') &&
