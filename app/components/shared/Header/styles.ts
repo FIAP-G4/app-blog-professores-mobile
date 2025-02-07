@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     columnGap: 20,
     zIndex: 2,
-    minHeight:82,
+    minHeight: 82,
   },
   headerLogo: {
     width: 35,
@@ -35,6 +35,14 @@ const styles = StyleSheet.create({
   },
   headerSafeArea: {
     backgroundColor: '#212836',
+  },
+  btnLoginWrapper: {
+    width: '15%',
+    backgroundColor: 'rgb(156, 163, 175)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: 'white',
   },
 })
 
