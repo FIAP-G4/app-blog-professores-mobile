@@ -1,8 +1,16 @@
 import React, { createContext } from 'react'
-import { View, Text, Image, SafeAreaView, Pressable } from 'react-native'
+import {
+  View,
+  Text,
+  Image,
+  SafeAreaView,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native'
 import styles from './styles'
 import { useRouter, useSegments } from 'expo-router'
 import { useAuth } from '@/context/AuthContext'
+import { Feather } from '@expo/vector-icons'
 
 interface HeaderProps {
   pageTitle: string
@@ -45,6 +53,24 @@ export default function Header(props: HeaderProps): JSX.Element {
             <Pressable onPress={handleLogout} style={styles.loginButton}>
               <Text style={styles.loginButtonText}>Logout</Text>
             </Pressable>
+          )}
+          {isLoginRoute && (
+            <TouchableOpacity
+              style={[
+                styles.btnLoginWrapper,
+                {
+                  backgroundColor: 'transparent',
+                  flexDirection: 'row',
+                  columnGap: 5,
+                  flex: 3,
+                  justifyContent: 'flex-end',
+                },
+              ]}
+              onPress={() => router.navigate('/postagens')}
+            >
+              <Feather name='arrow-left' size={24} color='white' />
+              <Text style={{ color: 'white' }}>Voltar</Text>
+            </TouchableOpacity>
           )}
         </View>
       </HeaderContext.Provider>
