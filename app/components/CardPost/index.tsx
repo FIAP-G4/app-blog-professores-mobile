@@ -20,12 +20,14 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
   } = props
   const baseApiUrl = process.env.EXPO_PUBLIC_CORS_ORIGIN
 
+  const hasImage = !!path_img
+
   return (
     <Link key={id} id={id} style={styles.card} href={`/postagens/${id}`}>
       {path_img && (
         <View style={styles.cardImageWrapper}>
           <Image
-            resizeMode="cover"
+            resizeMode='cover'
             source={{ uri: `${baseApiUrl}/${path_img}` }}
             style={styles.cardImage}
             alt={title}
@@ -35,7 +37,16 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
       <View style={styles.cardContentPadding}>
         <Text style={styles.cardTitle}>{title}</Text>
         <Text style={styles.authorName}>{teacher?.user?.name}</Text>
-        <Text style={styles.cardContent}>{content}</Text>
+
+        <Text style={styles.cardContent}>
+          {(hasImage &&
+            (content && content.length > 100
+              ? content.slice(0, 100) + '[...]'
+              : content)) ||
+            (content && content.length > 100
+              ? content.slice(0, 200) + '[...]'
+              : content)}
+        </Text>
         <View style={styles.cardTagsWrapper}>
           {tags &&
             tags.map((tag) => (
@@ -51,15 +62,15 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
             </View>
           )}
           <View style={{ columnGap: 5, display: 'none' }}>
-            <Ionicons name="eye-outline" size={24} color="rgb(156, 163, 175)" />
+            <Ionicons name='eye-outline' size={24} color='rgb(156, 163, 175)' />
             <Text style={{ color: 'rgb(156, 163, 175)' }}>{viewedCount}</Text>
             <Text style={{ marginHorizontal: 5, color: 'rgb(156, 163, 175)' }}>
               |
             </Text>
             <FontAwesome
-              name="comment-o"
+              name='comment-o'
               size={24}
-              color="rgb(156, 163, 175)"
+              color='rgb(156, 163, 175)'
             />
             <Text style={{ color: 'rgb(156, 163, 175)' }}>{commentCount}</Text>
           </View>
