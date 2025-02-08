@@ -35,8 +35,20 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
         </View>
       )}
       <View style={styles.cardContentPadding}>
-        <Text style={styles.cardTitle}>{title}</Text>
-        <Text style={styles.authorName}>{teacher?.user?.name}</Text>
+        <View style={styles.cardHeader}>
+          <View style={styles.cardHeaderLeft}>
+            <Text style={styles.cardTitle}>{title}</Text>
+            <Text style={styles.authorName}>{teacher?.user?.name}</Text>
+          </View>
+          <View style={styles.stats}>
+            <Text style={styles.stat}>
+              <Ionicons name='eye' size={16} /> {viewedCount}
+            </Text>
+            <Text style={styles.stat}>
+              <FontAwesome name='comments' size={16} /> {commentCount}
+            </Text>
+          </View>
+        </View>
 
         <Text style={styles.cardContent}>
           {(hasImage &&
