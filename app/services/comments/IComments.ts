@@ -1,5 +1,5 @@
-type Comments = {
-  id: number
+type IComments = {
+  id: string
   content: string
   created_at: string
   user: {
@@ -9,4 +9,4 @@ type Comments = {
   }
 }
 
-export default Comments
+export default IComments
