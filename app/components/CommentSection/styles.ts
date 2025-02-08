@@ -37,16 +37,6 @@ const styles = StyleSheet.create({
     color: '#666',
     marginBottom: 8,
   },
-  stats: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  stat: {
-    fontSize: 14,
-    color: '#666',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   commentsSection: {
     marginTop: 16,
   },
