@@ -23,6 +23,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
   },
+  commentHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 })
 
 export default styles
