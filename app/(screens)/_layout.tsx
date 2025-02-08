@@ -21,7 +21,6 @@ export default function AuthLayout() {
 
   return (
     <>
-      <Toast />
       <Header
         pageTitle='Blog Escolar'
       />
