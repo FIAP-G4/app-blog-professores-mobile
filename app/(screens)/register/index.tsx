@@ -13,7 +13,6 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import styles from '@/app/styles/register'
 import useCreateAccountForm from '@/app/utils/hooks/useCreateAccountForm'
-import Toast from 'react-native-toast-message'
 import { useAuth } from '@/context/AuthContext'
 import { Redirect } from 'expo-router'
 import globalStyles from '@/app/styles'
@@ -152,7 +151,6 @@ export default function Register(): JSX.Element {
           )}
         </Formik>
       </ScrollView>
-      <Toast />
     </SafeAreaView>
   )
 }
