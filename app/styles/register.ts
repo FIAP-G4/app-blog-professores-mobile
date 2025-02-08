@@ -1,8 +1,8 @@
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 const register = StyleSheet.create({
   screen: {
-    top: -33,
+    top: Platform.OS == 'ios' ? -100 : -33,
     padding: 20,
     backgroundColor: '#f3f4f6',
     flex: 1,

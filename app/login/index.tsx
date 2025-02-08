@@ -2,7 +2,6 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   ActivityIndicator,
-  Button,
   Text,
   TextInput,
   TouchableOpacity,
@@ -16,6 +15,7 @@ import { Formik } from 'formik'
 import useLoginForm from '@/app/utils/hooks/useLoginForm'
 import Toast from 'react-native-toast-message'
 import Header from '../components/shared/Header'
+import { Button } from 'react-native-paper';
 
 const schema = Yup.object().shape({
   email: Yup.string().email().required('E-mail é obrigatório'),
@@ -106,10 +106,12 @@ export default function Login(): JSX.Element {
                     <ActivityIndicator size='large' color='#4e46dd' />
                   ) : (
                     <Button
-                      title='Entrar'
-                      color='#4e46dd'
                       onPress={handleSubmit as any}
-                    />
+                      mode='contained'
+                      buttonColor='#4e46dd'
+                    >
+                      Entrar
+                    </Button>
                   )}
                 </View>
               </>
