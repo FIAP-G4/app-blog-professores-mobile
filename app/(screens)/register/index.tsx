@@ -49,7 +49,9 @@ export default function Register(): JSX.Element {
             confirmPassword: '',
           }}
           validationSchema={schema}
-          onSubmit={handleCreateUser}
+          onSubmit={(values, { resetForm }) =>
+            handleCreateUser(values, resetForm)
+          }
         >
           {({
             handleChange,
