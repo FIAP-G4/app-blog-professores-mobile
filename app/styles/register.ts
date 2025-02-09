@@ -1,10 +1,10 @@
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native';
 
 const register = StyleSheet.create({
   screen: {
+    flex: 1,
     padding: 20,
     backgroundColor: '#f3f4f6',
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -16,7 +16,8 @@ const register = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     backgroundColor: 'white',
-    width: '99%',
+    width: '100%',
+    margin: 16,
   },
   loginTitle: {
     marginBottom: 20,
@@ -71,6 +72,9 @@ const register = StyleSheet.create({
     color: 'red',
     marginBottom: 10,
   },
-})
+  fields: {
+    marginBottom: 30,
+  },
+});
 
-export default register
+export default register;

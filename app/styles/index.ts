@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingHorizontal: 20,
     backgroundColor: '#fff',
-    margin:10,
+    margin: 10,
     borderRadius: 10,
   },
   subHeader: {
@@ -30,6 +30,19 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 10,
   },
+
+  registerOptionSelect: {
+    borderColor: '#ccc',
+    backgroundColor: 'white',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    columnGap: 15,
+    width: '100%',
+    height: 45,
+  },
+
   dropdwon: {
     backgroundColor: 'white',
     borderColor: '#ccc',

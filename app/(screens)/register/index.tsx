@@ -1,15 +1,21 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Button, Text, TextInput, View, ActivityIndicator } from 'react-native'
+import {
+  Text,
+  TextInput,
+  View,
+  ActivityIndicator,
+  ScrollView,
+} from 'react-native'
 import { SelectList } from 'react-native-dropdown-select-list'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import styles from '@/app/styles/register'
 import useCreateAccountForm from '@/app/utils/hooks/useCreateAccountForm'
-import Toast from 'react-native-toast-message'
 import { useAuth } from '@/context/AuthContext'
 import { Redirect } from 'expo-router'
 import globalStyles from '@/app/styles'
+import { Button } from 'react-native-paper';
 
 // Definição do esquema de validação com Yup
 const schema = Yup.object().shape({
@@ -31,7 +37,7 @@ export default function Register(): JSX.Element {
     <Redirect href='/postagens' />
   ) : (
     <SafeAreaView style={styles.screen}>
-      <View style={styles.loginBox}>
+      <ScrollView style={styles.loginBox}>
         {/* Formulário com Formik */}
         <Formik
           initialValues={{
@@ -42,7 +48,9 @@ export default function Register(): JSX.Element {
             confirmPassword: '',
           }}
           validationSchema={schema}
-          onSubmit={handleCreateUser}
+          onSubmit={(values, { resetForm }) =>
+            handleCreateUser(values, resetForm)
+          }
         >
           {({
             handleChange,
@@ -53,7 +61,7 @@ export default function Register(): JSX.Element {
             touched,
             setFieldValue,
           }) => (
-            <>
+            <View style={styles.fields}>
               <Text style={globalStyles.label}>Tipo de Usuário</Text>
               <SelectList
                 data={[
@@ -64,7 +72,7 @@ export default function Register(): JSX.Element {
                   setFieldValue('typeUser', itemValue)
                 }
                 defaultOption={{ key: '1', value: 'Professor' }}
-                boxStyles={globalStyles.optionSelect}
+                boxStyles={globalStyles.registerOptionSelect}
                 dropdownStyles={globalStyles.dropdwon}
               />
               <Text style={globalStyles.error}>
@@ -133,17 +141,18 @@ export default function Register(): JSX.Element {
                   <ActivityIndicator size='large' color='#4e46dd' />
                 ) : (
                   <Button
-                    title='Registrar'
-                    color='#4e46dd'
                     onPress={handleSubmit as any}
-                  />
+                    mode='contained'
+                    buttonColor='#4e46dd'
+                  >
+                    Registrar
+                  </Button>
                 )}
               </View>
-            </>
+            </View>
           )}
         </Formik>
-      </View>
-      <Toast />
+      </ScrollView>
     </SafeAreaView>
   )
 }

@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     margin: Platform.OS == 'ios' ? 20 : 0,
   },
   subHeader: {
-    padding: 20,
+    padding: 18,
     backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'row',
@@ -16,8 +16,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pageTitle: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
+    color: '#000',
   },
   optionSelect: {
     paddingHorizontal: 15,

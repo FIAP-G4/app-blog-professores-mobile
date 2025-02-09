@@ -3,7 +3,7 @@ import React from 'react'
 import Toast from 'react-native-toast-message'
 import Header from '../components/shared/Header'
 import { AntDesign, FontAwesome, FontAwesome5, FontAwesome6, Ionicons } from '@expo/vector-icons'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import AnimatedTabIcon from '../components/AnimatedTabIcon'
 import { useAuth } from '@/context/AuthContext'
 
@@ -17,19 +17,19 @@ const tabScreens = [
 ]
 
 export default function AuthLayout() {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, isTeacher } = useAuth()
 
   return (
     <>
-      <Toast />
       <Header
         pageTitle='Blog Escolar'
       />
-      {isAuthenticated && (
+      {isAuthenticated && isTeacher && (
         <Tabs
           screenOptions={{
             tabBarActiveTintColor: 'blue',
             tabBarStyle: styles.tabBar,
+            headerTitleAlign: 'left',
             tabBarLabelStyle: styles.tabLabel,
           }}
         >
@@ -39,6 +39,8 @@ export default function AuthLayout() {
               name={name}
               options={{
                 tabBarLabel: '',
+                headerTitleStyle: styles.headerTitle,
+                headerStyle: styles.headerStyle, // Adicione esta linha
                 title,
                 headerShown,
                 tabBarIcon: ({ focused }) => (
@@ -49,9 +51,7 @@ export default function AuthLayout() {
           ))}
         </Tabs>
       )}
-      {!isAuthenticated && (
-        <Slot/>
-      )}
+      {(!isAuthenticated || !isTeacher) && <Slot />}
     </>
   )
 }
@@ -77,5 +77,15 @@ const styles = StyleSheet.create({
   iconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+    height: Platform.OS == 'ios' ? 60 : 20,
+  },
+  headerStyle: {
+    height: 60,
+    justifyContent: 'center', 
   },
 })
