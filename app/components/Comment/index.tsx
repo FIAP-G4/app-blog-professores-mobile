@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native'
 import styles from './styles'
 import { useAuth } from '@/context/AuthContext'
 import { AntDesign } from '@expo/vector-icons'
 import { ICommentsFromGetPostById } from '@/app/services/comments/IComments'
 import formattedDate from '@/app/utils/functions/formattedDate'
 
-const Comment = (comment: ICommentsFromGetPostById): JSX.Element => {
+const Comment = ({
+  comment,
+  onEdit,
+  onDelete,
+}: {
+  comment: ICommentsFromGetPostById
+  onEdit: (comment: ICommentsFromGetPostById) => void
+  onDelete: (id: string) => void
+}): JSX.Element => {
   const { loggedInUserId, isAuthenticated } = useAuth()
   const [isAuthor, setIsAuthor] = useState(false)
 
@@ -16,15 +24,6 @@ const Comment = (comment: ICommentsFromGetPostById): JSX.Element => {
     }
   }, [loggedInUserId, comment.user_id])
 
-  const handleEdit = (comment: ICommentsFromGetPostById) => {
-    console.log(comment)
-    // Lógica para editar o comentário
-  }
-
-  const handleDelete = (commentId: string) => {
-    console.log(commentId)
-    // Lógica para excluir o comentário
-  }
   return (
     <View style={styles.commentContainer}>
       <View>
@@ -41,14 +40,14 @@ const Comment = (comment: ICommentsFromGetPostById): JSX.Element => {
       <Text style={styles.commentContent}>{comment.content}</Text>
       {isAuthor && isAuthenticated && (
         <View style={styles.cardAction}>
-          <TouchableOpacity onPress={() => handleEdit(comment)}>
+          <TouchableOpacity onPress={() => onEdit(comment)}>
             <AntDesign
               name='edit'
               size={22}
               style={[styles.buttonAction, styles.buttonActionEdit]}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleDelete(comment.id)}>
+          <TouchableOpacity onPress={() => onDelete(comment.id)}>
             <AntDesign
               name='delete'
               size={22}

@@ -6,14 +6,14 @@ export const deleteStudent = async (id: number): Promise<any> => {
       headers: {
         'Content-Type': 'application/json',
       },
-    });
+    })
 
-    return response.data;
+    return response.data
   } catch (error: any) {
     console.error(
       'Erro ao remover professor:',
-      error.response ? error.response.data : error.message
-    );
-    throw error;
+      error.response ? error.response.data : error.message,
+    )
+    throw error
   }
-};
+}
