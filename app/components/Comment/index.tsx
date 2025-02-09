@@ -43,11 +43,6 @@ const Comment = ({
 
   return (
     <View style={styles.commentContainer}>
-      <View>
-        <Text>{'É o autor? ' + isAuthor}</Text>
-        <Text>{'LOGGED USER ID:  ' + loggedInUserId}</Text>
-        <Text>{'USER ID:  ' + comment.user_id}</Text>
-      </View>
       <View style={styles.commentHeader}>
         <Text style={styles.commentAuthor}>{comment.user.name}</Text>
         <Text style={styles.commentDate}>

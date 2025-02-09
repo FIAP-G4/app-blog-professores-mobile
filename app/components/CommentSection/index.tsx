@@ -15,7 +15,7 @@ import styles from './styles'
 import { ICommentResponse } from '@/app/services/comments/IComment'
 
 const schema = Yup.object().shape({
-  content: Yup.string().required('Escreva algo para comentar...'),
+  content: Yup.string(),
 })
 interface CommentSectionProps {
   post: Post
@@ -97,13 +97,15 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
           touched,
         }) => (
           <View>
-            <Text>Comentário:</Text>
             <TextInput
               onChangeText={handleChange('content')}
               onBlur={handleBlur('content')}
               value={values.content}
-              placeholder='Escreva seu comentário...'
+              placeholder='Deixe seu comentário...'
               keyboardType='twitter'
+              multiline
+              numberOfLines={5}
+              style={styles.newCommentInput}
               placeholderTextColor={'#888'}
             />
             <Text style={globalStyles.error}>

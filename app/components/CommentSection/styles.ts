@@ -64,6 +64,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: 'hidden',
   },
+  newCommentInput: {
+    backgroundColor: '#F0F4FF',
+    borderRadius: 10,
+    padding: 10,
+    borderWidth: 1,
+    paddingHorizontal: 8,
+  },
 })
 
 export default styles
