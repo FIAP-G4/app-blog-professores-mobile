@@ -24,67 +24,79 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
 
   return (
     <Link key={id} id={id} style={styles.card} href={`/postagens/${id}`}>
-      {path_img && (
-        <View style={styles.cardImageWrapper}>
-          <Image
-            resizeMode='cover'
-            source={{ uri: `${baseApiUrl}/${path_img}` }}
-            style={styles.cardImage}
-            alt={title}
-          />
-        </View>
-      )}
-      <View style={styles.cardContentPadding}>
-        <View style={styles.cardHeader}>
-          <View style={styles.cardHeaderLeft}>
-            <Text style={styles.cardTitle}>{title}</Text>
-            <Text style={styles.authorName}>{teacher?.user?.name}</Text>
-          </View>
-          <View style={styles.stats}>
-            <Text style={styles.stat}>
-              <Ionicons name='eye' size={16} /> {viewedCount}
-            </Text>
-            <Text style={styles.stat}>
-              <FontAwesome name='comments' size={16} /> {commentCount}
-            </Text>
-          </View>
-        </View>
-
-        <Text style={styles.cardContent}>
-          {(hasImage &&
-            (content && content.length > 100
-              ? content.slice(0, 100) + '[...]'
-              : content)) ||
-            (content && content.length > 100
-              ? content.slice(0, 200) + '[...]'
-              : content)}
-        </Text>
-        <View style={styles.cardTagsWrapper}>
-          {tags &&
-            tags.map((tag) => (
-              <Text key={tag.id} style={styles.cardTags}>
-                {tag.name}
-              </Text>
-            ))}
-        </View>
-        <View style={[styles.displayFlex, { justifyContent: 'space-between' }]}>
-          {created_at && (
-            <View>
-              <Text style={styles.cardDate}>{formattedDate(created_at)}</Text>
-            </View>
-          )}
-          <View style={{ columnGap: 5, display: 'none' }}>
-            <Ionicons name='eye-outline' size={24} color='rgb(156, 163, 175)' />
-            <Text style={{ color: 'rgb(156, 163, 175)' }}>{viewedCount}</Text>
-            <Text style={{ marginHorizontal: 5, color: 'rgb(156, 163, 175)' }}>
-              |
-            </Text>
-            <FontAwesome
-              name='comment-o'
-              size={24}
-              color='rgb(156, 163, 175)'
+      <View style={styles.container}>
+        {path_img && (
+          <View style={styles.cardImageWrapper}>
+            <Image
+              resizeMode='cover'
+              source={{ uri: `${baseApiUrl}/${path_img}` }}
+              style={styles.cardImage}
+              alt={title}
             />
-            <Text style={{ color: 'rgb(156, 163, 175)' }}>{commentCount}</Text>
+          </View>
+        )}
+        <View style={styles.cardContentPadding}>
+          <View style={styles.cardHeader}>
+            <View style={styles.cardHeaderLeft}>
+              <Text style={styles.cardTitle}>{title}</Text>
+              <Text style={styles.authorName}>{teacher?.user?.name}</Text>
+            </View>
+            <View style={styles.stats}>
+              <Text style={styles.stat}>
+                <Ionicons name='eye' size={16} /> {viewedCount}
+              </Text>
+              <Text style={styles.stat}>
+                <FontAwesome name='comments' size={16} /> {commentCount}
+              </Text>
+            </View>
+          </View>
+
+          <Text style={styles.cardContent}>
+            {(hasImage &&
+              (content && content.length > 100
+                ? content.slice(0, 100) + '[...]'
+                : content)) ||
+              (content && content.length > 100
+                ? content.slice(0, 200) + '[...]'
+                : content)}
+          </Text>
+          <View style={styles.cardTagsWrapper}>
+            {tags &&
+              tags.map((tag) => (
+                <Text key={tag.id} style={styles.cardTags}>
+                  {tag.name}
+                </Text>
+              ))}
+          </View>
+          <View
+            style={[styles.displayFlex, { justifyContent: 'space-between' }]}
+          >
+            {created_at && (
+              <View>
+                <Text style={styles.cardDate}>{formattedDate(created_at)}</Text>
+              </View>
+            )}
+            <View style={{ columnGap: 5, display: 'none' }}>
+              <Ionicons
+                name='eye-outline'
+                size={24}
+                color='rgb(156, 163, 175)'
+              />
+              <Text style={{ color: 'rgb(156, 163, 175)' }}>{viewedCount}</Text>
+              <Text
+                style={{ marginHorizontal: 5, color: 'rgb(156, 163, 175)' }}
+              >
+                |
+              </Text>
+              <FontAwesome
+                name='comment-o'
+                size={24}
+                color='rgb(156, 163, 175)'
+              />
+              <Text style={{ color: 'rgb(156, 163, 175)' }}>
+                {commentCount}
+              </Text>
+            </View>
           </View>
         </View>
       </View>

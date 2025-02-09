@@ -27,6 +27,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  commentActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 10,
+  },
+  cardAction: {
+    paddingRight: 16,
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  buttonAction: {
+    marginLeft: 10,
+    padding: 6,
+    borderRadius: 9999,
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#FFFFFF',
+  },
+  buttonActionEdit: {
+    backgroundColor: '#3B82F6',
+  },
+  buttonActionDelete: {
+    backgroundColor: '#EF4444',
+  },
 })
 
 export default styles

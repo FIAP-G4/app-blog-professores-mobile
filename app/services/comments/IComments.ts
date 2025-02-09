@@ -1,4 +1,4 @@
-type IComments = {
+export type IComments = {
   id: string
   content: string
   created_at: string
@@ -9,4 +9,15 @@ type IComments = {
   }
 }
 
-export default IComments
+export type ICommentsFromGetPostById = {
+  content: string
+  created_at: string
+  id: string
+  post_id: string
+  status: number
+  updated_at: string
+  user: {
+    name: string
+  }
+  user_id: number
+}

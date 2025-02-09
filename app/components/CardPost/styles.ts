@@ -9,7 +9,18 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 8,
     width: '90%',
-    overflow: 'hidden',
+    // minHeight: 250,
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    // overflow: 'hidden',
+    height: 'auto',
+  },
+  container: {
+    width: '100%',
+    flex: 1,
+    flexDirection: 'column',
+    flexGrow: 1,
+    justifyContent: 'space-between',
   },
   cardImageWrapper: {
     width: '100%',
@@ -80,6 +91,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    width: '100%',
   },
   cardHeaderLeft: {
     flexDirection: 'column',

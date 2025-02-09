@@ -11,6 +11,7 @@ const usePost = (id: string) => {
       .then((data) => {
         if (data) {
           setPost(data)
+          console.log(data)
         }
       })
       .catch((err) => {

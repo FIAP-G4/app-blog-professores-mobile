@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   commentsSection: {
-    marginTop: 16,
+    flexGrow: 1,
+    paddingBottom: 60,
   },
   commentsTitle: {
     fontSize: 18,

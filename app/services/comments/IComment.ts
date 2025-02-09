@@ -1,5 +1,5 @@
 type IComment = {
-  postId?: string
+  user_id: number
   author: string
   date: string
   content: string
