@@ -81,8 +81,9 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 20,
     backgroundColor: '#007AFF',
-    paddingVertical: 15,
-    borderRadius: 10,
+    padding: 10,
+    borderRadius: 5,
+
     alignItems: 'center',
   },
   buttonText: {
@@ -114,9 +115,9 @@ const styles = StyleSheet.create({
     right: 1,
     backgroundColor: 'rgba(255, 0, 0, 0.7)',
     padding: 5,
-    borderRadius: 20, // Deixe o botão redondo
-    width: 30, // Tamanho do botão
-    height: 30, // Tamanho do botão
+    borderRadius: 20,
+    width: 30,
+    height: 30,
     justifyContent: 'center',
     alignItems: 'center',
   },
