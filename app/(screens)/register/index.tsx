@@ -1,7 +1,6 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {
-  Button,
   Text,
   TextInput,
   View,
@@ -16,6 +15,7 @@ import useCreateAccountForm from '@/app/utils/hooks/useCreateAccountForm'
 import { useAuth } from '@/context/AuthContext'
 import { Redirect } from 'expo-router'
 import globalStyles from '@/app/styles'
+import { Button } from 'react-native-paper';
 
 // Definição do esquema de validação com Yup
 const schema = Yup.object().shape({
@@ -141,10 +141,12 @@ export default function Register(): JSX.Element {
                   <ActivityIndicator size='large' color='#4e46dd' />
                 ) : (
                   <Button
-                    title='Registrar'
-                    color='#4e46dd'
                     onPress={handleSubmit as any}
-                  />
+                    mode='contained'
+                    buttonColor='#4e46dd'
+                  >
+                    Registrar
+                  </Button>
                 )}
               </View>
             </View>
