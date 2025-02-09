@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext'
 import { AntDesign } from '@expo/vector-icons'
 import { ICommentsFromGetPostById } from '@/app/services/comments/IComments'
 import formattedDate from '@/app/utils/functions/formattedDate'
+import ConfirmationModal from '../ConfirmationModal'
 
 const Comment = ({
   comment,
@@ -17,6 +18,22 @@ const Comment = ({
 }): JSX.Element => {
   const { loggedInUserId, isAuthenticated } = useAuth()
   const [isAuthor, setIsAuthor] = useState(false)
+  const [isModalVisible, setModalVisible] = useState(false)
+  const [selectedCommentId, setSelectedCommentId] = useState<string | null>(
+    null,
+  )
+
+  const handleDelete = (id: string) => {
+    setSelectedCommentId(id)
+    setModalVisible(true)
+  }
+
+  const confirmDelete = () => {
+    if (selectedCommentId && onDelete) {
+      onDelete(selectedCommentId)
+    }
+    setModalVisible(false)
+  }
 
   useEffect(() => {
     if (loggedInUserId === comment.user_id) {
@@ -47,7 +64,7 @@ const Comment = ({
               style={[styles.buttonAction, styles.buttonActionEdit]}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => onDelete(comment.id)}>
+          <TouchableOpacity onPress={() => handleDelete(comment.id)}>
             <AntDesign
               name='delete'
               size={22}
@@ -56,6 +73,13 @@ const Comment = ({
           </TouchableOpacity>
         </View>
       )}
+      <ConfirmationModal
+        isVisible={isModalVisible}
+        message='Tem certeza que deseja excluir este comentário?'
+        onConfirm={confirmDelete}
+        onCancel={() => setModalVisible(false)}
+        setVisible={setModalVisible}
+      />
     </View>
   )
 }
