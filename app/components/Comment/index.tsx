@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import styles from './styles'
 import { useAuth } from '@/context/AuthContext'
 import { AntDesign } from '@expo/vector-icons'
@@ -64,7 +64,7 @@ const Comment = ({
               style={[styles.buttonAction, styles.buttonActionEdit]}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleDelete(comment.id)}>
+          <TouchableOpacity onPress={() => handleDelete(comment.id as string)}>
             <AntDesign
               name='delete'
               size={22}

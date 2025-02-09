@@ -5,7 +5,6 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import Post from '@/app/services/posts/IPost'
 import CommentSection from '../CommentSection'
-import CreateComment from '../CreateComment'
 
 const PostDetails = (post: Post): JSX.Element => {
   const baseApiUrl = process.env.EXPO_PUBLIC_CORS_ORIGIN
@@ -87,7 +86,6 @@ const PostDetails = (post: Post): JSX.Element => {
           </View>
         </View>
       </View>
-      <CreateComment key={post.id} postId={post.id} />
       <CommentSection key={post.id} post={post} />
     </ScrollView>
   )

@@ -3,6 +3,7 @@ import errorsMessage from '@/app/utils/functions/messageError'
 import Toast from 'react-native-toast-message'
 import { AxiosError } from 'axios'
 import { createComment } from '@/app/services/comments/createComment'
+import { ICommentResponse } from '@/app/services/comments/IComment'
 
 interface ErrorResponse {
   message: string
@@ -33,16 +34,19 @@ const useCreateCommentForm = () => {
     }))
   }
 
-  const handleCreateComment = async (values: CreateCommentForm) => {
+  const handleCreateComment = async (
+    values: CreateCommentForm,
+  ): Promise<ICommentResponse | undefined> => {
     try {
       setLoadingCreateCommentForm(true)
-      await createComment(values.postId, values.content)
+      const response = await createComment(values.postId, values.content)
       setLoadingCreateCommentForm(false)
 
       Toast.show({
         type: 'success',
         text1: 'Comentário criado com sucesso!',
       })
+      return response
     } catch (error) {
       setLoadingCreateCommentForm(false)
       errorsMessage(error as AxiosError<ErrorResponse>)

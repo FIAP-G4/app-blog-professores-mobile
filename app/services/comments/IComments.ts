@@ -12,12 +12,12 @@ export type IComments = {
 export type ICommentsFromGetPostById = {
   content: string
   created_at: string
-  id: string
+  id?: string
   post_id: string
-  status: number
-  updated_at: string
+  status?: number
+  updated_at?: string
   user: {
     name: string
   }
-  user_id: number
+  user_id?: number
 }
