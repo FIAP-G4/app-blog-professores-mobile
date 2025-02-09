@@ -12,6 +12,21 @@ const Index = (): JSX.Element => {
   const opacity = useSharedValue(0)
 
   useEffect(() => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 2000,
+      useNativeDriver: true,
+    }).start(() => {
+      Animated.timing(opacity, {
+        toValue: 0,
+        duration: 2000,
+        useNativeDriver: true,
+      }).start(() => {
+        setTimeout(() => {
+          router.replace('/create_post')
+        }, 500)
+      })
+    })
     opacity.value = withTiming(1, { duration: 2000 })
     setTimeout(() => {
       opacity.value = withTiming(0, { duration: 2000 })

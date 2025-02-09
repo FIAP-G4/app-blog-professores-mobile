@@ -10,6 +10,7 @@ import { useAuth } from '@/context/AuthContext'
 
 const tabScreens = [
   { name: 'postagens', title: '', headerShown: false, icon: 'newspaper-o', iconComponent: FontAwesome },
+  { name: 'create_post', title: 'Criar postagem', headerShown: true, icon: 'marker', iconComponent: FontAwesome5 },
   { name: 'super-admin', title: 'Administrar Postagens', headerShown: true, icon: 'file-tray-full', iconComponent: Ionicons  },
   { name: 'register', title: 'Cadastrar um usuário', headerShown: true, icon: 'user-plus', iconComponent: FontAwesome5 },
   { name: 'student', title: 'Estudantes', headerShown: true, icon: 'user-graduate', iconComponent: FontAwesome6 },
