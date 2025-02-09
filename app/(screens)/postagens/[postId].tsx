@@ -5,6 +5,7 @@ import { ScrollView, Text } from 'react-native'
 import usePost from '@/app/utils/hooks/usePost'
 import styles from './styles'
 import PostDetails from '@/app/components/PostDetails'
+import Toast from 'react-native-toast-message'
 // import CommentSection from '@/app/components/CommentSection'
 
 const SinglePost = () => {
@@ -20,6 +21,7 @@ const SinglePost = () => {
       ) : error ? (
         <Text>Postagem não encontrada!</Text>
       ) : null}
+      <Toast />
     </SafeAreaView>
   )
 }
