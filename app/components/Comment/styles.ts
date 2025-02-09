@@ -33,9 +33,9 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   cardAction: {
-    paddingRight: 16,
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   buttonAction: {
     marginLeft: 10,

@@ -22,7 +22,6 @@ const useDeleteComment = () => {
         type: 'success',
         text1: 'Comentário deletado com sucesso!',
       })
-
       if (callback) {
         callback()
       }
