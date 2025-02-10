@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import {SafeAreaView, View, Text, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
 import usePostList from '@/app/utils/hooks/usePostList';
 import useDeletePost from '@/app/utils/hooks/useDeletePost';
 import { useFocusEffect, useRouter } from 'expo-router';

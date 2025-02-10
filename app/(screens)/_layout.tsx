@@ -1,6 +1,5 @@
 import { Slot, Tabs } from 'expo-router'
 import React from 'react'
-import Toast from 'react-native-toast-message'
 import Header from '../components/shared/Header'
 import { AntDesign, FontAwesome, FontAwesome5, FontAwesome6, Ionicons } from '@expo/vector-icons'
 import { Platform, StyleSheet } from 'react-native'
@@ -83,7 +82,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#000',
-    height: Platform.OS == 'ios' ? 60 : 20,
+    height: Platform.OS === 'ios' ? 60 : 20,
   },
   headerStyle: {
     height: 60,

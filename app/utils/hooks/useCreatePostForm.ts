@@ -20,6 +20,7 @@ interface FormPost {
     tags: string[];
 }
 
+
 const useCreatePostForm = (availableTags: Tag[]) => { // Recebe as tags disponíveis
     const [loading, setLoading] = useState<boolean>(false);
     const [formPost, setFormPost] = useState<FormPost>({

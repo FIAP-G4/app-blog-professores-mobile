@@ -18,13 +18,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333',
   },
-  inputContainer: {
-    marginTop: 20,
+
+  fields: {
+    marginBottom: 30,
   },
   label: {
     fontSize: 16,
     fontWeight: '500',
     marginBottom: 5,
+    paddingLeft: 5,
     color: '#555',
   },
   input: {
@@ -81,15 +83,29 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 20,
     backgroundColor: '#007AFF',
-    padding: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
     borderRadius: 5,
-
     alignItems: 'center',
+    alignSelf: 'center',
+    width: '50%',
+  },
+  buttonContainer: {
+    marginBottom: 20,
+    borderRadius: 10,
+    overflow: 'hidden',
+    paddingBottom: 20,
+    paddingTop: 20,
   },
   buttonText: {
     fontSize: 18,
     fontWeight: 'bold',
     color: 'white',
+  },
+
+  errorText: {
+    color: 'red',
+    paddingLeft: 10,
   },
   imageContainer: {
     marginVertical: 15,
@@ -109,6 +125,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     marginTop: 10,
   },
+
   removeImageButton: {
     position: 'absolute',
     top: 10,
