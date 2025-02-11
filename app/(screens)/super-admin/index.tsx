@@ -36,8 +36,9 @@ export default function SuperAdmin(): JSX.Element {
     };
 
     const handleEdit = (id: number) => {
-        router.navigate(`/postagens/edit/${id}`);
+        router.push(`/create_post?id=${id}`); // Navega para create_post com o id na URL
     };
+
 
     return (
         <SafeAreaView style={styles.container}>

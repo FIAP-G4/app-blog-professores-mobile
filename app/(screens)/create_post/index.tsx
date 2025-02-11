@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     SafeAreaView,
     View,
@@ -12,39 +12,39 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import styles from './styles';
-import useCreatePostForm from '@/app/utils/hooks/useCreatePostForm';
-import useTagsList from '@/app/utils/hooks/useTagList';
-import { MultipleSelectList } from 'react-native-dropdown-select-list';
-import { FontAwesome } from '@expo/vector-icons';
+import { useLocalSearchParams } from 'expo-router'; // Para pegar o ID da rota
+import usePost from '@/app/utils/hooks/usePost'; // Hook para buscar o post
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Button } from 'react-native-paper';
-import { useFocusEffect } from '@react-navigation/native'; // Importe o useFocusEffect
-
+import useCreatePostForm from '@/app/utils/hooks/useCreatePostForm';
+import useTagsList from '@/app/utils/hooks/useTagList';
+import { MultipleSelectList } from 'react-native-dropdown-select-list';
+import styles from './styles';
 const schema = Yup.object().shape({
     title: Yup.string().min(5, 'O título deve ter pelo menos 5 caracteres.').required('Título é obrigatório'),
     content: Yup.string().min(5, 'O conteúdo deve ter pelo menos 5 caracteres.').required('Conteúdo é obrigatório'),
 });
 
 export default function CreatePost(): JSX.Element {
+    const { id } = useLocalSearchParams();
+    const { post, loading: postLoading } = usePost(id);
     const { handleCreatePost, loading } = useCreatePostForm();
     const { tags } = useTagsList();
     const categoryOptions = tags.map((tag) => ({ key: tag.id, value: tag.name }));
     const [selected, setSelected] = useState<number[]>([]);
     const [image, setImage] = useState<string | null>(null);
 
-    // Resetar o estado selected e image quando a página for focada
-    useFocusEffect(
-        useCallback(() => {
-            setSelected([]); // Reseta as categorias selecionadas
-            setImage(null); // Reseta a imagem
-        }, [])
-    );
+    // Preenche os campos se estiver editando
+    useEffect(() => {
+        if (post) {
+            setSelected(post.tags.map(tag => tag.id)); // Preenche as tags
+            setImage(post.image || null); // Preenche a imagem
+        }
+    }, [post]);
 
     const handleSelectImage = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
         if (status !== 'granted') {
             alert('É necessário permitir o acesso à galeria.');
             return;
@@ -65,12 +65,19 @@ export default function CreatePost(): JSX.Element {
         setImage(null);
     };
 
+    if (postLoading && id) {
+        return <ActivityIndicator size="large" color="#0000ff" />;
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
                     <Formik
-                        initialValues={{ title: '', content: '' }}
+                        initialValues={{
+                            title: post?.title || '', // Preenche o título se estiver editando
+                            content: post?.content || '', // Preenche o conteúdo se estiver editando
+                        }}
                         validationSchema={schema}
                         onSubmit={(values, { resetForm }) => {
                             const selectedTags = selected.map((id) => {
@@ -95,10 +102,10 @@ export default function CreatePost(): JSX.Element {
                                     .then((blob) => {
                                         const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
                                         formData.append('attachment', file);
-                                        handleCreatePost(formData);
+                                        handleCreatePost(formData, id); // Passa o ID para criação ou edição do post
                                     });
                             } else {
-                                handleCreatePost(formData);
+                                handleCreatePost(formData, id); // Passa o ID para criação ou edição do post
                             }
 
                             resetForm();
@@ -169,7 +176,7 @@ export default function CreatePost(): JSX.Element {
                                         <ActivityIndicator size="medium" color="#007bff" />
                                     ) : (
                                         <Button onPress={handleSubmit as any} mode="contained" buttonColor="#007bff">
-                                            Criar Postagem
+                                            {id ? 'Salvar Alterações' : 'Criar Postagem'}
                                         </Button>
                                     )}
                                 </View>

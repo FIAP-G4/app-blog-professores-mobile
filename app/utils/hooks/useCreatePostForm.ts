@@ -38,7 +38,7 @@ const useCreatePostForm = (availableTags: Tag[]) => { // Recebe as tags disponí
         }));
     };
 
-    const handleCreatePost = async (values: FormData) => {
+    const handleCreatePost = async (values: FormData, postId = null) => {
         try {
             setLoading(true);
             await createPost(values);
