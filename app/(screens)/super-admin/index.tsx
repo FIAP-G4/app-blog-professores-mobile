@@ -5,7 +5,7 @@ import useDeletePost from '@/app/utils/hooks/useDeletePost';
 import { useFocusEffect, useRouter } from 'expo-router';
 import Feather from '@expo/vector-icons/Feather';
 import ConfirmationModal from '../../components/ConfirmationModal';
-import UserList from '@/app/components/UserList';
+import styles from './styles';
 
 export default function SuperAdmin(): JSX.Element {
     const { posts, loading, fetchPosts, loadMorePosts, hasMorePosts } = usePostList();
@@ -19,7 +19,7 @@ export default function SuperAdmin(): JSX.Element {
     useFocusEffect(
         useCallback(() => {
             fetchPosts(1, 10, '', []);
-        }, [refresh]) // Sempre que refresh mudar, os posts serão atualizados
+        }, [refresh])
     );
 
     const handleDelete = async (id: number) => {
@@ -46,101 +46,52 @@ export default function SuperAdmin(): JSX.Element {
             {loading ? (
                 <ActivityIndicator size="large" color="#0000ff" style={{ height: '100%' }}/>
             ) : (
-                <>
-                    <ScrollView style={styles.scrollContainer}>
-                        <View style={styles.table}>
-                            <View style={styles.tableHeader}>
-                                <Text style={styles.headerText}>Título</Text>
-                                <Text style={styles.headerText}>Ações</Text>
-                            </View>
-                            <FlatList
-                                data={posts}
-                                keyExtractor={(item) => item.id.toString()}
-                                renderItem={({ item }) => (
-                                    <View style={styles.tableRow}>
-                                        <Text style={styles.rowText}>{item.title}</Text>
-                                        <View style={styles.actions}>
-                                            <TouchableOpacity onPress={() => handleEdit(item.id)}>
-                                                <Feather name="edit" size={24} color="blue" />
-                                            </TouchableOpacity>
-                                            <TouchableOpacity onPress={() => handleDelete(item.id)}>
-                                                <Feather name="trash-2" size={24} color="red" />
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                )}
-                                onEndReached={() => {
-                                    if (hasMorePosts && !loading) {
-                                        loadMorePosts();
-                                    }
-                                }}
-                                onEndReachedThreshold={0.5}
-                                ListEmptyComponent={<Text style={styles.searchEmpty}>Sem resultados</Text>}
-                                ListFooterComponent={
-                                    loading && hasMorePosts ? (
-                                        <ActivityIndicator size="small" color="#0000ff" />
-                                    ) : null
-                                }
-                            />
+                <FlatList
+                    data={posts}
+                    keyExtractor={(item) => item.id.toString()}
+                    ListHeaderComponent={
+                        <View style={styles.tableHeader}>
+                            <Text style={styles.headerText}>Título</Text>
+                            <Text style={styles.headerText}>Ações</Text>
                         </View>
-                    </ScrollView>
-                    <ConfirmationModal
-                        isVisible={isModalVisible}
-                        message="Tem certeza que deseja excluir esta postagem?"
-                        onConfirm={confirmDelete}
-                        onCancel={() => setModalVisible(false)}
-                        setVisible={setModalVisible}
-                    />
-                </>
+                    }
+                    renderItem={({ item }) => (
+                        <View style={styles.tableRow}>
+                            <Text style={styles.rowText}>{item.title}</Text>
+                            <View style={styles.actions}>
+                                <TouchableOpacity onPress={() => handleEdit(item.id)}>
+                                    <Feather name="edit" size={24} color="blue" />
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => handleDelete(item.id)}>
+                                    <Feather name="trash-2" size={24} color="red" />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    )}
+                    onEndReached={() => {
+                        if (hasMorePosts && !loading) {
+                            loadMorePosts();
+                        }
+                    }}
+                    onEndReachedThreshold={0.5}
+                    ListEmptyComponent={<Text style={styles.searchEmpty}>Sem resultados</Text>}
+                    ListFooterComponent={
+                        loading && hasMorePosts ? (
+                            <ActivityIndicator size="small" color="#0000ff" />
+                        ) : null
+                    }
+                    contentContainerStyle={styles.listContent}
+                />
             )}
+
+            <ConfirmationModal
+                isVisible={isModalVisible}
+                message="Tem certeza que deseja excluir esta postagem?"
+                onConfirm={confirmDelete}
+                onCancel={() => setModalVisible(false)}
+                setVisible={setModalVisible}
+            />
         </SafeAreaView>
     );
-}
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 16,
-    },
-    scrollContainer: {
-        flex: 1,
-    },
-    table: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 8,
-        overflow: 'hidden',
-    },
-    tableHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 16,
-        backgroundColor: '#f0f0f0',
-    },
-    headerText: {
-        fontWeight: 'bold',
-    },
-    tableRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-    },
-    rowText: {
-        flex: 1,
-    },
-    actions: {
-        flexDirection: 'row',
-        gap: 16,
-    },
-    searchEmpty: {
-        textAlign: 'center',
-        padding: 20,
-    },
-    cardAction: {
-        paddingRight: 16,
-        display: 'flex',
-        flexDirection: 'row',
-    },
-});
+}

@@ -8,20 +8,19 @@ import {
     ScrollView,
     Image,
     KeyboardAvoidingView,
-    Platform,
-    ActivityIndicator,
+    Platform
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { useLocalSearchParams, useRouter, useFocusEffect } from 'expo-router'; // Importe useRouter
-import usePost from '@/app/utils/hooks/usePost'; // Hook para buscar o post
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import usePost from '@/app/utils/hooks/usePost';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { Button } from 'react-native-paper';
+import { Button, ActivityIndicator } from 'react-native-paper';
 import useCreatePostForm from '@/app/utils/hooks/useCreatePostForm';
 import useTagsList from '@/app/utils/hooks/useTagList';
 import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import styles from './styles';
-import { FontAwesome } from '@expo/vector-icons'; // Importe o ícone de lixeira
+import { FontAwesome } from '@expo/vector-icons';
 
 const schema = Yup.object().shape({
     title: Yup.string().min(5, 'O título deve ter pelo menos 5 caracteres.').required('Título é obrigatório'),
@@ -30,18 +29,18 @@ const schema = Yup.object().shape({
 
 export default function CreatePost(): JSX.Element {
     const { id } = useLocalSearchParams();
-    const router = useRouter(); // Hook para manipular a navegação
-    const { post, loading: postLoading, error } = usePost(id as string);
+    const router = useRouter();
+    const { post, loading: postLoading } = usePost(id as string);
     const { handleCreatePost, loading } = useCreatePostForm();
     const { tags } = useTagsList();
-    const categoryOptions = tags.map((tag) => ({ key: tag.id, value: tag.name }));
+    const categoryOptions = tags.map(tag => ({ key: tag.id, value: tag.name }));
     const [selected, setSelected] = useState<number[]>([]);
     const [image, setImage] = useState<string | null>(null);
 
     useEffect(() => {
         if (post) {
             setSelected(post.tags.map(tag => tag.id));
-            setImage(process.env.EXPO_PUBLIC_CORS_ORIGIN + post.path_img || null);
+            setImage(prev => process.env.EXPO_PUBLIC_CORS_ORIGIN + post.path_img || prev);
         }
     }, [post]);
 
@@ -68,7 +67,7 @@ export default function CreatePost(): JSX.Element {
     };
 
     if (postLoading && id) {
-        return <ActivityIndicator size="large" color="#0000ff" />;
+        return <ActivityIndicator animating={true} color="#0000ff" />;
     }
 
     return (
@@ -77,13 +76,13 @@ export default function CreatePost(): JSX.Element {
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
                     <Formik
                         initialValues={{
-                            title: post?.title || '', // Preenche o título se estiver editando
-                            content: post?.content || '', // Preenche o conteúdo se estiver editando
+                            title: post?.title || '',
+                            content: post?.content || '',
                         }}
                         validationSchema={schema}
                         onSubmit={(values, { resetForm }) => {
-                            const selectedTags = selected.map((id) => {
-                                const tag = tags.find((t) => t.id === id);
+                            const selectedTags = selected.map(id => {
+                                const tag = tags.find(t => t.id === id);
                                 return tag ? { id: tag.id, name: tag.name } : null;
                             }).filter(Boolean);
 
@@ -100,12 +99,14 @@ export default function CreatePost(): JSX.Element {
 
                             if (image) {
                                 fetch(image)
-                                    .then((response) => response.blob())
-                                    .then((blob) => {
+                                    .then(response => response.blob())
+                                    .then(blob => {
+                                        if (!blob) return;
                                         const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
                                         formData.append('attachment', file);
                                         handleCreatePost(formData, id);
-                                    });
+                                    })
+                                    .catch(err => console.error('Erro ao converter imagem:', err));
                             } else {
                                 handleCreatePost(formData, id);
                             }
@@ -159,7 +160,7 @@ export default function CreatePost(): JSX.Element {
 
                                 <View>
                                     <MultipleSelectList
-                                        setSelected={(val) => setSelected(val)}
+                                        setSelected={val => setSelected(val)}
                                         data={categoryOptions}
                                         save="key"
                                         label="Categorias"
@@ -175,10 +176,8 @@ export default function CreatePost(): JSX.Element {
 
                                 <View style={styles.buttonContainer}>
                                     {loading ? (
-                                        <ActivityIndicator size="medium" color="#007bff" />
+                                        <ActivityIndicator animating={true} size="medium" color="#007bff" />
                                     ) : (
-
-
                                         <Button onPress={handleSubmit as any} mode="contained" buttonColor="#007bff">
                                             {id ? 'Salvar Alterações' : 'Criar Postagem'}
                                         </Button>
