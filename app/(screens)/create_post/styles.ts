@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 19,
     fontWeight: 'bold',
     color: 'white',
   },

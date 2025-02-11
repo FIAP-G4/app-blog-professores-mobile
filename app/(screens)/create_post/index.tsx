@@ -81,7 +81,6 @@ export default function CreatePost(): JSX.Element {
                             const formData = new FormData();
                             formData.append('title', values.title);
                             formData.append('content', values.content);
-                            formData.append('teacher_id', '2');
 
                             selectedTags.forEach((tag, index) => {
                                 if (tag) {
@@ -160,17 +159,17 @@ export default function CreatePost(): JSX.Element {
                                         boxStyles={styles.optionSelect}
                                         dropdownStyles={styles.dropdwon}
                                         badgeStyles={{ backgroundColor: 'rgb(239, 246, 255)' }}
-                                        badgeTextStyles={{ color: 'rgb(29, 78, 216)', fontWeight: '500' }}
+                                        badgeTextStyles={{ color: 'rgb(0,123,255)', fontWeight: '500' }}
                                         selected={selected}
                                     />
                                 </View>
 
                                 <View style={styles.buttonContainer}>
                                     {loading ? (
-                                        <ActivityIndicator size="large" color="#4e46dd" />
+                                        <ActivityIndicator size="medium" color="#007bff" />
                                     ) : (
-                                        <Button onPress={handleSubmit as any} mode="contained" buttonColor="#4e46dd">
-                                            Registrar
+                                        <Button onPress={handleSubmit as any} mode="contained" buttonColor="#007bff">
+                                            Criar Postagem
                                         </Button>
                                     )}
                                 </View>
