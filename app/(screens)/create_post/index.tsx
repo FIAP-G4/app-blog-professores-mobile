@@ -41,7 +41,7 @@ export default function CreatePost(): JSX.Element {
     useEffect(() => {
         if (post) {
             setSelected(post.tags.map(tag => tag.id));
-            setImage('localhost:3030' + post.path_img || null);
+            setImage(process.env.EXPO_PUBLIC_CORS_ORIGIN + post.path_img || null);
         }
     }, [post]);
 
