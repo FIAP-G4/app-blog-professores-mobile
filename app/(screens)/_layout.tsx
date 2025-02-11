@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#000',
-    height: Platform.OS === 'ios' ? 60 : 20,
+    height: Platform.OS === 'ios' ? 60 : 20
   },
   headerStyle: {
     height: 60,
