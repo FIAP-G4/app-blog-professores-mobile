@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   card: {
@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(229, 231, 235, .6)',
     borderWidth: 2,
     borderRadius: 8,
-    width: '90%',
+    width: Platform.OS == 'ios' ? '90%' : '100%',
     overflow: 'hidden',
   },
   cardImageWrapper: {
