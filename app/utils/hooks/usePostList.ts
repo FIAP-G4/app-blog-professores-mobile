@@ -1,55 +1,50 @@
-import { getPosts } from '@/app/services/posts/getPosts'
-import Post from '@/app/services/posts/IPost'
-import { useEffect, useState } from 'react'
+import { getPosts } from '@/app/services/posts/getPosts';
+import Post from '@/app/services/posts/IPost';
+import { useEffect, useState } from 'react';
 
-const usePostList = (initial = 1, postsPerPage = 2) => {
-  const [posts, setPosts] = useState<Post[]>([])
-  const [error, setError] = useState<Error | unknown>(null)
-  const [loading, setLoading] = useState<boolean>(true)
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [tags, setTags] = useState<number[]>([])
-  const [hasMorePosts, setHasMorePosts] = useState<boolean>(false)
+const usePostList = (initialPage = 1, postsPerPage = 10) => {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [error, setError] = useState<Error | unknown>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [currentPage, setCurrentPage] = useState<number>(initialPage);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [tags, setTags] = useState<number[]>([]);
+  const [hasMorePosts, setHasMorePosts] = useState<boolean>(true);
 
-  const fetchPosts = async (
-    nextPage: number,
-    limit: number,
-    searchTerm: string,
-    tags: number[],
-  ) => {
-    setLoading(true)
+  const fetchPosts = async (page: number, limit: number, searchTerm: string, tags: number[]) => {
+    setLoading(true);
     try {
-      const fetchedPosts = await getPosts(nextPage, limit, searchTerm, tags)
+      const fetchedPosts = await getPosts(page, limit, searchTerm, tags);
 
-      if (nextPage === 1) {
-        setPosts(fetchedPosts || [])
+      if (page === 1) {
+        setPosts(fetchedPosts || []);
       } else {
-        setPosts((prev) => [...prev, ...(fetchedPosts || [])])
+        setPosts((prev) => [...prev, ...(fetchedPosts || [])]);
       }
-      setHasMorePosts((fetchedPosts || []).length === limit) // Verifica se há mais posts
+      setHasMorePosts((fetchedPosts || []).length === limit); // Verifica se há mais posts
     } catch (error) {
-      setError(error)
+      setError(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const loadMorePosts = async (searchTerm: string, tags: number[]) => {
-    if (loading || !hasMorePosts) return
+  const loadMorePosts = async () => {
+    if (loading || !hasMorePosts) return;
 
-    const nextPage = currentPage + 1
-    setCurrentPage(nextPage)
+    const nextPage = currentPage + 1;
+    setCurrentPage(nextPage);
 
     try {
-      await fetchPosts(nextPage, postsPerPage, searchTerm, tags)
+      await fetchPosts(nextPage, postsPerPage, searchTerm, tags);
     } catch (error) {
-      console.error('Erro ao carregar mais posts:', error)
+      console.error('Erro ao carregar mais posts:', error);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchPosts(currentPage, postsPerPage, searchTerm, tags)
-  }, [])
+    fetchPosts(currentPage, postsPerPage, searchTerm, tags);
+  }, [currentPage, searchTerm, tags]);
 
   return {
     posts,
@@ -64,7 +59,7 @@ const usePostList = (initial = 1, postsPerPage = 2) => {
     setCurrentPage,
     setSearchTerm,
     setTags,
-  }
-}
+  };
+};
 
-export default usePostList
+export default usePostList;

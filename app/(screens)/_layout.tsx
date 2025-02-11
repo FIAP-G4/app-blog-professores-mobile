@@ -1,6 +1,5 @@
 import { Slot, Tabs } from 'expo-router'
 import React from 'react'
-import Toast from 'react-native-toast-message'
 import Header from '../components/shared/Header'
 import {
   AntDesign,
@@ -9,7 +8,7 @@ import {
   FontAwesome6,
   Ionicons,
 } from '@expo/vector-icons'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import AnimatedTabIcon from '../components/AnimatedTabIcon'
 import { useAuth } from '@/context/AuthContext'
 
@@ -20,6 +19,13 @@ const tabScreens = [
     headerShown: false,
     icon: 'newspaper-o',
     iconComponent: FontAwesome,
+  },
+  {
+    name: 'create_post',
+    title: 'Criar postagem',
+    headerShown: true,
+    icon: 'marker',
+    iconComponent: FontAwesome5,
   },
   {
     name: 'super-admin',
@@ -56,13 +62,13 @@ export default function AuthLayout() {
 
   return (
     <>
-      <Toast />
       <Header pageTitle='Blog Escolar' />
       {isAuthenticated && isTeacher && (
         <Tabs
           screenOptions={{
             tabBarActiveTintColor: 'blue',
             tabBarStyle: styles.tabBar,
+            headerTitleAlign: 'left',
             tabBarLabelStyle: styles.tabLabel,
           }}
         >
@@ -73,6 +79,8 @@ export default function AuthLayout() {
                 name={name}
                 options={{
                   tabBarLabel: '',
+                  headerTitleStyle: styles.headerTitle,
+                  headerStyle: styles.headerStyle, // Adicione esta linha
                   title,
                   headerShown,
                   tabBarIcon: ({ focused }) => (
@@ -114,5 +122,15 @@ const styles = StyleSheet.create({
   iconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+    height: Platform.OS === 'ios' ? 60 : 20,
+  },
+  headerStyle: {
+    height: 60,
+    justifyContent: 'center',
   },
 })

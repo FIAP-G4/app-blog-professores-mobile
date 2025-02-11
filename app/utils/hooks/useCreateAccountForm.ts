@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useRouter } from 'expo-router'
 import { createTeacher } from '@/app/services/teacher/createTeacher'
 import { createStudent } from '@/app/services/student/createStudent'
 import errorsMessage from '@/app/utils/functions/messageError'
@@ -11,7 +10,7 @@ interface ErrorResponse {
 }
 
 interface FormUser {
-  typeUser: '1' | '2'
+  typeUser: string
   name: string
   email: string
   password: string
@@ -27,7 +26,6 @@ const useCreateAccountForm = () => {
     password: '',
     confirmPassword: '',
   })
-  const router = useRouter()
 
   const handleChange = (field: keyof FormUser, value: string) => {
     setFormUser((prevState) => ({
@@ -36,7 +34,7 @@ const useCreateAccountForm = () => {
     }))
   }
 
-  const handleCreateUser = async (values: FormUser) => {
+  const handleCreateUser = async (values: FormUser, resetForm: () => void) => {
     try {
       setLoading(true)
       if (values.typeUser === '1') {
@@ -52,7 +50,7 @@ const useCreateAccountForm = () => {
         text1: 'Usuário criado com sucesso!',
       })
       setTimeout(() => {
-        router.push('/login')
+        resetForm()
       }, 500)
     } catch (error) {
       setLoading(false)

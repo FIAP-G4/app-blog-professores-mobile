@@ -1,7 +1,6 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {
-  Button,
   Text,
   TextInput,
   View,
@@ -13,10 +12,10 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import styles from '@/app/styles/register'
 import useCreateAccountForm from '@/app/utils/hooks/useCreateAccountForm'
-import Toast from 'react-native-toast-message'
 import { useAuth } from '@/context/AuthContext'
 import { Redirect } from 'expo-router'
 import globalStyles from '@/app/styles'
+import { Button } from 'react-native-paper';
 
 // Definição do esquema de validação com Yup
 const schema = Yup.object().shape({
@@ -49,7 +48,9 @@ export default function Register(): JSX.Element {
             confirmPassword: '',
           }}
           validationSchema={schema}
-          onSubmit={handleCreateUser}
+          onSubmit={(values, { resetForm }) =>
+            handleCreateUser(values, resetForm)
+          }
         >
           {({
             handleChange,
@@ -140,17 +141,18 @@ export default function Register(): JSX.Element {
                   <ActivityIndicator size='large' color='#4e46dd' />
                 ) : (
                   <Button
-                    title='Registrar'
-                    color='#4e46dd'
                     onPress={handleSubmit as any}
-                  />
+                    mode='contained'
+                    buttonColor='#4e46dd'
+                  >
+                    Registrar
+                  </Button>
                 )}
               </View>
             </View>
           )}
         </Formik>
       </ScrollView>
-      <Toast />
     </SafeAreaView>
   )
 }
