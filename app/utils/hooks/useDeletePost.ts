@@ -17,14 +17,17 @@ const useDeletePost = () => {
       });
 
       if (callback) {
-        callback();
-      } // Recarrega a lista de postagens após deletar
+        setTimeout(() => {
+          callback();
+        }, 300); // Pequeno delay para garantir atualização correta
+      }
     } catch (error) {
       console.error('Erro ao deletar postagem:', error);
     } finally {
       setLoading(false);
     }
   };
+
 
   return { handleDeletePost, loading };
 };

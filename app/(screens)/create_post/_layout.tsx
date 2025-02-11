@@ -15,7 +15,6 @@ export default function PostsLayout() {
   return (
     <>
       <View style={styles.subHeader}>
-        <Text style={styles.pageTitle}>{screenName}</Text>
       </View>
       <Slot />
     </>

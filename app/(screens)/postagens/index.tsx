@@ -31,7 +31,7 @@ export default function Posts(): JSX.Element {
 
   return (
     <SafeAreaView style={[styles.screen, { flex: 1 }]}>
-      <View>
+      <View style={styles.contentMultiSelect}>
         <MultipleSelectList
           setSelected={(val: any) => setSelected(val)}
           data={categoryOptions}
@@ -42,7 +42,7 @@ export default function Posts(): JSX.Element {
           boxStyles={styles.optionSelect}
           dropdownStyles={styles.dropdwon}
           badgeStyles={{ backgroundColor: 'rgb(239, 246, 255)' }}
-          badgeTextStyles={{ color: 'rgb(29, 78, 216)', fontWeight: 500 }}
+          badgeTextStyles={{ color: 'rgb(29, 78, 216)', fontWeight: '500' }}
         />
       </View>
       <View style={styles.textInputWrapper}>

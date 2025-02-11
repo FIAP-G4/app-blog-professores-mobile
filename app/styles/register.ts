@@ -3,7 +3,9 @@ import { Platform, StyleSheet } from 'react-native';
 const register = StyleSheet.create({
   screen: {
     flex: 1,
-    padding: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: Platform.OS === 'ios' ? -50 : 0,
     backgroundColor: '#f3f4f6',
     justifyContent: 'center',
     alignItems: 'center',

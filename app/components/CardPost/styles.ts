@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   card: {
@@ -16,11 +16,12 @@ const styles = StyleSheet.create({
     height: 'auto',
   },
   container: {
-    width: '100%',
     flex: 1,
     flexDirection: 'column',
     flexGrow: 1,
     justifyContent: 'space-between',
+    width: Platform.OS == 'ios' ? '90%' : '100%',
+    overflow: 'hidden',
   },
   cardImageWrapper: {
     width: '100%',

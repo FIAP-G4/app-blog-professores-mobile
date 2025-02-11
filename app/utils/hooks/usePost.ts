@@ -4,24 +4,31 @@ import { useEffect, useState } from 'react'
 
 const usePost = (id: string) => {
   const [post, setPost] = useState<Post | undefined>()
+  const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<Error | unknown>(null)
 
   useEffect(() => {
+    if (!id) {
+      setLoading(false)
+      return
+    }
+
+    setLoading(true)
     getPostById(id)
       .then((data) => {
         if (data) {
           setPost(data)
-          console.log(data)
         }
       })
       .catch((err) => {
         setError(err)
       })
+      .finally(() => {
+        setLoading(false)
+      })
   }, [id])
 
-  if (error) return { error }
-
-  return { post, error }
+  return { post, loading, error }
 }
 
 export default usePost
