@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingHorizontal: 20,
     backgroundColor: '#f3f4f6',
-    margin: Platform.OS == 'ios' ? 20 : 0,
   },
   subHeader: {
     padding: 18,
@@ -39,14 +38,14 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
   },
   textInputWrapper: {
-    marginTop: 20,
+    marginLeft:Platform.OS == 'ios' ? 20 : 0,
+    marginTop: Platform.OS == 'ios' ? 0 : 20,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#ccc',
     paddingRight: 0,
-    marginBottom: 20,
     backgroundColor: 'white',
-    width: '100%',
+    width: Platform.OS == 'ios' ? '90%' : '100%',
     height: 55,
     display: 'flex',
     flexDirection: 'row',
@@ -69,6 +68,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  contentMultiSelect: {
+    margin: Platform.OS == 'ios' ? 20 : 0,
   },
 })
 
