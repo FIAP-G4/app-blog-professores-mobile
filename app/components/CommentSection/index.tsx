@@ -13,6 +13,7 @@ import Toast from 'react-native-toast-message'
 import useCreateCommentForm from '@/app/utils/hooks/useCreateCommentForm'
 import styles from './styles'
 import { ICommentResponse } from '@/app/services/comments/IComment'
+import useEditCommentForm from '@/app/utils/hooks/useEditCommentForm'
 
 const schema = Yup.object().shape({
   content: Yup.string(),
@@ -23,6 +24,7 @@ interface CommentSectionProps {
 
 const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   const { loadingDelete, handleDeleteComment } = useDeleteComment()
+  const { loadingEditCommentForm, handleEditComment } = useEditCommentForm()
   const [comments, setComments] = useState<ICommentsFromGetPostById[]>([])
   const { handleCreateComment, loadingCreateCommentForm, createCommentForm } =
     useCreateCommentForm()
@@ -43,7 +45,8 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   }
 
   const handleEdit = (comment: ICommentsFromGetPostById) => {
-    console.log(comment)
+    handleEditComment(comment.id as string)
+    updateCommentsAfterEdition(comment)
   }
 
   const handleDelete = (commentId: string) => {
@@ -74,6 +77,14 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
         },
       ])
     }
+  }
+
+  const updateCommentsAfterEdition = (comment: ICommentsFromGetPostById) => {
+    setComments((prevComments) =>
+      prevComments.map((prevComment) =>
+        prevComment.id === comment.id ? comment : prevComment,
+      ),
+    )
   }
 
   return isAuthenticated ? (
