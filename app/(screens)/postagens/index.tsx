@@ -35,10 +35,10 @@ export default function Posts(): JSX.Element {
         <MultipleSelectList
           setSelected={(val: any) => setSelected(val)}
           data={categoryOptions}
-          save="key"
-          label="Categorias"
-          placeholder="Buscar por categrorias"
-          searchPlaceholder="Filtre por categoria"
+          save='key'
+          label='Categorias'
+          placeholder='Buscar por categrorias'
+          searchPlaceholder='Filtre por categoria'
           boxStyles={styles.optionSelect}
           dropdownStyles={styles.dropdwon}
           badgeStyles={{ backgroundColor: 'rgb(239, 246, 255)' }}
@@ -48,7 +48,7 @@ export default function Posts(): JSX.Element {
       <View style={styles.textInputWrapper}>
         <TextInput
           style={styles.textInput}
-          placeholder="Buscar por postagens"
+          placeholder='Buscar por postagens'
           onChangeText={(value) => setSearchTerm(value)}
           value={searchTerm}
         />
@@ -60,42 +60,42 @@ export default function Posts(): JSX.Element {
               setCurrentPage(1)
             }}
           >
-            <AntDesign name="search1" size={24} color="white" />
+            <AntDesign name='search1' size={24} color='white' />
           </TouchableOpacity>
         </View>
       </View>
-      {loading && <ActivityIndicator size="large" color="#0000ff" />}
+      {loading && <ActivityIndicator size='large' color='#0000ff' />}
       <FlatList
-          data={posts}
-          renderItem={({ item }) => {
-            return (
-                <CardPost
-                    id={item.id}
-                    title={item.title}
-                    content={item.content}
-                    teacher={item.teacher}
-                    path_img={`${item.path_img}`}
-                    tags={item.tags}
-                    created_at={item.created_at}
-                    viewedCount={item.viewedCount}
-                    commentCount={item.commentCount}
-                />
-            )
-          }}
-          keyExtractor={(item) => item.id}
-          initialNumToRender={1}
-          onEndReachedThreshold={0.5}
-          onEndReached={() => {
-            if (!loading && hasMorePosts) {
-              loadMorePosts(searchTerm, selected)
-            }
-          }}
-          ListFooterComponent={
-            loading && hasMorePosts ? (
-                <ActivityIndicator size="small" color="#0000ff" />
-            ) : null
+        data={posts}
+        renderItem={({ item }) => {
+          return (
+            <CardPost
+              id={item.id}
+              title={item.title}
+              content={item.content}
+              teacher={item.teacher}
+              path_img={item.path_img}
+              tags={item.tags}
+              created_at={item.created_at}
+              viewedCount={item.viewedCount}
+              commentCount={item.commentCount}
+            />
+          )
+        }}
+        keyExtractor={(item) => item.id}
+        initialNumToRender={1}
+        onEndReachedThreshold={0.5}
+        onEndReached={() => {
+          if (!loading && hasMorePosts) {
+            loadMorePosts(searchTerm, selected)
           }
-          contentContainerStyle={{ paddingBottom: 20 }}
+        }}
+        ListFooterComponent={
+          loading && hasMorePosts ? (
+            <ActivityIndicator size='small' color='#0000ff' />
+          ) : null
+        }
+        contentContainerStyle={{ paddingBottom: 20 }}
       />
     </SafeAreaView>
   )

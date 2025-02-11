@@ -1,6 +1,6 @@
-import User from '@/app/services/user/IUser'
 import Tags from '@/app/services/tags/ITag'
-import Comments from '@/app/services/comments/IComments'
+import { ICommentsFromGetPostById } from '@/app/services/comments/IComments'
+import { User } from '../user/IUser'
 
 type Post = {
   id: string
@@ -17,7 +17,7 @@ type Post = {
     } & User
   }
   tags: Tags[]
-  comments: Comments[]
+  comments: ICommentsFromGetPostById[]
   commentCount: number
   viewedCount: number
 }

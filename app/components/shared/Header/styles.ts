@@ -24,10 +24,11 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginTop: 10,
     padding: 10,
-    backgroundColor: '#007bff',
+    backgroundColor: '#4e46dd',
     borderRadius: 5,
     justifyContent: 'flex-end',
   },
+
   loginButtonText: {
     color: '#fff',
     fontSize: 16,

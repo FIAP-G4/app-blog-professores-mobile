@@ -1,16 +1,22 @@
 import { AuthProvider } from '@/context/AuthContext'
+import Toast from 'react-native-toast-message'
 import { Slot } from 'expo-router'
-import Toast from 'react-native-toast-message';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { NavigationContainer } from '@react-navigation/native'
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <Slot />
-      <View style={styles.toastContainer}>
-        <Toast />
-      </View>
-    </AuthProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <AuthProvider>
+          <Slot />
+          <View style={styles.toastContainer}>
+            <Toast />
+          </View>
+        </AuthProvider>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   )
 }
 
@@ -26,4 +32,4 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-});
+})
