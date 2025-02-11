@@ -4,6 +4,7 @@ import {createPost} from '@/app/services/posts/createPost';
 import errorsMessage from '../functions/messageError'
 import Toast from 'react-native-toast-message';
 import {AxiosError} from 'axios';
+import {updatePost} from "@/app/services/posts/updatePost";
 
 interface ErrorResponse {
     message: string;
@@ -38,10 +39,15 @@ const useCreatePostForm = (availableTags: Tag[]) => { // Recebe as tags disponí
         }));
     };
 
-    const handleCreatePost = async (values: FormData) => {
+    const handleCreatePost = async (values: FormData, postId = null) => {
         try {
             setLoading(true);
-            await createPost(values);
+
+            if (postId) {
+                await updatePost(values, postId)
+            } else {
+                await createPost(values);
+            }
 
             setLoading(false);
 

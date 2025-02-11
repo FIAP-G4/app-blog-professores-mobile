@@ -18,6 +18,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333',
   },
+  subHeader: {
+    padding: 5,
+    marginBottom: 10,
+    elevation: 3,
+  },
+
+  inputContainer: {
+    padding: 10,
+    marginBottom: 10,
+    elevation: 3,
+  },
+
 
   fields: {
     marginBottom: 30,
@@ -98,7 +110,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 19,
     fontWeight: 'bold',
     color: 'white',
   },
