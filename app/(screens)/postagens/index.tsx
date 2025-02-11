@@ -74,7 +74,7 @@ export default function Posts(): JSX.Element {
               title={item.title}
               content={item.content}
               teacher={item.teacher}
-              path_img={`${item.path_img}`}
+              path_img={item.path_img}
               tags={item.tags}
               created_at={item.created_at}
               viewedCount={item.viewedCount}
