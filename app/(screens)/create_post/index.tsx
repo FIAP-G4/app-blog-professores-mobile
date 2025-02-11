@@ -8,7 +8,8 @@ import {
     ScrollView,
     Image,
     KeyboardAvoidingView,
-    Platform
+    Platform,
+    Alert
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -40,14 +41,14 @@ export default function CreatePost(): JSX.Element {
     useEffect(() => {
         if (post) {
             setSelected(post.tags.map(tag => tag.id));
-            setImage(prev => process.env.EXPO_PUBLIC_CORS_ORIGIN + post.path_img || prev);
+            setImage(post.path_img ? process.env.EXPO_PUBLIC_CORS_ORIGIN + post.path_img : null);
         }
     }, [post]);
 
     const handleSelectImage = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
-            alert('É necessário permitir o acesso à galeria.');
+            Alert.alert('Permissão necessária', 'É necessário permitir o acesso à galeria.');
             return;
         }
 
@@ -81,20 +82,15 @@ export default function CreatePost(): JSX.Element {
                         }}
                         validationSchema={schema}
                         onSubmit={(values, { resetForm }) => {
-                            const selectedTags = selected.map(id => {
-                                const tag = tags.find(t => t.id === id);
-                                return tag ? { id: tag.id, name: tag.name } : null;
-                            }).filter(Boolean);
+                            const selectedTags = selected.map(id => tags.find(t => t.id === id)).filter(Boolean);
 
                             const formData = new FormData();
                             formData.append('title', values.title);
                             formData.append('content', values.content);
 
                             selectedTags.forEach((tag, index) => {
-                                if (tag) {
-                                    formData.append(`tags[${index}][id]`, tag.id);
-                                    formData.append(`tags[${index}][name]`, tag.name);
-                                }
+                                formData.append(`tags[${index}][id]`, tag.id);
+                                formData.append(`tags[${index}][name]`, tag.name);
                             });
 
                             if (image) {
@@ -104,16 +100,22 @@ export default function CreatePost(): JSX.Element {
                                         if (!blob) return;
                                         const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
                                         formData.append('attachment', file);
-                                        handleCreatePost(formData, id);
+                                        handleCreatePost(formData, id).then(() => {
+                                            resetForm();
+                                            setImage(null);
+                                            setSelected([]);
+                                            router.replace('/create_post'); // Garante que a URL será /create_post após a criação
+                                        });
                                     })
                                     .catch(err => console.error('Erro ao converter imagem:', err));
                             } else {
-                                handleCreatePost(formData, id);
+                                handleCreatePost(formData, id).then(() => {
+                                    resetForm();
+                                    setImage(null);
+                                    setSelected([]);
+                                    router.replace('/create_post'); // Garante que a URL será /create_post após a criação
+                                });
                             }
-
-                            resetForm();
-                            setImage(null);
-                            setSelected([]);
                         }}
                     >
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
@@ -158,27 +160,22 @@ export default function CreatePost(): JSX.Element {
                                     )}
                                 </View>
 
-                                <View>
-                                    <MultipleSelectList
-                                        setSelected={val => setSelected(val)}
-                                        data={categoryOptions}
-                                        save="key"
-                                        label="Categorias"
-                                        placeholder="Buscar por categorias"
-                                        searchPlaceholder="Filtre por categoria"
-                                        boxStyles={styles.optionSelect}
-                                        dropdownStyles={styles.dropdwon}
-                                        badgeStyles={{ backgroundColor: 'rgb(239, 246, 255)' }}
-                                        badgeTextStyles={{ color: 'rgb(0,123,255)', fontWeight: '500' }}
-                                        selected={selected}
-                                    />
-                                </View>
+                                <MultipleSelectList
+                                    setSelected={setSelected}
+                                    data={categoryOptions}
+                                    save="key"
+                                    label="Categorias"
+                                    placeholder="Buscar por categorias"
+                                    searchPlaceholder="Filtre por categoria"
+                                    boxStyles={styles.optionSelect}
+                                    dropdownStyles={styles.dropdwon}
+                                />
 
                                 <View style={styles.buttonContainer}>
                                     {loading ? (
                                         <ActivityIndicator animating={true} size="medium" color="#007bff" />
                                     ) : (
-                                        <Button onPress={handleSubmit as any} mode="contained" buttonColor="#007bff">
+                                        <Button onPress={handleSubmit} mode="contained" buttonColor="#007bff">
                                             {id ? 'Salvar Alterações' : 'Criar Postagem'}
                                         </Button>
                                     )}
