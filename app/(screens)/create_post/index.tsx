@@ -40,8 +40,12 @@ export default function CreatePost(): JSX.Element {
 
     useEffect(() => {
         if (post) {
-            setSelected(post.tags.map(tag => tag.id));
-            setImage(post.path_img ? process.env.EXPO_PUBLIC_CORS_ORIGIN + post.path_img : null);
+            const updatedPost = {
+                ...post,
+                path_img: post.path_img ? `${process.env.EXPO_PUBLIC_CORS_ORIGIN}/${post.path_img.replace(/^\/+/, '')}` : null,
+            };
+            setSelected(updatedPost.tags.map(tag => tag.id));
+            setImage(updatedPost.path_img);
         }
     }, [post]);
 
