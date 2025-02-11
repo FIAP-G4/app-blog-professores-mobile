@@ -12,7 +12,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { useLocalSearchParams } from 'expo-router'; // Para pegar o ID da rota
+import { useLocalSearchParams, useRouter, useFocusEffect } from 'expo-router'; // Importe useRouter
 import usePost from '@/app/utils/hooks/usePost'; // Hook para buscar o post
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -21,6 +21,8 @@ import useCreatePostForm from '@/app/utils/hooks/useCreatePostForm';
 import useTagsList from '@/app/utils/hooks/useTagList';
 import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import styles from './styles';
+import { FontAwesome } from '@expo/vector-icons'; // Importe o ícone de lixeira
+
 const schema = Yup.object().shape({
     title: Yup.string().min(5, 'O título deve ter pelo menos 5 caracteres.').required('Título é obrigatório'),
     content: Yup.string().min(5, 'O conteúdo deve ter pelo menos 5 caracteres.').required('Conteúdo é obrigatório'),
@@ -28,18 +30,18 @@ const schema = Yup.object().shape({
 
 export default function CreatePost(): JSX.Element {
     const { id } = useLocalSearchParams();
-    const { post, loading: postLoading } = usePost(id);
+    const router = useRouter(); // Hook para manipular a navegação
+    const { post, loading: postLoading, error } = usePost(id as string);
     const { handleCreatePost, loading } = useCreatePostForm();
     const { tags } = useTagsList();
     const categoryOptions = tags.map((tag) => ({ key: tag.id, value: tag.name }));
     const [selected, setSelected] = useState<number[]>([]);
     const [image, setImage] = useState<string | null>(null);
 
-    // Preenche os campos se estiver editando
     useEffect(() => {
         if (post) {
-            setSelected(post.tags.map(tag => tag.id)); // Preenche as tags
-            setImage(post.image || null); // Preenche a imagem
+            setSelected(post.tags.map(tag => tag.id));
+            setImage('localhost:3030' + post.path_img || null);
         }
     }, [post]);
 
@@ -102,10 +104,10 @@ export default function CreatePost(): JSX.Element {
                                     .then((blob) => {
                                         const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
                                         formData.append('attachment', file);
-                                        handleCreatePost(formData, id); // Passa o ID para criação ou edição do post
+                                        handleCreatePost(formData, id);
                                     });
                             } else {
-                                handleCreatePost(formData, id); // Passa o ID para criação ou edição do post
+                                handleCreatePost(formData, id);
                             }
 
                             resetForm();
@@ -175,6 +177,8 @@ export default function CreatePost(): JSX.Element {
                                     {loading ? (
                                         <ActivityIndicator size="medium" color="#007bff" />
                                     ) : (
+
+
                                         <Button onPress={handleSubmit as any} mode="contained" buttonColor="#007bff">
                                             {id ? 'Salvar Alterações' : 'Criar Postagem'}
                                         </Button>

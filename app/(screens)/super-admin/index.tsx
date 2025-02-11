@@ -5,6 +5,7 @@ import useDeletePost from '@/app/utils/hooks/useDeletePost';
 import { useFocusEffect, useRouter } from 'expo-router';
 import Feather from '@expo/vector-icons/Feather';
 import ConfirmationModal from '../../components/ConfirmationModal';
+import UserList from '@/app/components/UserList';
 
 export default function SuperAdmin(): JSX.Element {
     const { posts, loading, fetchPosts, loadMorePosts, hasMorePosts } = usePostList();
@@ -36,7 +37,7 @@ export default function SuperAdmin(): JSX.Element {
     };
 
     const handleEdit = (id: number) => {
-        router.push(`/create_post?id=${id}`); // Navega para create_post com o id na URL
+        router.push(`/create_post?id=${id}`);
     };
 
 
@@ -136,5 +137,10 @@ const styles = StyleSheet.create({
     searchEmpty: {
         textAlign: 'center',
         padding: 20,
-    }
+    },
+    cardAction: {
+        paddingRight: 16,
+        display: 'flex',
+        flexDirection: 'row',
+    },
 });
