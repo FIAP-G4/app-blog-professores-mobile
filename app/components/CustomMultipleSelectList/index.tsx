@@ -10,7 +10,6 @@ import {
   TextInput,
   Pressable,
   Keyboard,
-  Platform,
 } from 'react-native'
 import { MultipleSelectListProps } from './IMultipleSelectListProps'
 import AntDesign from '@expo/vector-icons/AntDesign'
