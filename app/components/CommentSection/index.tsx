@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, ActivityIndicator, Button } from 'react-native'
+import {
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+  Button,
+  Modal,
+} from 'react-native'
 import Post from '@/app/services/posts/IPost'
 import Comment from '../Comment'
 import { ICommentsFromGetPostById } from '@/app/services/comments/IComments'
@@ -29,6 +36,10 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   const { handleCreateComment, loadingCreateCommentForm, createCommentForm } =
     useCreateCommentForm()
   const { isAuthenticated, loggedInUserId, user } = useAuth()
+  const [isModalVisible, setModalVisible] = useState(false)
+
+  const [commentToEdit, setCommentToEdit] =
+    useState<ICommentsFromGetPostById | null>(null)
 
   useEffect(() => {
     setComments(post.comments)
@@ -44,9 +55,14 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
     return <ActivityIndicator size='large' color='#0000ff' />
   }
 
+  // const handleEdit = (comment: ICommentsFromGetPostById) => {
+  //   handleEditComment(comment.id as string)
+  //   updateCommentsAfterEdition(comment)
+  // }
+
   const handleEdit = (comment: ICommentsFromGetPostById) => {
-    handleEditComment(comment.id as string)
-    updateCommentsAfterEdition(comment)
+    setCommentToEdit(comment)
+    setModalVisible(true)
   }
 
   const handleDelete = (commentId: string) => {
@@ -85,6 +101,15 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
         prevComment.id === comment.id ? comment : prevComment,
       ),
     )
+  }
+
+  const handleEditSubmit = async (values: { content: string }) => {
+    if (commentToEdit) {
+      await handleEditComment(commentToEdit.id as string, values.content)
+      updateCommentsAfterEdition({ ...commentToEdit, content: values.content })
+      setModalVisible(false)
+      setCommentToEdit(null)
+    }
   }
 
   return isAuthenticated ? (
@@ -148,6 +173,73 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
           />
         ))}
       </View>
+      {commentToEdit && (
+        <Modal
+          animationType='slide'
+          transparent={true}
+          visible={isModalVisible}
+          onRequestClose={() => {
+            setModalVisible(!isModalVisible)
+          }}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Editar Comentário</Text>
+
+              <Formik
+                initialValues={{ content: commentToEdit.content }}
+                validationSchema={schema}
+                onSubmit={(values) => handleEditSubmit(values)}
+              >
+                {({
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  values,
+                  errors,
+                  touched,
+                }) => (
+                  <View>
+                    <TextInput
+                      onChangeText={handleChange('content')}
+                      onBlur={handleBlur('content')}
+                      value={values.content}
+                      placeholder='Edite seu comentário...'
+                      keyboardType='twitter'
+                      multiline
+                      numberOfLines={5}
+                      style={styles.editCommentInput}
+                      placeholderTextColor={'#888'}
+                    />
+
+                    <Text style={globalStyles.error}>
+                      {touched.content && errors.content ? errors.content : ''}
+                    </Text>
+
+                    <View style={styles.modalButtonContainer}>
+                      {loadingEditCommentForm ? (
+                        <ActivityIndicator size='large' color='#4e46dd' />
+                      ) : (
+                        <Button
+                          title='Salvar alterações'
+                          color='#4e46dd'
+                          onPress={handleSubmit as any}
+                        />
+                      )}
+                    </View>
+                  </View>
+                )}
+              </Formik>
+
+              <Button
+                title='Cancelar'
+                color='#ff0000'
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
+          </View>
+        </Modal>
+      )}
     </ScrollView>
   ) : (
     <ScrollView style={styles.container}>
