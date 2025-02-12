@@ -90,11 +90,6 @@ export default function Posts(): JSX.Element {
             loadMorePosts(searchTerm, selected)
           }
         }}
-        ListFooterComponent={
-          loading && hasMorePosts ? (
-            <ActivityIndicator size='small' color='#0000ff' />
-          ) : null
-        }
         contentContainerStyle={{ paddingBottom: 20 }}
       />
     </SafeAreaView>
