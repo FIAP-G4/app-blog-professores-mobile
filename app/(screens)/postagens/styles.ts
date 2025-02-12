@@ -33,12 +33,25 @@ const styles = StyleSheet.create({
     columnGap: 15,
     width: '100%',
   },
-  dropdwon: {
+  dropdown: {
     backgroundColor: 'white',
     borderColor: '#ccc',
   },
+  badgeStyles: {
+    backgroundColor: 'rgb(239, 246, 255)',
+  },
+  badgeTextStyles: {
+    color: 'rgb(29, 78, 216)',
+    fontWeight: '500',
+  },
+  selectedCheckbox: {
+    backgroundColor: 'rgb(29, 78, 216)',
+  },
+  unselectedCheckbox: {
+    backgroundColor: 'white',
+  },
   textInputWrapper: {
-    marginLeft:Platform.OS == 'ios' ? 20 : 0,
+    marginLeft: Platform.OS == 'ios' ? 20 : 0,
     marginTop: Platform.OS == 'ios' ? 0 : 20,
     borderRadius: 10,
     borderWidth: 1,
