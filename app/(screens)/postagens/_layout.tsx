@@ -5,7 +5,7 @@ import styles from './styles'
 import Feather from '@expo/vector-icons/Feather'
 
 export default function PostsLayout() {
-  const pathName = usePathname() || '' 
+  const pathName = usePathname() || ''
   const segments = useSegments() as string[]
   const router = useRouter()
 
@@ -32,7 +32,7 @@ export default function PostsLayout() {
             ]}
             onPress={() => router.navigate('/postagens')}
           >
-            <Feather name="arrow-left" size={24} color="black" />
+            <Feather name='arrow-left' size={24} color='black' />
             <Text>Voltar</Text>
           </TouchableOpacity>
         )}

@@ -33,21 +33,6 @@ export default function Login(): JSX.Element {
         pageTitle='Login'
       />
       <SafeAreaView style={styles.screen}>
-        <View style={styles.introText}>
-          <Text style={styles.loginTitle}>Bem-vindo ao Blog Escolar!</Text>
-          <Text style={styles.paragraph}>
-            Este espaço é exclusivo para os professores compartilharem suas
-            ideias, artigos e conteúdos educacionais.
-          </Text>
-          <Text style={styles.paragraph}>Aqui você pode:</Text>
-          <Text style={styles.paragraph}>
-            Publicar conteúdos relevantes sobre educação e temas de interesse
-            acadêmico.
-          </Text>
-          <Text style={styles.paragraph}>
-            Acompanhar as últimas atualizações da comunidade de professores.
-          </Text>
-        </View>
         <View style={styles.loginBox}>
           <Text style={styles.loginTitle}>Entre na sua conta</Text>
           <Formik
@@ -117,6 +102,21 @@ export default function Login(): JSX.Element {
               </>
             )}
           </Formik>
+        </View>
+        <View style={styles.introText}>
+          <Text style={styles.loginTitle}>Bem-vindo ao Blog Escolar!</Text>
+          <Text style={styles.paragraph}>
+            Este espaço é exclusivo para os professores compartilharem suas
+            ideias, artigos e conteúdos educacionais.
+          </Text>
+          <Text style={styles.paragraph}>Aqui você pode:</Text>
+          <Text style={styles.paragraph}>
+            Publicar conteúdos relevantes sobre educação e temas de interesse
+            acadêmico.
+          </Text>
+          <Text style={styles.paragraph}>
+            Acompanhar as últimas atualizações da comunidade de professores.
+          </Text>
         </View>
       <Toast />
       </SafeAreaView>

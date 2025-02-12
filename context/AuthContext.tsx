@@ -73,6 +73,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   const login = async (token: string, userData: any): Promise<void> => {
     await AsyncStorage.setItem('authToken', token)
     await AsyncStorage.setItem('user', JSON.stringify(userData))
+    loggedUserId(token)
     setIsAuthenticated(true)
     setUser(userData)
     handleUserType(token)
@@ -85,6 +86,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     setUser(null)
     setIsTeacher(false)
     setIsStudent(false)
+    setLoggedInUserId(null)
     setTimeout(() => {
       router.replace('/')
     }, 0)

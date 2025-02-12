@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, Button, Switch, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, Switch, SafeAreaView } from 'react-native';
 import { Formik } from 'formik';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import styles from './styles';
@@ -9,6 +9,7 @@ import { ITeacher } from '@/app/utils/hooks/useTeacherList';
 import useUpdateUser from '@/app/utils/hooks/useUserUpdate';
 import { IStudent } from '@/app/utils/hooks/useStudentList';
 import Header from '../components/shared/Header';
+import { Button } from 'react-native-paper';
 
 export default function (): JSX.Element {
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function (): JSX.Element {
   }
 
   return (
-    <SafeAreaView >
+    <SafeAreaView style={{  backgroundColor: '#f3f4f6',height:'100%' }} >
       <Header
         pageTitle='Blog Escolar'
       />
@@ -150,10 +151,22 @@ export default function (): JSX.Element {
 
             <View style={styles.buttonContainer}>
                 <View style={styles.buttonWrapper}>
-                  <Button title="Cancelar" onPress={() => router.back()} color="red" />
+                  <Button
+                    onPress={() => router.back()}
+                    mode='contained'
+                    buttonColor='red'
+                  >
+                    Cancelar
+                  </Button>
                 </View>
                 <View style={styles.buttonWrapper}>
-                  <Button title="Salvar"  color="#4e46dd" onPress={() => handleSubmit()} />
+                  <Button
+                    onPress={handleSubmit as any}
+                    mode='contained'
+                    buttonColor='#4e46dd'
+                  >
+                    Salvar
+                  </Button>
                 </View>
             </View>
           </View>

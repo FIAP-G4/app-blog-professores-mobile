@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   card: {
@@ -9,18 +9,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 8,
     width: '90%',
-    // minHeight: 250,
-    flexGrow: 1,
-    justifyContent: 'space-between',
-    // overflow: 'hidden',
-    height: 'auto',
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    flexGrow: 1,
-    justifyContent: 'space-between',
-    width: Platform.OS == 'ios' ? '90%' : '100%',
     overflow: 'hidden',
   },
   cardImageWrapper: {
@@ -92,7 +80,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
   },
   cardHeaderLeft: {
     flexDirection: 'column',
