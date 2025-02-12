@@ -1,7 +1,13 @@
 import { Slot, Tabs } from 'expo-router'
 import React from 'react'
 import Header from '../components/shared/Header'
-import { AntDesign, FontAwesome, FontAwesome5, FontAwesome6, Ionicons } from '@expo/vector-icons'
+import {
+  AntDesign,
+  FontAwesome,
+  FontAwesome5,
+  FontAwesome6,
+  Ionicons,
+} from '@expo/vector-icons'
 import { Platform, StyleSheet } from 'react-native'
 import AnimatedTabIcon from '../components/AnimatedTabIcon'
 import { useAuth } from '@/context/AuthContext'
@@ -56,71 +62,43 @@ export default function AuthLayout() {
   const { isAuthenticated, isTeacher } = useAuth()
 
   return (
-    <>
-      <Header
-        pageTitle='Blog Escolar'
-      />
-      {isAuthenticated && isTeacher && (
-          <Tabs
-              screenOptions={{
-                tabBarActiveTintColor: 'blue',
-                tabBarStyle: styles.tabBar,
-                headerTitleAlign: 'left',
-                tabBarLabelStyle: styles.tabLabel,
-              }}
-          >
-            {tabScreens
-                .filter(tab => tab.name !== 'update_post')
-                .map(({ name, title, headerShown, icon, iconComponent }) => (
-                    <Tabs.Screen
-                        key={name}
-                        name={name}
-                        options={{
-                          tabBarLabel: '',
-                          headerTitleStyle: styles.headerTitle,
-                          title,
-                          headerShown,
-                          tabBarIcon: ({ focused }) => (
-                              <AnimatedTabIcon IconComponent={iconComponent} name={icon as keyof typeof AntDesign.glyphMap} focused={focused} />
-                          ),
-                        }}
-                    />
-                ))}
-          </Tabs>
-        <Tabs
-          screenOptions={{
-            tabBarActiveTintColor: 'blue',
-            tabBarStyle: styles.tabBar,
-            headerTitleAlign: 'left',
-            tabBarLabelStyle: styles.tabLabel,
-          }}
-        >
-          {tabScreens.map(
-            ({ name, title, headerShown, icon, iconComponent }) => (
-              <Tabs.Screen
-                key={name}
-                name={name}
-                options={{
-                  tabBarLabel: '',
-                  headerTitleStyle: styles.headerTitle,
-                  headerStyle: styles.headerStyle, // Adicione esta linha
-                  title,
-                  headerShown,
-                  tabBarIcon: ({ focused }) => (
-                    <AnimatedTabIcon
-                      IconComponent={iconComponent}
-                      name={icon as keyof typeof AntDesign.glyphMap}
-                      focused={focused}
-                    />
-                  ),
+      <>
+        <Header pageTitle='Blog Escolar' />
+        {isAuthenticated && isTeacher && (
+            <Tabs
+                screenOptions={{
+                  tabBarActiveTintColor: 'blue',
+                  tabBarStyle: styles.tabBar,
+                  headerTitleAlign: 'left',
+                  tabBarLabelStyle: styles.tabLabel,
                 }}
-              />
-            ),
-          )}
-        </Tabs>
-      )}
-      {(!isAuthenticated || !isTeacher) && <Slot />}
-    </>
+            >
+              {tabScreens.map(
+                  ({ name, title, headerShown, icon, iconComponent }) => (
+                      <Tabs.Screen
+                          key={name}
+                          name={name}
+                          options={{
+                            tabBarLabel: '',
+                            headerTitleStyle: styles.headerTitle,
+                            headerStyle: styles.headerStyle, // Adicione esta linha
+                            title,
+                            headerShown,
+                            tabBarIcon: ({ focused }) => (
+                                <AnimatedTabIcon
+                                    IconComponent={iconComponent}
+                                    name={icon as keyof typeof AntDesign.glyphMap}
+                                    focused={focused}
+                                />
+                            ),
+                          }}
+                      />
+                  ),
+              )}
+            </Tabs>
+        )}
+        {(!isAuthenticated || !isTeacher) && <Slot />}
+      </>
   )
 }
 
