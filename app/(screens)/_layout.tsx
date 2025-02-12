@@ -62,43 +62,43 @@ export default function AuthLayout() {
   const { isAuthenticated, isTeacher } = useAuth()
 
   return (
-    <>
-      <Header pageTitle='Blog Escolar' />
-      {isAuthenticated && isTeacher && (
-        <Tabs
-          screenOptions={{
-            tabBarActiveTintColor: 'blue',
-            tabBarStyle: styles.tabBar,
-            headerTitleAlign: 'left',
-            tabBarLabelStyle: styles.tabLabel,
-          }}
-        >
-          {tabScreens.map(
-            ({ name, title, headerShown, icon, iconComponent }) => (
-              <Tabs.Screen
-                key={name}
-                name={name}
-                options={{
-                  tabBarLabel: '',
-                  headerTitleStyle: styles.headerTitle,
-                  headerStyle: styles.headerStyle, // Adicione esta linha
-                  title,
-                  headerShown,
-                  tabBarIcon: ({ focused }) => (
-                    <AnimatedTabIcon
-                      IconComponent={iconComponent}
-                      name={icon as keyof typeof AntDesign.glyphMap}
-                      focused={focused}
-                    />
-                  ),
+      <>
+        <Header pageTitle='Blog Escolar' />
+        {isAuthenticated && isTeacher && (
+            <Tabs
+                screenOptions={{
+                  tabBarActiveTintColor: 'blue',
+                  tabBarStyle: styles.tabBar,
+                  headerTitleAlign: 'left',
+                  tabBarLabelStyle: styles.tabLabel,
                 }}
-              />
-            ),
-          )}
-        </Tabs>
-      )}
-      {(!isAuthenticated || !isTeacher) && <Slot />}
-    </>
+            >
+              {tabScreens.map(
+                  ({ name, title, headerShown, icon, iconComponent }) => (
+                      <Tabs.Screen
+                          key={name}
+                          name={name}
+                          options={{
+                            tabBarLabel: '',
+                            headerTitleStyle: styles.headerTitle,
+                            headerStyle: styles.headerStyle, // Adicione esta linha
+                            title,
+                            headerShown,
+                            tabBarIcon: ({ focused }) => (
+                                <AnimatedTabIcon
+                                    IconComponent={iconComponent}
+                                    name={icon as keyof typeof AntDesign.glyphMap}
+                                    focused={focused}
+                                />
+                            ),
+                          }}
+                      />
+                  ),
+              )}
+            </Tabs>
+        )}
+        {(!isAuthenticated || !isTeacher) && <Slot />}
+      </>
   )
 }
 

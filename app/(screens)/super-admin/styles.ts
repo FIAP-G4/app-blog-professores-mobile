@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   },
   rowText: {
     flex: 1,
+    fontSize: 16,
   },
   actions: {
     flexDirection: 'row',
@@ -46,6 +47,25 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
   },
+
+  buttonAction: {
+    marginLeft: 1,
+    padding: 4,
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#FFFFFF',
+  },
+
+  buttonActionEdit: {
+    backgroundColor: '#3B82F6',
+
+  },
+
+  buttonActionDelete: {
+    backgroundColor: '#EF4444',
+  },
+
 })
 
 export default styles

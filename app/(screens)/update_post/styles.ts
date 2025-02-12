@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,12 +18,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333',
   },
+  subHeader: {
+    padding: 5,
+    marginBottom: 10,
+    elevation: 3,
+  },
 
   inputContainer: {
     padding: 10,
     marginBottom: 10,
     elevation: 3,
   },
+
 
   fields: {
     marginBottom: 30,
@@ -144,13 +150,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  badgeStyles: {
-    backgroundColor: 'rgb(239, 246, 255)',
-  },
-  badgeTextStyles: {
-    color: 'rgb(29, 78, 216)',
-    fontWeight: '500',
-  },
-})
+});
 
-export default styles
+export default styles;
