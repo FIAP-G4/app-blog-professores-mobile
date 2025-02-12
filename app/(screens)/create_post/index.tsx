@@ -40,8 +40,12 @@ export default function CreatePost(): JSX.Element {
 
     useEffect(() => {
         if (post) {
-            setSelected(post.tags.map(tag => tag.id));
-            setImage(post.path_img ? process.env.EXPO_PUBLIC_CORS_ORIGIN + post.path_img : null);
+            const updatedPost = {
+                ...post,
+                path_img: post.path_img ? `${process.env.EXPO_PUBLIC_CORS_ORIGIN}/${post.path_img.replace(/^\/+/, '')}` : null,
+            };
+            setSelected(updatedPost.tags.map(tag => tag.id));
+            setImage(updatedPost.path_img);
         }
     }, [post]);
 
@@ -94,26 +98,50 @@ export default function CreatePost(): JSX.Element {
                             });
 
                             if (image) {
+                                // Converte a URI da imagem em um blob
                                 fetch(image)
                                     .then(response => response.blob())
                                     .then(blob => {
                                         if (!blob) return;
-                                        const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
-                                        formData.append('attachment', file);
+
+                                        const formData = new FormData();
+                                        formData.append('title', values.title);
+                                        formData.append('content', values.content);
+
+                                        selectedTags.forEach((tag, index) => {
+                                            formData.append(`tags[${index}][id]`, tag.id);
+                                            formData.append(`tags[${index}][name]`, tag.name);
+                                        });
+
+                                        formData.append('attachment', {
+                                            uri: image,
+                                            name: 'image.jpg',
+                                            type: 'image/jpeg',
+                                        });
+
                                         handleCreatePost(formData, id).then(() => {
                                             resetForm();
                                             setImage(null);
                                             setSelected([]);
-                                            router.replace('/create_post'); // Garante que a URL será /create_post após a criação
+                                            router.replace('/create_post');
                                         });
                                     })
                                     .catch(err => console.error('Erro ao converter imagem:', err));
                             } else {
+                                const formData = new FormData();
+                                formData.append('title', values.title);
+                                formData.append('content', values.content);
+
+                                selectedTags.forEach((tag, index) => {
+                                    formData.append(`tags[${index}][id]`, tag.id);
+                                    formData.append(`tags[${index}][name]`, tag.name);
+                                });
+
                                 handleCreatePost(formData, id).then(() => {
                                     resetForm();
                                     setImage(null);
                                     setSelected([]);
-                                    router.replace('/create_post'); // Garante que a URL será /create_post após a criação
+                                    router.replace('/create_post');
                                 });
                             }
                         }}

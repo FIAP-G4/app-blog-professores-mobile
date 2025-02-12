@@ -12,6 +12,7 @@ import { Platform, StyleSheet } from 'react-native'
 import AnimatedTabIcon from '../components/AnimatedTabIcon'
 import { useAuth } from '@/context/AuthContext'
 
+
 const tabScreens = [
   {
     name: 'postagens',
