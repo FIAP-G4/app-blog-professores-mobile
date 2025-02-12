@@ -44,7 +44,7 @@ const useCreatePostForm = (availableTags: Tag[]) => { // Recebe as tags disponí
             setLoading(true);
 
             if (postId) {
-                await updatePost(values, postId)
+                await updatePost(values, postId);
             } else {
                 await createPost(values);
             }
@@ -53,7 +53,7 @@ const useCreatePostForm = (availableTags: Tag[]) => { // Recebe as tags disponí
 
             Toast.show({
                 type: 'success',
-                text1: 'Postagem criada com sucesso!',
+                text1: postId ? 'Postagem atualizada com sucesso!' : 'Postagem criada com sucesso!',
             });
 
             setTimeout(() => {
@@ -63,7 +63,7 @@ const useCreatePostForm = (availableTags: Tag[]) => { // Recebe as tags disponí
             setLoading(false);
             errorsMessage(error as AxiosError<ErrorResponse>);
         }
-    };
+    }
 
     return {
         loading,
