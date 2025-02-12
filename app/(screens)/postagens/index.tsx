@@ -8,9 +8,8 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
-  ViewStyle,
 } from 'react-native'
-import { MultipleSelectList } from 'react-native-dropdown-select-list'
+import CustomMultipleSelectList from '@/app/components/CustomMultipleSelectList'
 import CardPost from '@/app/components/CardPost'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import styles from './styles'
@@ -33,7 +32,7 @@ export default function Posts(): JSX.Element {
   return (
     <SafeAreaView style={[styles.screen, { flex: 1 }]}>
       <View style={styles.contentMultiSelect}>
-        <MultipleSelectList
+        <CustomMultipleSelectList
           setSelected={(val: any) => {
             console.log(val)
             setSelected(val)
