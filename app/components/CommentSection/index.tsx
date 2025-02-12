@@ -148,7 +148,6 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
           />
         ))}
       </View>
-      <Toast />
     </ScrollView>
   ) : (
     <ScrollView style={styles.container}>
@@ -163,7 +162,6 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
           />
         ))}
       </View>
-      <Toast />
     </ScrollView>
   )
 }
