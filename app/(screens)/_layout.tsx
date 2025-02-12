@@ -104,16 +104,16 @@ export default function AuthLayout() {
 const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#ddd',
     height: 55,
     position: 'absolute',
-    bottom: 16,
+    bottom: 0,
     left: 16,
     right: 16,
     borderRadius: 16,
     marginHorizontal: 12,
     paddingTop: 8,
+    paddingBottom: 0,
+    marginBottom: 16,
   },
   tabLabel: {
     fontSize: 12,
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#000',
-    height: Platform.OS === 'ios' ? 60 : 20
+    height: Platform.OS === 'ios' ? 60 : 50
   },
   headerStyle: {
     height: 60,

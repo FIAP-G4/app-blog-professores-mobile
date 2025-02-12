@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   introText: {
-    marginBottom: 30,
+    marginTop: 30,
     width: '90%',
   },
   loginBox: {
