@@ -10,8 +10,10 @@ import {
   TextInput,
   Pressable,
   Keyboard,
+  Platform,
 } from 'react-native'
 import { MultipleSelectListProps } from './IMultipleSelectListProps'
+import AntDesign from '@expo/vector-icons/AntDesign'
 
 type L1Keys = { key?: any; value?: any; disabled?: boolean | undefined }
 
@@ -282,7 +284,13 @@ const CustomMultipleSelectList: React.FC<MultipleSelectListProps> = ({
                               key={index}
                               source={require('../../../assets/images/check.png')}
                               resizeMode="contain"
-                              style={[{ width: 8, height: 8, paddingLeft: 7 }]}
+                              style={[
+                                {
+                                  width: 8,
+                                  height: 8,
+                                  paddingLeft: 7,
+                                },
+                              ]}
                             />
                           ) : null}
                         </View>
@@ -356,11 +364,10 @@ const CustomMultipleSelectList: React.FC<MultipleSelectListProps> = ({
                           ]}
                         >
                           {selectedval?.includes(value) ? (
-                            <Image
-                              key={index}
-                              source={require('../../../assets/images/check.png')}
-                              resizeMode="contain"
-                              style={{ width: 8, height: 8, paddingLeft: 7 }}
+                            <AntDesign
+                              name="check"
+                              size={8}
+                              color="rgb(29, 78, 216)'"
                             />
                           ) : null}
                         </View>

@@ -33,13 +33,7 @@ export default function Posts(): JSX.Element {
     <SafeAreaView style={[styles.screen, { flex: 1 }]}>
       <View style={styles.contentMultiSelect}>
         <CustomMultipleSelectList
-          setSelected={(val: any) => {
-            console.log(val)
-            setSelected(val)
-          }}
-          onSelect={() => {
-            console.log(selected)
-          }}
+          setSelected={(val: any) => setSelected(val)}
           data={categoryOptions}
           save="key"
           label="Categorias"
