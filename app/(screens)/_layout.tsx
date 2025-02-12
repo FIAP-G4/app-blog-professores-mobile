@@ -6,6 +6,7 @@ import { Platform, StyleSheet } from 'react-native'
 import AnimatedTabIcon from '../components/AnimatedTabIcon'
 import { useAuth } from '@/context/AuthContext'
 
+
 const tabScreens = [
   { name: 'postagens', title: '', headerShown: false, icon: 'newspaper-o', iconComponent: FontAwesome },
   { name: 'create_post', title: 'Criar postagem', headerShown: true, icon: 'marker', iconComponent: FontAwesome5 },
