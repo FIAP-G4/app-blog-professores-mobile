@@ -37,9 +37,8 @@ export default function SuperAdmin(): JSX.Element {
     };
 
     const handleEdit = (id: number) => {
-        router.push(`/create_post?id=${id}`);
+        router.push(`/update_post?id=${id}`);
     };
-
 
     return (
         <SafeAreaView style={styles.container}>
