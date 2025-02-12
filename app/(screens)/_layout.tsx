@@ -25,31 +25,32 @@ export default function AuthLayout() {
         pageTitle='Blog Escolar'
       />
       {isAuthenticated && isTeacher && (
-        <Tabs
-          screenOptions={{
-            tabBarActiveTintColor: 'blue',
-            tabBarStyle: styles.tabBar,
-            headerTitleAlign: 'left',
-            tabBarLabelStyle: styles.tabLabel,
-          }}
-        >
-          {tabScreens.map(({ name, title, headerShown, icon, iconComponent }) => (
-            <Tabs.Screen
-              key={name}
-              name={name}
-              options={{
-                tabBarLabel: '',
-                headerTitleStyle: styles.headerTitle,
-                headerStyle: styles.headerStyle, // Adicione esta linha
-                title,
-                headerShown,
-                tabBarIcon: ({ focused }) => (
-                  <AnimatedTabIcon IconComponent={iconComponent} name={icon as keyof typeof AntDesign.glyphMap} focused={focused} />
-                ),
+          <Tabs
+              screenOptions={{
+                tabBarActiveTintColor: 'blue',
+                tabBarStyle: styles.tabBar,
+                headerTitleAlign: 'left',
+                tabBarLabelStyle: styles.tabLabel,
               }}
-            />
-          ))}
-        </Tabs>
+          >
+            {tabScreens
+                .filter(tab => tab.name !== 'update_post')
+                .map(({ name, title, headerShown, icon, iconComponent }) => (
+                    <Tabs.Screen
+                        key={name}
+                        name={name}
+                        options={{
+                          tabBarLabel: '',
+                          headerTitleStyle: styles.headerTitle,
+                          title,
+                          headerShown,
+                          tabBarIcon: ({ focused }) => (
+                              <AnimatedTabIcon IconComponent={iconComponent} name={icon as keyof typeof AntDesign.glyphMap} focused={focused} />
+                          ),
+                        }}
+                    />
+                ))}
+          </Tabs>
       )}
       {(!isAuthenticated || !isTeacher) && <Slot />}
     </>
@@ -86,6 +87,6 @@ const styles = StyleSheet.create({
   },
   headerStyle: {
     height: 60,
-    justifyContent: 'center', 
+    justifyContent: 'center',
   },
 })

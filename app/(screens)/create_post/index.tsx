@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     SafeAreaView,
     View,
@@ -12,7 +12,8 @@ import {
     Alert
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import usePost from '@/app/utils/hooks/usePost';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Button, ActivityIndicator } from 'react-native-paper';
@@ -28,12 +29,25 @@ const schema = Yup.object().shape({
 });
 
 export default function CreatePost(): JSX.Element {
+    const { id } = useLocalSearchParams();
     const router = useRouter();
+    const { post, loading: postLoading } = usePost(id as string);
     const { handleCreatePost, loading } = useCreatePostForm();
     const { tags } = useTagsList();
     const categoryOptions = tags.map(tag => ({ key: tag.id, value: tag.name }));
     const [selected, setSelected] = useState<number[]>([]);
     const [image, setImage] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (post) {
+            const updatedPost = {
+                ...post,
+                path_img: post.path_img ? `${process.env.EXPO_PUBLIC_CORS_ORIGIN}/${post.path_img.replace(/^\/+/, '')}` : null,
+            };
+            setSelected(updatedPost.tags.map(tag => tag.id));
+            setImage(updatedPost.path_img);
+        }
+    }, [post]);
 
     const handleSelectImage = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -57,14 +71,18 @@ export default function CreatePost(): JSX.Element {
         setImage(null);
     };
 
+    if (postLoading && id) {
+        return <ActivityIndicator animating={true} color="#0000ff" />;
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
                     <Formik
                         initialValues={{
-                            title: '',
-                            content: '',
+                            title: post?.title || '',
+                            content: post?.content || '',
                         }}
                         validationSchema={schema}
                         onSubmit={(values, { resetForm }) => {
@@ -101,7 +119,7 @@ export default function CreatePost(): JSX.Element {
                                             type: 'image/jpeg',
                                         });
 
-                                        handleCreatePost(formData).then(() => {
+                                        handleCreatePost(formData, id).then(() => {
                                             resetForm();
                                             setImage(null);
                                             setSelected([]);
@@ -119,7 +137,7 @@ export default function CreatePost(): JSX.Element {
                                     formData.append(`tags[${index}][name]`, tag.name);
                                 });
 
-                                handleCreatePost(formData).then(() => {
+                                handleCreatePost(formData, id).then(() => {
                                     resetForm();
                                     setImage(null);
                                     setSelected([]);
@@ -186,7 +204,7 @@ export default function CreatePost(): JSX.Element {
                                         <ActivityIndicator animating={true} size="medium" color="#007bff" />
                                     ) : (
                                         <Button onPress={handleSubmit} mode="contained" buttonColor="#007bff">
-                                            Criar Postagem
+                                            {id ? 'Salvar Alterações' : 'Criar Postagem'}
                                         </Button>
                                     )}
                                 </View>
