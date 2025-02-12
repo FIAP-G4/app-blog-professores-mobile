@@ -201,9 +201,9 @@ export default function CreatePost(): JSX.Element {
 
                                 <View style={styles.buttonContainer}>
                                     {loading ? (
-                                        <ActivityIndicator animating={true} size="medium" color="#007bff" />
+                                        <ActivityIndicator animating={true} size="medium" color="#4e46dd" />
                                     ) : (
-                                        <Button onPress={handleSubmit} mode="contained" buttonColor="#007bff">
+                                        <Button onPress={handleSubmit} mode="contained" buttonColor="#4e46dd">
                                             {id ? 'Salvar Alterações' : 'Criar Postagem'}
                                         </Button>
                                     )}

@@ -1,10 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
     backgroundColor: '#f3f4f6',
+    margin:Platform.OS == 'ios' ? 20 : 0,
   },
   header: {
     paddingVertical: 20,
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imageButton: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#4e46dd',
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
