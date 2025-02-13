@@ -1,15 +1,12 @@
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin:20,
+    margin: 20,
     borderRadius: 10,
     backgroundColor: 'white',
-    padding: 12,
-  },
-  box:{
-    padding: Platform.OS === 'ios' ? 12 : 0,
+    padding: 16,
   },
   header: {
     paddingVertical: 20,
@@ -34,13 +31,17 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   label: {
-    fontSize: 16,
-    fontWeight: '500',
-    marginBottom: 5,
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    marginHorizontal: Platform.OS === 'ios' ? 12 : 0,
+    marginTop: Platform.OS === 'ios' ? 12 : 0,
     paddingLeft: 5,
     color: '#555',
   },
   input: {
+    marginHorizontal: Platform.OS === 'ios' ? 12 : 0,
+    marginTop: Platform.OS === 'ios' ? 12 : 0,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 10,
@@ -50,6 +51,8 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   dropdown: {
+    marginHorizontal: Platform.OS === 'ios' ? 12 : 0,
+    marginTop: Platform.OS === 'ios' ? 12 : 0,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 10,
@@ -102,16 +105,19 @@ const styles = StyleSheet.create({
     width: '50%',
   },
   buttonContainer: {
+    marginHorizontal: Platform.OS === 'ios' ? 20 : 0,
+    marginTop: Platform.OS === 'ios' ? 12 : 0,
     marginBottom: 20,
-    borderRadius: 10,
+    borderRadius: 8,
+    backgroundColor: '#4e46dd',
     overflow: 'hidden',
-    paddingBottom: 20,
-    paddingTop: 20,
   },
   buttonText: {
+    padding: 10,
     fontSize: 19,
     fontWeight: 'bold',
     color: 'white',
+    textAlign: 'center',
   },
 
   errorText: {
