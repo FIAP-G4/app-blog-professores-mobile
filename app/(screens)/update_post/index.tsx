@@ -256,7 +256,7 @@ export default function UpdatePost(): JSX.Element {
                     />
                   ) : (
                     <TouchableOpacity onPress={() => handleSubmit()}>
-                      <Text style={styles.buttonText}>Entrar</Text>
+                      <Text style={styles.buttonText}>Editar</Text>
                     </TouchableOpacity>
                   )}
                 </View>
