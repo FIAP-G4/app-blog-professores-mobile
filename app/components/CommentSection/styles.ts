@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { Button } from 'react-native-paper'
 
 const styles = StyleSheet.create({
   container: {
@@ -63,6 +64,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 10,
     overflow: 'hidden',
+  },
+  button: {
+    backgroundColor: '#4e46dd',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   newCommentInput: {
     backgroundColor: '#F0F4FF',
