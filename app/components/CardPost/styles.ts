@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     // minHeight: 250,
     flexGrow: 1,
     justifyContent: 'space-between',
-    // overflow: 'hidden',
+    overflow: 'hidden',
     height: 'auto',
   },
   container: {
