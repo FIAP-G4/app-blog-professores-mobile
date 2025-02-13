@@ -22,7 +22,7 @@ interface FormPost {
 }
 
 
-const useCreatePostForm = (availableTags: Tag[]) => { // Recebe as tags disponíveis
+const useCreatePostForm = () => { // Recebe as tags disponíveis
     const [loading, setLoading] = useState<boolean>(false);
     const [formPost, setFormPost] = useState<FormPost>({
         title: '',

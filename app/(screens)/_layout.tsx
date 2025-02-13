@@ -56,6 +56,7 @@ const tabScreens = [
     icon: 'chalkboard-teacher',
     iconComponent: FontAwesome5,
   },
+
 ]
 
 export default function AuthLayout() {
@@ -81,7 +82,7 @@ export default function AuthLayout() {
                           options={{
                             tabBarLabel: '',
                             headerTitleStyle: styles.headerTitle,
-                            headerStyle: styles.headerStyle, // Adicione esta linha
+                            headerStyle: styles.headerStyle,
                             title,
                             headerShown,
                             tabBarIcon: ({ focused }) => (
@@ -96,11 +97,12 @@ export default function AuthLayout() {
                   ),
               )}
               <Tabs.Screen
-                name="update_post"
-                options={{
-                  tabBarButton: () => null, // Remove da barra de navegação
-                  tabBarStyle: { display: 'none' }, // Oculta qualquer referência visual
-                }}
+                  name="update_post"
+                  options={{
+                    tabBarButton: () => null,
+                    tabBarStyle: { display: 'none' },
+                    headerShown: false,
+                  }}
               />
             </Tabs>
         )}
