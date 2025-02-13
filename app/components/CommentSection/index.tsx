@@ -1,4 +1,10 @@
-import { View, Text, ScrollView, ActivityIndicator, Button } from 'react-native'
+import {
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native'
 import Post from '@/app/services/posts/IPost'
 import Comment from '../Comment'
 import { ICommentsFromGetPostById } from '@/app/services/comments/IComments'
@@ -41,7 +47,7 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   }
 
   if (loadingDelete) {
-    return <ActivityIndicator size='large' color='#0000ff' />
+    return <ActivityIndicator size="large" color="#0000ff" />
   }
 
   const handleEdit = (comment: ICommentsFromGetPostById) => {
@@ -112,8 +118,8 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
               onChangeText={handleChange('content')}
               onBlur={handleBlur('content')}
               value={values.content}
-              placeholder='Deixe seu comentário...'
-              keyboardType='twitter'
+              placeholder="Deixe seu comentário..."
+              keyboardType="twitter"
               multiline
               numberOfLines={5}
               style={styles.newCommentInput}
@@ -124,13 +130,14 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
             </Text>
             <View style={styles.buttonContainer}>
               {loadingCreateCommentForm ? (
-                <ActivityIndicator size='large' color='#4e46dd' />
+                <ActivityIndicator size="large" color="#4e46dd" />
               ) : (
-                <Button
-                  title='Comentar'
-                  color='#4e46dd'
-                  onPress={handleSubmit as any}
-                />
+                <TouchableOpacity
+                  onPress={() => handleSubmit()}
+                  style={styles.button}
+                >
+                  <Text style={styles.buttonText}>Comentar</Text>
+                </TouchableOpacity>
               )}
             </View>
           </View>
