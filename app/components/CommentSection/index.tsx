@@ -30,11 +30,11 @@ interface CommentSectionProps {
 
 const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   const { loadingDelete, handleDeleteComment } = useDeleteComment()
-  const { loadingEditCommentForm, handleEditComment } = useEditCommentForm()
+  const { handleChangeComment } = useEditCommentForm()
   const [comments, setComments] = useState<ICommentsFromGetPostById[]>([])
-  const { handleCreateComment, loadingCreateCommentForm, createCommentForm } =
+  const { handleCreateComment, loadingCreateCommentForm } =
     useCreateCommentForm()
-  const { isAuthenticated, loggedInUserId, user } = useAuth()
+  const { isAuthenticated, user } = useAuth()
 
   useEffect(() => {
     setComments(post.comments)
@@ -51,7 +51,7 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   }
 
   const handleEdit = (comment: ICommentsFromGetPostById) => {
-    handleEditComment(comment.id as string)
+    handleChangeComment('content', comment.content)
     updateCommentsAfterEdition(comment)
   }
 
