@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   cardTagsWrapper: {
-    marginBottom: 10,
+    marginVertical: 20,
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -60,6 +60,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   cardTags: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     backgroundColor: 'rgb(239, 246, 255)',
     borderColor: '#e5e7eb',
     borderWidth: 1,
