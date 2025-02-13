@@ -15,7 +15,6 @@ import { Formik } from 'formik'
 import useLoginForm from '@/app/utils/hooks/useLoginForm'
 import Toast from 'react-native-toast-message'
 import Header from '../components/shared/Header'
-import { Button } from 'react-native-paper';
 
 const schema = Yup.object().shape({
   email: Yup.string().email().required('E-mail é obrigatório'),
@@ -26,12 +25,9 @@ export default function Login(): JSX.Element {
   const { loading, handleLogin } = useLoginForm()
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
-
   return (
     <>
-      <Header
-        pageTitle='Login'
-      />
+      <Header pageTitle="Login" />
       <SafeAreaView style={styles.screen}>
         <View style={styles.loginBox}>
           <Text style={styles.loginTitle}>Entre na sua conta</Text>
@@ -55,7 +51,7 @@ export default function Login(): JSX.Element {
                   style={styles.input}
                   editable
                   value={values.email}
-                  keyboardType='email-address'
+                  keyboardType="email-address"
                   onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
                 />
@@ -79,7 +75,7 @@ export default function Login(): JSX.Element {
                     <Ionicons
                       name={isPasswordVisible ? 'eye-off' : 'eye'}
                       size={24}
-                      color='gray'
+                      color="gray"
                     />
                   </TouchableOpacity>
                 </View>
@@ -88,15 +84,11 @@ export default function Login(): JSX.Element {
                 </Text>
                 <View style={styles.buttonContainer}>
                   {loading ? (
-                    <ActivityIndicator size='large' color='#4e46dd' />
+                    <ActivityIndicator size="large" color="#4e46dd" />
                   ) : (
-                    <Button
-                      onPress={handleSubmit as any}
-                      mode='contained'
-                      buttonColor='#4e46dd'
-                    >
-                      Entrar
-                    </Button>
+                    <TouchableOpacity onPress={() => handleSubmit()}>
+                      <Text style={styles.buttonText}>Entrar</Text>
+                    </TouchableOpacity>
                   )}
                 </View>
               </>
@@ -118,7 +110,7 @@ export default function Login(): JSX.Element {
             Acompanhar as últimas atualizações da comunidade de professores.
           </Text>
         </View>
-      <Toast />
+        <Toast />
       </SafeAreaView>
     </>
   )
