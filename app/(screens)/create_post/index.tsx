@@ -22,6 +22,7 @@ import useTagsList from '@/app/utils/hooks/useTagList'
 import CustomMultipleSelectList from '@/app/components/CustomMultipleSelectList'
 import styles from './styles'
 import { FontAwesome } from '@expo/vector-icons'
+import globalStyles from '@/app/styles'
 
 const schema = Yup.object().shape({
   title: Yup.string()
@@ -91,9 +92,8 @@ export default function CreatePost(): JSX.Element {
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1}} style={styles.box}>
           <Formik
             initialValues={{
               title: post?.title || '',
@@ -175,9 +175,9 @@ export default function CreatePost(): JSX.Element {
             }) => (
               <View>
                 <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Título</Text>
+                  <Text style={globalStyles.label}>Título</Text>
                   <TextInput
-                    style={styles.input}
+                    style={globalStyles.input}
                     placeholder="Digite o título"
                     value={values.title}
                     onChangeText={handleChange('title')}
@@ -189,9 +189,9 @@ export default function CreatePost(): JSX.Element {
                 </View>
 
                 <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Conteúdo</Text>
+                  <Text style={globalStyles.label}>Conteúdo</Text>
                   <TextInput
-                    style={[styles.input, { height: 100 }]}
+                    style={[globalStyles.input, { height: 100 }]}
                     placeholder="Digite o conteúdo"
                     value={values.content}
                     onChangeText={handleChange('content')}
@@ -204,7 +204,7 @@ export default function CreatePost(): JSX.Element {
                 </View>
 
                 <View style={styles.imageContainer}>
-                  <Text style={styles.label}>Imagem</Text>
+                  <Text style={globalStyles.label}>Imagem</Text>
                   <TouchableOpacity
                     style={styles.imageButton}
                     onPress={handleSelectImage}
@@ -236,28 +236,20 @@ export default function CreatePost(): JSX.Element {
                   label="Categorias"
                   placeholder="Buscar por categorias"
                   searchPlaceholder="Filtre por categoria"
-                  boxStyles={styles.optionSelect}
-                  dropdownStyles={styles.dropdown}
+                  boxStyles={globalStyles.registerOptionSelect}
+                  dropdownStyles={globalStyles.dropdwon}
                   badgeStyles={styles.badgeStyles}
                   badgeTextStyles={styles.badgeTextStyles}
                 />
 
                 <View style={styles.buttonContainer}>
-                  {loading ? (
-                    <ActivityIndicator
-                      animating={true}
-                      size="large"
-                      color="#007bff"
-                    />
-                  ) : (
-                    <Button
-                      onPress={handleSubmit}
-                      mode="contained"
-                      buttonColor="#007bff"
-                    >
-                      {id ? 'Salvar Alterações' : 'Criar Postagem'}
-                    </Button>
-                  )}
+                    {loading ? (
+                        <ActivityIndicator animating={true} size="medium" color="#4e46dd" />
+                    ) : (
+                        <Button onPress={handleSubmit} mode="contained" buttonColor="#4e46dd">
+                            {id ? 'Salvar Alterações' : 'Criar Postagem'}
+                        </Button>
+                    )}
                 </View>
               </View>
             )}

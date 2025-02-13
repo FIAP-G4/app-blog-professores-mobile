@@ -95,6 +95,13 @@ export default function AuthLayout() {
                       />
                   ),
               )}
+              <Tabs.Screen
+                name="update_post"
+                options={{
+                  tabBarButton: () => null, // Remove da barra de navegação
+                  tabBarStyle: { display: 'none' }, // Oculta qualquer referência visual
+                }}
+              />
             </Tabs>
         )}
         {(!isAuthenticated || !isTeacher) && <Slot />}
