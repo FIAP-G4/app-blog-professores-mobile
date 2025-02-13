@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native'
-import { MultipleSelectList } from 'react-native-dropdown-select-list'
+import CustomMultipleSelectList from '@/app/components/CustomMultipleSelectList'
 import CardPost from '@/app/components/CardPost'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import styles from './styles'
@@ -32,23 +32,23 @@ export default function Posts(): JSX.Element {
   return (
     <SafeAreaView style={[styles.screen, { flex: 1 }]}>
       <View style={styles.contentMultiSelect}>
-        <MultipleSelectList
+        <CustomMultipleSelectList
           setSelected={(val: any) => setSelected(val)}
           data={categoryOptions}
-          save='key'
-          label='Categorias'
-          placeholder='Buscar por categrorias'
-          searchPlaceholder='Filtre por categoria'
+          save="key"
+          label="Categorias"
+          placeholder="Buscar por categrorias"
+          searchPlaceholder="Filtre por categoria"
           boxStyles={styles.optionSelect}
-          dropdownStyles={styles.dropdwon}
-          badgeStyles={{ backgroundColor: 'rgb(239, 246, 255)' }}
-          badgeTextStyles={{ color: 'rgb(29, 78, 216)', fontWeight: '500' }}
+          dropdownStyles={styles.dropdown}
+          badgeStyles={styles.badgeStyles}
+          badgeTextStyles={styles.badgeTextStyles}
         />
       </View>
       <View style={styles.textInputWrapper}>
         <TextInput
           style={styles.textInput}
-          placeholder='Buscar por postagens'
+          placeholder="Buscar por postagens"
           onChangeText={(value) => setSearchTerm(value)}
           value={searchTerm}
         />
@@ -60,11 +60,11 @@ export default function Posts(): JSX.Element {
               setCurrentPage(1)
             }}
           >
-            <AntDesign name='search1' size={24} color='white' />
+            <AntDesign name="search1" size={24} color="white" />
           </TouchableOpacity>
         </View>
       </View>
-      {loading && <ActivityIndicator size='large' color='#0000ff' />}
+      {loading && <ActivityIndicator size="large" color="#0000ff" />}
       <FlatList
         data={posts}
         renderItem={({ item }) => {
@@ -87,7 +87,7 @@ export default function Posts(): JSX.Element {
         onEndReachedThreshold={0.5}
         onEndReached={() => {
           if (!loading && hasMorePosts) {
-            loadMorePosts(searchTerm, selected)
+            loadMorePosts(1, 2, searchTerm, selected)
           }
         }}
         contentContainerStyle={{ paddingBottom: 20 }}

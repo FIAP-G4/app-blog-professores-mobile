@@ -1,219 +1,261 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import {
-    SafeAreaView,
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    ScrollView,
-    Image,
-    KeyboardAvoidingView,
-    Platform,
-    Alert
-} from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import usePost from '@/app/utils/hooks/usePost';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import { Button, ActivityIndicator } from 'react-native-paper';
-import useCreatePostForm from '@/app/utils/hooks/useCreatePostForm';
-import useTagsList from '@/app/utils/hooks/useTagList';
-import { MultipleSelectList } from 'react-native-dropdown-select-list';
-import styles from './styles';
-import { FontAwesome } from '@expo/vector-icons';
+  SafeAreaView,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
+} from 'react-native'
+import * as ImagePicker from 'expo-image-picker'
+import { useLocalSearchParams, useRouter } from 'expo-router'
+import usePost from '@/app/utils/hooks/usePost'
+import { Formik } from 'formik'
+import * as Yup from 'yup'
+import { Button, ActivityIndicator } from 'react-native-paper'
+import useCreatePostForm from '@/app/utils/hooks/useCreatePostForm'
+import useTagsList from '@/app/utils/hooks/useTagList'
+import CustomMultipleSelectList from '@/app/components/CustomMultipleSelectList'
+import styles from './styles'
+import { FontAwesome } from '@expo/vector-icons'
 import globalStyles from '@/app/styles'
 
 const schema = Yup.object().shape({
-    title: Yup.string().min(5, 'O título deve ter pelo menos 5 caracteres.').required('Título é obrigatório'),
-    content: Yup.string().min(5, 'O conteúdo deve ter pelo menos 5 caracteres.').required('Conteúdo é obrigatório'),
-});
+  title: Yup.string()
+    .min(5, 'O título deve ter pelo menos 5 caracteres.')
+    .required('Título é obrigatório'),
+  content: Yup.string()
+    .min(5, 'O conteúdo deve ter pelo menos 5 caracteres.')
+    .required('Conteúdo é obrigatório'),
+})
 
 export default function CreatePost(): JSX.Element {
-    const { id } = useLocalSearchParams();
-    const router = useRouter();
-    const { post, loading: postLoading } = usePost(id as string);
-    const { handleCreatePost, loading } = useCreatePostForm();
-    const { tags } = useTagsList();
-    const categoryOptions = tags.map(tag => ({ key: tag.id, value: tag.name }));
-    const [selected, setSelected] = useState<number[]>([]);
-    const [image, setImage] = useState<string | null>(null);
+  const { id } = useLocalSearchParams()
+  const router = useRouter()
+  const { post, loading: postLoading } = usePost(id as string)
+  const { handleCreatePost, loading } = useCreatePostForm()
+  const { tags } = useTagsList()
+  const categoryOptions = tags.map((tag) => ({ key: tag.id, value: tag.name }))
+  const [selected, setSelected] = useState<number[]>([])
+  const [image, setImage] = useState<string | null>(null)
 
-    useEffect(() => {
-        if (post) {
-            const updatedPost = {
-                ...post,
-                path_img: post.path_img ? `${process.env.EXPO_PUBLIC_CORS_ORIGIN}/${post.path_img.replace(/^\/+/, '')}` : null,
-            };
-            setSelected(updatedPost.tags.map(tag => tag.id));
-            setImage(updatedPost.path_img);
-        }
-    }, [post]);
+  useEffect(() => {
+    if (post) {
+      const updatedPost = {
+        ...post,
+        path_img: post.path_img
+          ? `${process.env.EXPO_PUBLIC_CORS_ORIGIN}/${post.path_img.replace(
+              /^\/+/,
+              '',
+            )}`
+          : null,
+      }
+      setSelected(updatedPost.tags.map((tag) => tag.id))
+      setImage(updatedPost.path_img)
+    }
+  }, [post])
 
-    const handleSelectImage = async () => {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-            Alert.alert('Permissão necessária', 'É necessário permitir o acesso à galeria.');
-            return;
-        }
-
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            quality: 1,
-        });
-
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
-        }
-    };
-
-    const handleRemoveImage = () => {
-        setImage(null);
-    };
-
-    if (postLoading && id) {
-        return <ActivityIndicator animating={true} color="#0000ff" />;
+  const handleSelectImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (status !== 'granted') {
+      Alert.alert(
+        'Permissão necessária',
+        'É necessário permitir o acesso à galeria.',
+      )
+      return
     }
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-                <ScrollView contentContainerStyle={{ flexGrow: 1}} style={styles.box}>
-                    <Formik
-                        initialValues={{
-                            title: post?.title || '',
-                            content: post?.content || '',
-                        }}
-                        validationSchema={schema}
-                        onSubmit={(values, { resetForm }) => {
-                            const selectedTags = selected.map(id => tags.find(t => t.id === id)).filter(Boolean);
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    })
 
-                            const formData = new FormData();
-                            formData.append('title', values.title);
-                            formData.append('content', values.content);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri)
+    }
+  }
 
-                            selectedTags.forEach((tag, index) => {
-                                formData.append(`tags[${index}][id]`, tag.id);
-                                formData.append(`tags[${index}][name]`, tag.name);
-                            });
+  const handleRemoveImage = () => {
+    setImage(null)
+  }
 
-                            if (image) {
-                                // Converte a URI da imagem em um blob
-                                fetch(image)
-                                    .then(response => response.blob())
-                                    .then(blob => {
-                                        if (!blob) return;
+  if (postLoading && id) {
+    return <ActivityIndicator animating={true} color="#0000ff" />
+  }
 
-                                        const formData = new FormData();
-                                        formData.append('title', values.title);
-                                        formData.append('content', values.content);
+  return (
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <ScrollView contentContainerStyle={{ flexGrow: 1}} style={styles.box}>
+          <Formik
+            initialValues={{
+              title: post?.title || '',
+              content: post?.content || '',
+            }}
+            validationSchema={schema}
+            onSubmit={(values, { resetForm }) => {
+              const selectedTags = selected
+                .map((id) => tags.find((t) => t.id === id))
+                .filter(Boolean)
 
-                                        selectedTags.forEach((tag, index) => {
-                                            formData.append(`tags[${index}][id]`, tag.id);
-                                            formData.append(`tags[${index}][name]`, tag.name);
-                                        });
+              const formData = new FormData()
+              formData.append('title', values.title)
+              formData.append('content', values.content)
 
-                                        formData.append('attachment', {
-                                            uri: image,
-                                            name: 'image.jpg',
-                                            type: 'image/jpeg',
-                                        });
+              selectedTags.forEach((tag, index) => {
+                formData.append(`tags[${index}][id]`, tag.id)
+                formData.append(`tags[${index}][name]`, tag.name)
+              })
 
-                                        handleCreatePost(formData, id).then(() => {
-                                            resetForm();
-                                            setImage(null);
-                                            setSelected([]);
-                                            router.replace('/create_post');
-                                        });
-                                    })
-                                    .catch(err => console.error('Erro ao converter imagem:', err));
-                            } else {
-                                const formData = new FormData();
-                                formData.append('title', values.title);
-                                formData.append('content', values.content);
+              if (image) {
+                // Converte a URI da imagem em um blob
+                fetch(image)
+                  .then((response) => response.blob())
+                  .then((blob) => {
+                    if (!blob) return
 
-                                selectedTags.forEach((tag, index) => {
-                                    formData.append(`tags[${index}][id]`, tag.id);
-                                    formData.append(`tags[${index}][name]`, tag.name);
-                                });
+                    const formData = new FormData()
+                    formData.append('title', values.title)
+                    formData.append('content', values.content)
 
-                                handleCreatePost(formData, id).then(() => {
-                                    resetForm();
-                                    setImage(null);
-                                    setSelected([]);
-                                    router.replace('/create_post');
-                                });
-                            }
-                        }}
-                    >
-                        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
-                            <View>
-                                <View style={styles.inputContainer}>
-                                    <Text style={globalStyles.label}>Título</Text>
-                                    <TextInput
-                                        style={globalStyles.input}
-                                        placeholder="Digite o título"
-                                        value={values.title}
-                                        onChangeText={handleChange('title')}
-                                        onBlur={handleBlur('title')}
-                                    />
-                                    {touched.title && errors.title && <Text style={styles.errorText}>{errors.title}</Text>}
-                                </View>
+                    selectedTags.forEach((tag, index) => {
+                      formData.append(`tags[${index}][id]`, tag.id)
+                      formData.append(`tags[${index}][name]`, tag.name)
+                    })
 
-                                <View style={styles.inputContainer}>
-                                    <Text style={globalStyles.label}>Conteúdo</Text>
-                                    <TextInput
-                                        style={[globalStyles.input, { height: 100 }]}
-                                        placeholder="Digite o conteúdo"
-                                        value={values.content}
-                                        onChangeText={handleChange('content')}
-                                        onBlur={handleBlur('content')}
-                                        multiline
-                                    />
-                                    {touched.content && errors.content && <Text style={styles.errorText}>{errors.content}</Text>}
-                                </View>
+                    formData.append('attachment', {
+                      uri: image,
+                      name: 'image.jpg',
+                      type: 'image/jpeg',
+                    })
 
-                                <View style={styles.imageContainer}>
-                                    <Text style={globalStyles.label}>Imagem</Text>
-                                    <TouchableOpacity style={styles.imageButton} onPress={handleSelectImage}>
-                                        <Text style={styles.imageButtonText}>Selecionar Imagem</Text>
-                                    </TouchableOpacity>
-                                    {image && (
-                                        <View style={styles.imagePreviewContainer}>
-                                            <Image source={{ uri: image }} style={styles.imagePreview} />
-                                            <TouchableOpacity style={styles.removeImageButton} onPress={handleRemoveImage}>
-                                                <FontAwesome name="trash" size={20} color="#fff" />
-                                            </TouchableOpacity>
-                                        </View>
-                                    )}
-                                </View>
+                    handleCreatePost(formData, id).then(() => {
+                      resetForm()
+                      setImage(null)
+                      setSelected([])
+                      router.replace('/create_post')
+                    })
+                  })
+                  .catch((err) =>
+                    console.error('Erro ao converter imagem:', err),
+                  )
+              } else {
+                const formData = new FormData()
+                formData.append('title', values.title)
+                formData.append('content', values.content)
 
-                                <MultipleSelectList
-                                    setSelected={setSelected}
-                                    data={categoryOptions}
-                                    save="key"
-                                    label="Categorias"
-                                    placeholder="Buscar por categorias"
-                                    searchPlaceholder="Filtre por categoria"
-                                    boxStyles={globalStyles.registerOptionSelect}
-                                    dropdownStyles={globalStyles.dropdwon}
-                                />
+                selectedTags.forEach((tag, index) => {
+                  formData.append(`tags[${index}][id]`, tag.id)
+                  formData.append(`tags[${index}][name]`, tag.name)
+                })
 
-                                <View style={styles.buttonContainer}>
-                                    {loading ? (
-                                        <ActivityIndicator animating={true} size="medium" color="#4e46dd" />
-                                    ) : (
-                                        <Button onPress={handleSubmit} mode="contained" buttonColor="#4e46dd">
-                                            {id ? 'Salvar Alterações' : 'Criar Postagem'}
-                                        </Button>
-                                    )}
-                                </View>
-                            </View>
-                        )}
-                    </Formik>
-                </ScrollView>
-            </KeyboardAvoidingView>
-        </SafeAreaView>
-    );
+                handleCreatePost(formData, id).then(() => {
+                  resetForm()
+                  setImage(null)
+                  setSelected([])
+                  router.replace('/create_post')
+                })
+              }
+            }}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+              touched,
+            }) => (
+              <View>
+                <View style={styles.inputContainer}>
+                  <Text style={globalStyles.label}>Título</Text>
+                  <TextInput
+                    style={globalStyles.input}
+                    placeholder="Digite o título"
+                    value={values.title}
+                    onChangeText={handleChange('title')}
+                    onBlur={handleBlur('title')}
+                  />
+                  {touched.title && errors.title && (
+                    <Text style={styles.errorText}>{errors.title}</Text>
+                  )}
+                </View>
+
+                <View style={styles.inputContainer}>
+                  <Text style={globalStyles.label}>Conteúdo</Text>
+                  <TextInput
+                    style={[globalStyles.input, { height: 100 }]}
+                    placeholder="Digite o conteúdo"
+                    value={values.content}
+                    onChangeText={handleChange('content')}
+                    onBlur={handleBlur('content')}
+                    multiline
+                  />
+                  {touched.content && errors.content && (
+                    <Text style={styles.errorText}>{errors.content}</Text>
+                  )}
+                </View>
+
+                <View style={styles.imageContainer}>
+                  <Text style={globalStyles.label}>Imagem</Text>
+                  <TouchableOpacity
+                    style={styles.imageButton}
+                    onPress={handleSelectImage}
+                  >
+                    <Text style={styles.imageButtonText}>
+                      Selecionar Imagem
+                    </Text>
+                  </TouchableOpacity>
+                  {image && (
+                    <View style={styles.imagePreviewContainer}>
+                      <Image
+                        source={{ uri: image }}
+                        style={styles.imagePreview}
+                      />
+                      <TouchableOpacity
+                        style={styles.removeImageButton}
+                        onPress={handleRemoveImage}
+                      >
+                        <FontAwesome name="trash" size={20} color="#fff" />
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </View>
+
+                <CustomMultipleSelectList
+                  setSelected={setSelected}
+                  data={categoryOptions}
+                  save="key"
+                  label="Categorias"
+                  placeholder="Buscar por categorias"
+                  searchPlaceholder="Filtre por categoria"
+                  boxStyles={globalStyles.registerOptionSelect}
+                  dropdownStyles={globalStyles.dropdwon}
+                  badgeStyles={styles.badgeStyles}
+                  badgeTextStyles={styles.badgeTextStyles}
+                />
+
+                <View style={styles.buttonContainer}>
+                    {loading ? (
+                        <ActivityIndicator animating={true} size="medium" color="#4e46dd" />
+                    ) : (
+                        <Button onPress={handleSubmit} mode="contained" buttonColor="#4e46dd">
+                            {id ? 'Salvar Alterações' : 'Criar Postagem'}
+                        </Button>
+                    )}
+                </View>
+              </View>
+            )}
+          </Formik>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  )
 }
