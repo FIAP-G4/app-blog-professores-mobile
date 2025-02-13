@@ -5,7 +5,7 @@ const register = StyleSheet.create({
     flex: 1,
     paddingLeft: 20,
     paddingRight: 20,
-    paddingTop: Platform.OS === 'ios' ? -50 : 0,
+    paddingTop: Platform.OS === 'ios' ? -50 : -20,
     backgroundColor: '#f3f4f6',
     justifyContent: 'center',
     alignItems: 'center',

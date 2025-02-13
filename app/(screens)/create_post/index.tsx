@@ -22,6 +22,7 @@ import useTagsList from '@/app/utils/hooks/useTagList';
 import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import styles from './styles';
 import { FontAwesome } from '@expo/vector-icons';
+import globalStyles from '@/app/styles'
 
 const schema = Yup.object().shape({
     title: Yup.string().min(5, 'O título deve ter pelo menos 5 caracteres.').required('Título é obrigatório'),
@@ -77,8 +78,8 @@ export default function CreatePost(): JSX.Element {
 
     return (
         <SafeAreaView style={styles.container}>
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
-                <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1}} style={styles.box}>
                     <Formik
                         initialValues={{
                             title: post?.title || '',
@@ -149,9 +150,9 @@ export default function CreatePost(): JSX.Element {
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                             <View>
                                 <View style={styles.inputContainer}>
-                                    <Text style={styles.label}>Título</Text>
+                                    <Text style={globalStyles.label}>Título</Text>
                                     <TextInput
-                                        style={styles.input}
+                                        style={globalStyles.input}
                                         placeholder="Digite o título"
                                         value={values.title}
                                         onChangeText={handleChange('title')}
@@ -161,9 +162,9 @@ export default function CreatePost(): JSX.Element {
                                 </View>
 
                                 <View style={styles.inputContainer}>
-                                    <Text style={styles.label}>Conteúdo</Text>
+                                    <Text style={globalStyles.label}>Conteúdo</Text>
                                     <TextInput
-                                        style={[styles.input, { height: 100 }]}
+                                        style={[globalStyles.input, { height: 100 }]}
                                         placeholder="Digite o conteúdo"
                                         value={values.content}
                                         onChangeText={handleChange('content')}
@@ -174,7 +175,7 @@ export default function CreatePost(): JSX.Element {
                                 </View>
 
                                 <View style={styles.imageContainer}>
-                                    <Text style={styles.label}>Imagem</Text>
+                                    <Text style={globalStyles.label}>Imagem</Text>
                                     <TouchableOpacity style={styles.imageButton} onPress={handleSelectImage}>
                                         <Text style={styles.imageButtonText}>Selecionar Imagem</Text>
                                     </TouchableOpacity>
@@ -195,8 +196,8 @@ export default function CreatePost(): JSX.Element {
                                     label="Categorias"
                                     placeholder="Buscar por categorias"
                                     searchPlaceholder="Filtre por categoria"
-                                    boxStyles={styles.optionSelect}
-                                    dropdownStyles={styles.dropdwon}
+                                    boxStyles={globalStyles.registerOptionSelect}
+                                    dropdownStyles={globalStyles.dropdwon}
                                 />
 
                                 <View style={styles.buttonContainer}>

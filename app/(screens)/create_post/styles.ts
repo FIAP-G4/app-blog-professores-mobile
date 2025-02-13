@@ -3,9 +3,13 @@ import { Platform, StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f3f4f6',
-    margin:Platform.OS == 'ios' ? 20 : 0,
+    margin:20,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    padding: 12,
+  },
+  box:{
+    padding: Platform.OS === 'ios' ? 12 : 0,
   },
   header: {
     paddingVertical: 20,
