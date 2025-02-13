@@ -236,7 +236,6 @@ export default function CreatePost(): JSX.Element {
                     label="Categorias"
                     placeholder="Buscar por categorias"
                     searchPlaceholder="Filtre por categoria"
-                    boxStyles={globalStyles.registerOptionSelect}
                     dropdownStyles={globalStyles.dropdwon}
                     badgeStyles={styles.badgeStyles}
                     badgeTextStyles={styles.badgeTextStyles}
