@@ -1,22 +1,47 @@
-import { Slot, usePathname, useSegments } from 'expo-router'
+import { router, Slot, usePathname, useSegments } from 'expo-router'
 import React from 'react'
-import { Text, View } from 'react-native'
-import styles from './styles'
+import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import Feather from "@expo/vector-icons/Feather";
 
 export default function PostsLayout() {
-    const pathName = usePathname()
     const segments = useSegments()
-    const screenName =
-        segments.length > 1
-            ? segments.slice(-1)[0].charAt(0).toUpperCase() +
-            segments.slice(-1)[0].slice(1)
-            : pathName.charAt(1).toUpperCase() + pathName.slice(2)
 
     return (
         <>
             <View style={styles.subHeader}>
+                <Text style={styles.pageTitle}>
+                    {segments ? 'Editar Postagem' : 'Update_post'}
+                </Text>
+                {segments && (
+                    <TouchableOpacity
+                        style={styles.backButton}
+                        onPress={() => router.navigate('/super-admin')}
+                    >
+                        <Feather name='arrow-left' size={24} color='black' />
+                        <Text>Voltar</Text>
+                    </TouchableOpacity>
+                )}
             </View>
             <Slot />
         </>
     )
 }
+
+const styles = StyleSheet.create({
+    subHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 16,
+        backgroundColor: '#fff',
+    },
+    pageTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    backButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        columnGap: 5,
+    },
+})
