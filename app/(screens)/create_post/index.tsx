@@ -16,7 +16,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router'
 import usePost from '@/app/utils/hooks/usePost'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { Button, ActivityIndicator } from 'react-native-paper'
+import { ActivityIndicator } from 'react-native-paper'
 import useCreatePostForm from '@/app/utils/hooks/useCreatePostForm'
 import useTagsList from '@/app/utils/hooks/useTagList'
 import CustomMultipleSelectList from '@/app/components/CustomMultipleSelectList'
@@ -93,7 +93,7 @@ export default function CreatePost(): JSX.Element {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1}} style={styles.box}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.box}>
           <Formik
             initialValues={{
               title: post?.title || '',
@@ -175,7 +175,7 @@ export default function CreatePost(): JSX.Element {
             }) => (
               <View>
                 <View style={styles.inputContainer}>
-                  <Text style={globalStyles.label}>Título</Text>
+                  <Text style={styles.label}>Título</Text>
                   <TextInput
                     style={globalStyles.input}
                     placeholder="Digite o título"
@@ -189,7 +189,7 @@ export default function CreatePost(): JSX.Element {
                 </View>
 
                 <View style={styles.inputContainer}>
-                  <Text style={globalStyles.label}>Conteúdo</Text>
+                  <Text style={styles.label}>Conteúdo</Text>
                   <TextInput
                     style={[globalStyles.input, { height: 100 }]}
                     placeholder="Digite o conteúdo"
@@ -228,28 +228,35 @@ export default function CreatePost(): JSX.Element {
                     </View>
                   )}
                 </View>
-
-                <CustomMultipleSelectList
-                  setSelected={setSelected}
-                  data={categoryOptions}
-                  save="key"
-                  label="Categorias"
-                  placeholder="Buscar por categorias"
-                  searchPlaceholder="Filtre por categoria"
-                  boxStyles={globalStyles.registerOptionSelect}
-                  dropdownStyles={globalStyles.dropdwon}
-                  badgeStyles={styles.badgeStyles}
-                  badgeTextStyles={styles.badgeTextStyles}
-                />
-
-                <View style={styles.buttonContainer}>
-                    {loading ? (
-                        <ActivityIndicator animating={true} size="medium" color="#4e46dd" />
-                    ) : (
-                        <Button onPress={handleSubmit} mode="contained" buttonColor="#4e46dd">
-                            {'Criar Postagem'}
-                        </Button>
-                    )}
+                <View style={styles.inputContainer}>
+                  <CustomMultipleSelectList
+                    setSelected={setSelected}
+                    data={categoryOptions}
+                    save="key"
+                    label="Categorias"
+                    placeholder="Buscar por categorias"
+                    searchPlaceholder="Filtre por categoria"
+                    boxStyles={globalStyles.registerOptionSelect}
+                    dropdownStyles={globalStyles.dropdwon}
+                    badgeStyles={styles.badgeStyles}
+                    badgeTextStyles={styles.badgeTextStyles}
+                  />
+                </View>
+                <View>
+                  {loading ? (
+                    <ActivityIndicator
+                      animating={true}
+                      size="large"
+                      color="#4e46dd"
+                    />
+                  ) : (
+                    <TouchableOpacity
+                      style={styles.buttonContainer}
+                      onPress={() => handleSubmit()}
+                    >
+                      <Text style={styles.buttonText}>Criar Postagem</Text>
+                    </TouchableOpacity>
+                  )}
                 </View>
               </View>
             )}
