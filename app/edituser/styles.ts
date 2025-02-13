@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   overlay: {
@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'rgb(255, 255, 255)',
     padding: 30,
-
   },
   title: {
     fontSize: 18,
@@ -27,15 +26,23 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonWrapper: {
-      overflow: 'hidden',
-      margin: 5,
-      borderRadius: 10,
+    margin: 5,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 6,
+    backgroundColor: '#4e46dd',
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
-  error:{
+  error: {
     color: 'red',
     marginBottom: 10,
   },
@@ -43,6 +50,6 @@ const styles = StyleSheet.create({
     marginBottom: 7,
     fontWeight: 'bold',
   },
-});
+})
 
 export default styles
