@@ -28,7 +28,7 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
         {path_img && (
           <View style={styles.cardImageWrapper}>
             <Image
-              resizeMode='cover'
+              resizeMode="cover"
               source={{ uri: `${baseApiUrl}/${path_img}` }}
               style={styles.cardImage}
               alt={title}
@@ -40,14 +40,6 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
             <View style={styles.cardHeaderLeft}>
               <Text style={styles.cardTitle}>{title}</Text>
               <Text style={styles.authorName}>{teacher?.user?.name}</Text>
-            </View>
-            <View style={styles.stats}>
-              <Text style={styles.stat}>
-                <Ionicons name='eye' size={16} /> {viewedCount}
-              </Text>
-              <Text style={styles.stat}>
-                <FontAwesome name='comments' size={16} /> {commentCount}
-              </Text>
             </View>
           </View>
 
@@ -76,25 +68,12 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
                 <Text style={styles.cardDate}>{formattedDate(created_at)}</Text>
               </View>
             )}
-            <View style={{ columnGap: 5, display: 'none' }}>
-              <Ionicons
-                name='eye-outline'
-                size={24}
-                color='rgb(156, 163, 175)'
-              />
-              <Text style={{ color: 'rgb(156, 163, 175)' }}>{viewedCount}</Text>
-              <Text
-                style={{ marginHorizontal: 5, color: 'rgb(156, 163, 175)' }}
-              >
-                |
+            <View style={styles.stats}>
+              <Text style={styles.stat}>
+                <Ionicons name="eye" size={16} /> {viewedCount}
               </Text>
-              <FontAwesome
-                name='comment-o'
-                size={24}
-                color='rgb(156, 163, 175)'
-              />
-              <Text style={{ color: 'rgb(156, 163, 175)' }}>
-                {commentCount}
+              <Text style={styles.stat}>
+                <FontAwesome name="comments" size={16} /> {commentCount}
               </Text>
             </View>
           </View>

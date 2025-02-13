@@ -1,15 +1,12 @@
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin:20,
+    margin: 16,
     borderRadius: 10,
     backgroundColor: 'white',
     padding: 12,
-  },
-  box:{
-    padding: Platform.OS === 'ios' ? 12 : 0,
   },
   header: {
     paddingVertical: 20,
@@ -23,19 +20,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333',
   },
-
   inputContainer: {
+    marginTop: Platform.OS === 'ios' ? 20 : 0,
+    marginHorizontal: Platform.OS === 'ios' ? 20 : 0,
     padding: 10,
     marginBottom: 10,
     elevation: 3,
   },
-
   fields: {
     marginBottom: 30,
   },
   label: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 22,
+    fontWeight: 'bold',
     marginBottom: 5,
     paddingLeft: 5,
     color: '#555',
@@ -103,17 +100,19 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginBottom: 20,
-    borderRadius: 10,
+    marginHorizontal: Platform.OS === 'ios' ? 32 : 12,
+    backgroundColor: '#4e46dd',
+    borderRadius: 8,
     overflow: 'hidden',
-    paddingBottom: 20,
-    paddingTop: 20,
+    paddingBottom: 10,
+    paddingTop: 10,
   },
   buttonText: {
-    fontSize: 19,
+    fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
+    textAlign: 'center',
   },
-
   errorText: {
     color: 'red',
     paddingLeft: 10,
