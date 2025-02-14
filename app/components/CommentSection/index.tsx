@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   Button,
   Modal,
+  TouchableOpacity,
 } from 'react-native'
 import Post from '@/app/services/posts/IPost'
 import Comment from '../Comment'
@@ -31,7 +32,7 @@ interface CommentSectionProps {
 
 const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   const { loadingDelete, handleDeleteComment } = useDeleteComment()
-  const { handleChangeComment } = useEditCommentForm()
+  const { handleEditComment, loadingEditCommentForm } = useEditCommentForm()
   const [comments, setComments] = useState<ICommentsFromGetPostById[]>([])
   const { handleCreateComment, loadingCreateCommentForm } =
     useCreateCommentForm()
@@ -52,7 +53,7 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   }
 
   if (loadingDelete) {
-    return <ActivityIndicator size="large" color="#0000ff" />
+    return <ActivityIndicator size='large' color='#0000ff' />
   }
 
   // const handleEdit = (comment: ICommentsFromGetPostById) => {
@@ -137,8 +138,8 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
               onChangeText={handleChange('content')}
               onBlur={handleBlur('content')}
               value={values.content}
-              placeholder="Deixe seu comentário..."
-              keyboardType="twitter"
+              placeholder='Deixe seu comentário...'
+              keyboardType='twitter'
               multiline
               numberOfLines={5}
               style={styles.newCommentInput}
@@ -149,7 +150,7 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
             </Text>
             <View style={styles.buttonContainer}>
               {loadingCreateCommentForm ? (
-                <ActivityIndicator size="large" color="#4e46dd" />
+                <ActivityIndicator size='large' color='#4e46dd' />
               ) : (
                 <TouchableOpacity
                   onPress={() => handleSubmit()}
