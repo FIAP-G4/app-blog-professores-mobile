@@ -25,11 +25,11 @@ import CustomMultipleSelectList from '@/app/components/CustomMultipleSelectList'
 
 const schema = Yup.object().shape({
   title: Yup.string()
-    .min(5, 'O título deve ter pelo menos 5 caracteres.')
-    .required('Título é obrigatório'),
+      .min(5, 'O título deve ter pelo menos 5 caracteres.')
+      .required('Título é obrigatório'),
   content: Yup.string()
-    .min(5, 'O conteúdo deve ter pelo menos 5 caracteres.')
-    .required('Conteúdo é obrigatório'),
+      .min(5, 'O conteúdo deve ter pelo menos 5 caracteres.')
+      .required('Conteúdo é obrigatório'),
 })
 
 export default function UpdatePost(): JSX.Element {
@@ -47,24 +47,23 @@ export default function UpdatePost(): JSX.Element {
       const updatedPost = {
         ...post,
         path_img: post.path_img
-          ? `${process.env.EXPO_PUBLIC_CORS_ORIGIN}/${post.path_img.replace(
-              /^\/+/,
-              '',
-            )}`
-          : null,
-      }
+            ? `${process.env.EXPO_PUBLIC_CORS_ORIGIN}/${post.path_img.replace(/^\/+/, '')}`
+            : null,
+      };
 
-      setSelected(updatedPost.tags.map((tag) => tag.id.toString()))
-      setImage(updatedPost.path_img)
+      // Aqui, você garante que as tags associadas ao post já sejam marcadas
+      const selectedTags = updatedPost.tags.map(tag => tag.id.toString());
+      setSelected(selectedTags); // Atualiza o estado `selected` com os IDs das tags
     }
-  }, [post])
+  }, [post]);
+
 
   const handleSelectImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
     if (status !== 'granted') {
       Alert.alert(
-        'Permissão necessária',
-        'É necessário permitir o acesso à galeria.',
+          'Permissão necessária',
+          'É necessário permitir o acesso à galeria.',
       )
       return
     }
@@ -89,182 +88,180 @@ export default function UpdatePost(): JSX.Element {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}
-      >
-        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
-          <Formik
-            initialValues={{
-              title: post?.title || '',
-              content: post?.content || '',
-            }}
-            validationSchema={schema}
-            onSubmit={(values, { resetForm }) => {
-              const selectedTags = selected
-                .map((id) => tags.find((t) => t.id.toString() === id))
-                .filter(Boolean)
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={{ flex: 1 }}
+        >
+          <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
+            <Formik
+                initialValues={{
+                  title: post?.title || '',
+                  content: post?.content || '',
+                }}
+                validationSchema={schema}
+                onSubmit={(values, { resetForm }) => {
+                  // Filtra as tags selecionadas com base no estado `selected`
+                  const selectedTags = categoryOptions
+                      .filter((tag) => selected.includes(tag.key)) // Alterei para usar 'key' em vez de 'id'
+                      .filter(Boolean); // Remove valores undefined/nulos, se houver
 
-              const formData = new FormData()
-              formData.append('title', values.title)
-              formData.append('content', values.content)
+                  // Função para criar e preencher o FormData
+                  const createFormData = (imageBlob = null) => {
+                    const formData = new FormData();
+                    formData.append('title', values.title);
+                    formData.append('content', values.content);
 
-              selectedTags.forEach((tag, index) => {
-                formData.append(`tags[${index}][id]`, tag.id)
-                formData.append(`tags[${index}][name]`, tag.name)
-              })
-
-              if (image) {
-                fetch(image)
-                  .then((response) => response.blob())
-                  .then((blob) => {
-                    if (!blob) return
-
-                    const formData = new FormData()
-                    formData.append('title', values.title)
-                    formData.append('content', values.content)
-
+                    // Adiciona as tags selecionadas ao FormData
                     selectedTags.forEach((tag, index) => {
-                      formData.append(`tags[${index}][id]`, tag.id)
-                      formData.append(`tags[${index}][name]`, tag.name)
-                    })
+                      formData.append(`tags[${index}][id]`, tag.key);
+                      formData.append(`tags[${index}][name]`, tag.value);
+                    });
 
-                    formData.append('attachment', {
-                      uri: image,
-                      name: 'image.jpg',
-                      type: 'image/jpeg',
-                    })
+                    // Se houver uma imagem, adiciona ao FormData
+                    if (imageBlob) {
+                      formData.append('attachment', {
+                        uri: image,
+                        name: 'image.jpg',
+                        type: 'image/jpeg',
+                      });
+                    }
 
+                    return formData;
+                  };
+
+                  // Função para enviar o FormData e resetar o formulário
+                  const submitFormData = (formData) => {
                     handleCreatePost(formData, id).then(() => {
-                      resetForm()
-                      setImage(null)
-                      setSelected([])
-                      router.replace('/update_post')
-                    })
-                  })
-                  .catch((err) =>
-                    console.error('Erro ao converter imagem:', err),
-                  )
-              } else {
-                const formData = new FormData()
-                formData.append('title', values.title)
-                formData.append('content', values.content)
+                      resetForm(); // Reseta o formulário
+                      setImage(null); // Limpa a imagem
+                      setSelected([]); // Limpa as tags selecionadas
+                      router.replace('/update_post'); // Redireciona
+                    });
+                  };
 
-                selectedTags.forEach((tag, index) => {
-                  formData.append(`tags[${index}][id]`, tag.id)
-                  formData.append(`tags[${index}][name]`, tag.name)
-                })
-
-                handleCreatePost(formData, id).then(() => {
-                  resetForm()
-                  setImage(null)
-                  setSelected([])
-                  router.replace('/update_post')
-                })
-              }
-            }}
-          >
-            {({
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              values,
-              errors,
-              touched,
-            }) => (
-              <View>
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Título</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Digite o título"
-                    value={values.title}
-                    onChangeText={handleChange('title')}
-                    onBlur={handleBlur('title')}
-                  />
-                  {touched.title && errors.title && (
-                    <Text style={styles.errorText}>{errors.title}</Text>
-                  )}
-                </View>
-
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Conteúdo</Text>
-                  <TextInput
-                    style={[styles.input, { height: 100 }]}
-                    placeholder="Digite o conteúdo"
-                    value={values.content}
-                    onChangeText={handleChange('content')}
-                    onBlur={handleBlur('content')}
-                    multiline
-                  />
-                  {touched.content && errors.content && (
-                    <Text style={styles.errorText}>{errors.content}</Text>
-                  )}
-                </View>
-
-                <View style={styles.imageContainer}>
-                  <Text style={styles.label}>Imagem</Text>
-                  <TouchableOpacity
-                    style={styles.imageButton}
-                    onPress={handleSelectImage}
-                  >
-                    <Text style={styles.imageButtonText}>
-                      Selecionar Imagem
-                    </Text>
-                  </TouchableOpacity>
-                  {image && (
-                    <View style={styles.imagePreviewContainer}>
-                      <Image
-                        source={{ uri: image }}
-                        style={styles.imagePreview}
+                  // Se houver uma imagem, converte para blob e envia
+                  if (image) {
+                    fetch(image)
+                        .then((response) => response.blob())
+                        .then((blob) => {
+                          if (!blob) return; // Se não houver blob, não faz nada
+                          const formData = createFormData(blob); // Cria o FormData com a imagem
+                          submitFormData(formData); // Envia o FormData
+                        })
+                        .catch((err) => {
+                          console.error('Erro ao converter imagem:', err);
+                        });
+                  } else {
+                    // Se não houver imagem, cria o FormData sem imagem e envia
+                    const formData = createFormData();
+                    submitFormData(formData);
+                  }
+                }}
+            >
+              {({
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  values,
+                  errors,
+                  touched,
+                }) => (
+                  <View>
+                    <View style={styles.inputContainer}>
+                      <Text style={styles.label}>Título</Text>
+                      <TextInput
+                          style={styles.input}
+                          placeholder="Digite o título"
+                          value={values.title}
+                          onChangeText={handleChange('title')}
+                          onBlur={handleBlur('title')}
                       />
-                      <TouchableOpacity
-                        style={styles.removeImageButton}
-                        onPress={handleRemoveImage}
-                      >
-                        <FontAwesome name="trash" size={20} color="#fff" />
-                      </TouchableOpacity>
+                      {touched.title && errors.title && (
+                          <Text style={styles.errorText}>{errors.title}</Text>
+                      )}
                     </View>
-                  )}
-                </View>
-                <View
-                  style={[
-                    styles.inputContainer,
-                    Platform.OS === 'ios' && { marginHorizontal: 12 },
-                  ]}
-                >
-                  <CustomMultipleSelectList
-                    setSelected={setSelected}
-                    data={categoryOptions}
-                    save="key"
-                    label="Categorias"
-                    placeholder="Buscar por categorias"
-                    searchPlaceholder="Filtre por categoria"
-                    boxStyles={styles.optionSelect}
-                    dropdownStyles={styles.dropdwon}
-                    badgeStyles={styles.badgeStyles}
-                    badgeTextStyles={styles.badgeTextStyles}
-                  />
-                </View>
-                <View style={styles.buttonContainer}>
-                  {loading ? (
-                    <ActivityIndicator
-                      animating={true}
-                      size="large"
-                      color="#4e46dd"
-                    />
-                  ) : (
-                    <TouchableOpacity onPress={() => handleSubmit()}>
-                      <Text style={styles.buttonText}>Editar</Text>
-                    </TouchableOpacity>
-                  )}
-                </View>
-              </View>
-            )}
-          </Formik>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+
+                    <View style={styles.inputContainer}>
+                      <Text style={styles.label}>Conteúdo</Text>
+                      <TextInput
+                          style={[styles.input, { height: 100 }]}
+                          placeholder="Digite o conteúdo"
+                          value={values.content}
+                          onChangeText={handleChange('content')}
+                          onBlur={handleBlur('content')}
+                          multiline
+                      />
+                      {touched.content && errors.content && (
+                          <Text style={styles.errorText}>{errors.content}</Text>
+                      )}
+                    </View>
+
+                    <View style={styles.imageContainer}>
+                      <Text style={styles.label}>Imagem</Text>
+                      <TouchableOpacity
+                          style={styles.imageButton}
+                          onPress={handleSelectImage}
+                      >
+                        <Text style={styles.imageButtonText}>
+                          Selecionar Imagem
+                        </Text>
+                      </TouchableOpacity>
+                      {image && (
+                          <View style={styles.imagePreviewContainer}>
+                            <Image
+                                source={{ uri: image }}
+                                style={styles.imagePreview}
+                            />
+                            <TouchableOpacity
+                                style={styles.removeImageButton}
+                                onPress={handleRemoveImage}
+                            >
+                              <FontAwesome name="trash" size={20} color="#fff" />
+                            </TouchableOpacity>
+                          </View>
+                      )}
+                    </View>
+
+                    <View
+                        style={[
+                          styles.inputContainer,
+                          Platform.OS === 'ios' && { marginHorizontal: 12 },
+                        ]}
+                    >
+                      <CustomMultipleSelectList
+                          setSelected={setSelected}
+                          data={categoryOptions}
+                          save="key"
+                          label="Categorias"
+                          placeholder="Buscar por categorias"
+                          searchPlaceholder="Filtre por categoria"
+                          boxStyles={styles.optionSelect}
+                          dropdownStyles={styles.dropdwon}
+                          badgeStyles={styles.badgeStyles}
+                          badgeTextStyles={styles.badgeTextStyles}
+                          selected={selected} // Passando os valores selecionados
+                      />
+                    </View>
+
+                    <View style={styles.buttonContainer}>
+                      {loading ? (
+                          <ActivityIndicator
+                              animating={true}
+                              size="large"
+                              color="#4e46dd"
+                          />
+                      ) : (
+                          <TouchableOpacity onPress={() => handleSubmit()}>
+                            <Text style={styles.buttonText}>Editar</Text>
+                          </TouchableOpacity>
+                      )}
+                    </View>
+                  </View>
+              )}
+            </Formik>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
   )
 }
