@@ -62,7 +62,7 @@ export default function AuthLayout() {
 
   return (
     <>
-      <Header pageTitle='Blog Escolar' />
+      <Header pageTitle="Blog Escolar" />
       {isAuthenticated && isTeacher && (
         <Tabs
           screenOptions={{
@@ -80,7 +80,7 @@ export default function AuthLayout() {
                 options={{
                   tabBarLabel: '',
                   headerTitleStyle: styles.headerTitle,
-                  headerStyle: styles.headerStyle, // Adicione esta linha
+                  headerStyle: styles.headerStyle,
                   title,
                   headerShown,
                   tabBarIcon: ({ focused }) => (
@@ -94,6 +94,14 @@ export default function AuthLayout() {
               />
             ),
           )}
+          <Tabs.Screen
+            name="update_post"
+            options={{
+              tabBarButton: () => null,
+              tabBarStyle: { display: 'none' },
+              headerShown: false,
+            }}
+          />
         </Tabs>
       )}
       {(!isAuthenticated || !isTeacher) && <Slot />}
@@ -104,16 +112,14 @@ export default function AuthLayout() {
 const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#ddd',
     height: 55,
-    position: 'absolute',
-    bottom: 16,
-    left: 16,
-    right: 16,
+    position: 'fixed',
+    bottom: 0,
     borderRadius: 16,
     marginHorizontal: 12,
-    paddingTop: 8,
+    paddingTop: 12,
+    paddingBottom: 0,
+    marginBottom: Platform.OS === 'ios' ? 42 : 12,
   },
   tabLabel: {
     fontSize: 12,
@@ -124,13 +130,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
+    margin: 0,
+    height: Platform.OS === 'ios' ? 80 : 50,
     fontSize: 18,
     fontWeight: 'bold',
     color: '#000',
-    height: Platform.OS === 'ios' ? 60 : 20
   },
   headerStyle: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     height: 60,
-    justifyContent: 'center',
   },
 })

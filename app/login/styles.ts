@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   introText: {
-    marginBottom: 30,
+    marginTop: 30,
     width: '90%',
   },
   loginBox: {
@@ -36,8 +36,16 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginBottom: 20,
-    borderRadius: 10,
+    borderRadius: 8,
+    backgroundColor: '#4e46dd',
     overflow: 'hidden',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    padding: 10,
+    textAlign: 'center',
   },
   registerRow: {
     display: 'flex',

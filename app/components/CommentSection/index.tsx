@@ -31,9 +31,9 @@ interface CommentSectionProps {
 
 const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   const { loadingDelete, handleDeleteComment } = useDeleteComment()
-  const { loadingEditCommentForm, handleEditComment } = useEditCommentForm()
+  const { handleChangeComment } = useEditCommentForm()
   const [comments, setComments] = useState<ICommentsFromGetPostById[]>([])
-  const { handleCreateComment, loadingCreateCommentForm, createCommentForm } =
+  const { handleCreateComment, loadingCreateCommentForm } =
     useCreateCommentForm()
   const { isAuthenticated, loggedInUserId, user } = useAuth()
   const [isModalVisible, setModalVisible] = useState(false)
@@ -52,7 +52,7 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   }
 
   if (loadingDelete) {
-    return <ActivityIndicator size='large' color='#0000ff' />
+    return <ActivityIndicator size="large" color="#0000ff" />
   }
 
   // const handleEdit = (comment: ICommentsFromGetPostById) => {
@@ -137,8 +137,8 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
               onChangeText={handleChange('content')}
               onBlur={handleBlur('content')}
               value={values.content}
-              placeholder='Deixe seu comentário...'
-              keyboardType='twitter'
+              placeholder="Deixe seu comentário..."
+              keyboardType="twitter"
               multiline
               numberOfLines={5}
               style={styles.newCommentInput}
@@ -149,13 +149,14 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
             </Text>
             <View style={styles.buttonContainer}>
               {loadingCreateCommentForm ? (
-                <ActivityIndicator size='large' color='#4e46dd' />
+                <ActivityIndicator size="large" color="#4e46dd" />
               ) : (
-                <Button
-                  title='Comentar'
-                  color='#4e46dd'
-                  onPress={handleSubmit as any}
-                />
+                <TouchableOpacity
+                  onPress={() => handleSubmit()}
+                  style={styles.button}
+                >
+                  <Text style={styles.buttonText}>Comentar</Text>
+                </TouchableOpacity>
               )}
             </View>
           </View>

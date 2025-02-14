@@ -3,10 +3,10 @@ import { Platform, StyleSheet } from 'react-native'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 16,
+    margin: 20,
     borderRadius: 10,
     backgroundColor: 'white',
-    padding: 12,
+    padding: 16,
   },
   header: {
     paddingVertical: 20,
@@ -20,24 +20,28 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333',
   },
+
   inputContainer: {
-    marginTop: Platform.OS === 'ios' ? 20 : 0,
-    marginHorizontal: Platform.OS === 'ios' ? 20 : 0,
     padding: 10,
     marginBottom: 10,
     elevation: 3,
   },
+
   fields: {
     marginBottom: 30,
   },
   label: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 5,
+    marginBottom: 10,
+    marginHorizontal: Platform.OS === 'ios' ? 12 : 0,
+    marginTop: Platform.OS === 'ios' ? 12 : 0,
     paddingLeft: 5,
     color: '#555',
   },
   input: {
+    marginHorizontal: Platform.OS === 'ios' ? 12 : 0,
+    marginTop: Platform.OS === 'ios' ? 12 : 0,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 10,
@@ -47,6 +51,8 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   dropdown: {
+    marginHorizontal: Platform.OS === 'ios' ? 12 : 0,
+    marginTop: Platform.OS === 'ios' ? 12 : 0,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 10,
@@ -99,20 +105,21 @@ const styles = StyleSheet.create({
     width: '50%',
   },
   buttonContainer: {
+    marginHorizontal: Platform.OS === 'ios' ? 20 : 0,
+    marginTop: Platform.OS === 'ios' ? 12 : 0,
     marginBottom: 20,
-    marginHorizontal: Platform.OS === 'ios' ? 32 : 12,
-    backgroundColor: '#4e46dd',
     borderRadius: 8,
+    backgroundColor: '#4e46dd',
     overflow: 'hidden',
-    paddingBottom: 10,
-    paddingTop: 10,
   },
   buttonText: {
+    padding: 10,
     fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
     textAlign: 'center',
   },
+
   errorText: {
     color: 'red',
     paddingLeft: 10,

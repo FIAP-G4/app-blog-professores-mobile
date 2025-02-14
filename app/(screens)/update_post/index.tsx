@@ -19,10 +19,9 @@ import * as Yup from 'yup'
 import { ActivityIndicator } from 'react-native-paper'
 import useCreatePostForm from '@/app/utils/hooks/useCreatePostForm'
 import useTagsList from '@/app/utils/hooks/useTagList'
-import CustomMultipleSelectList from '@/app/components/CustomMultipleSelectList'
 import styles from './styles'
 import { FontAwesome } from '@expo/vector-icons'
-import globalStyles from '@/app/styles'
+import CustomMultipleSelectList from '@/app/components/CustomMultipleSelectList'
 
 const schema = Yup.object().shape({
   title: Yup.string()
@@ -33,14 +32,14 @@ const schema = Yup.object().shape({
     .required('Conteúdo é obrigatório'),
 })
 
-export default function CreatePost(): JSX.Element {
+export default function UpdatePost(): JSX.Element {
   const { id } = useLocalSearchParams()
   const router = useRouter()
   const { post, loading: postLoading } = usePost(id as string)
   const { handleCreatePost, loading } = useCreatePostForm()
   const { tags } = useTagsList()
   const categoryOptions = tags.map((tag) => ({ key: tag.id, value: tag.name }))
-  const [selected, setSelected] = useState<number[]>([])
+  const [selected, setSelected] = useState<string[]>([]) // Alterado para string[]
   const [image, setImage] = useState<string | null>(null)
 
   useEffect(() => {
@@ -54,7 +53,8 @@ export default function CreatePost(): JSX.Element {
             )}`
           : null,
       }
-      setSelected(updatedPost.tags.map((tag) => tag.id))
+
+      setSelected(updatedPost.tags.map((tag) => tag.id.toString()))
       setImage(updatedPost.path_img)
     }
   }, [post])
@@ -92,8 +92,9 @@ export default function CreatePost(): JSX.Element {
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.box}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
           <Formik
             initialValues={{
               title: post?.title || '',
@@ -102,7 +103,7 @@ export default function CreatePost(): JSX.Element {
             validationSchema={schema}
             onSubmit={(values, { resetForm }) => {
               const selectedTags = selected
-                .map((id) => tags.find((t) => t.id === id))
+                .map((id) => tags.find((t) => t.id.toString() === id))
                 .filter(Boolean)
 
               const formData = new FormData()
@@ -115,7 +116,6 @@ export default function CreatePost(): JSX.Element {
               })
 
               if (image) {
-                // Converte a URI da imagem em um blob
                 fetch(image)
                   .then((response) => response.blob())
                   .then((blob) => {
@@ -140,7 +140,7 @@ export default function CreatePost(): JSX.Element {
                       resetForm()
                       setImage(null)
                       setSelected([])
-                      router.replace('/create_post')
+                      router.replace('/update_post')
                     })
                   })
                   .catch((err) =>
@@ -160,7 +160,7 @@ export default function CreatePost(): JSX.Element {
                   resetForm()
                   setImage(null)
                   setSelected([])
-                  router.replace('/create_post')
+                  router.replace('/update_post')
                 })
               }
             }}
@@ -177,7 +177,7 @@ export default function CreatePost(): JSX.Element {
                 <View style={styles.inputContainer}>
                   <Text style={styles.label}>Título</Text>
                   <TextInput
-                    style={globalStyles.input}
+                    style={styles.input}
                     placeholder="Digite o título"
                     value={values.title}
                     onChangeText={handleChange('title')}
@@ -191,7 +191,7 @@ export default function CreatePost(): JSX.Element {
                 <View style={styles.inputContainer}>
                   <Text style={styles.label}>Conteúdo</Text>
                   <TextInput
-                    style={[globalStyles.input, { height: 100 }]}
+                    style={[styles.input, { height: 100 }]}
                     placeholder="Digite o conteúdo"
                     value={values.content}
                     onChangeText={handleChange('content')}
@@ -204,7 +204,7 @@ export default function CreatePost(): JSX.Element {
                 </View>
 
                 <View style={styles.imageContainer}>
-                  <Text style={globalStyles.label}>Imagem</Text>
+                  <Text style={styles.label}>Imagem</Text>
                   <TouchableOpacity
                     style={styles.imageButton}
                     onPress={handleSelectImage}
@@ -228,7 +228,12 @@ export default function CreatePost(): JSX.Element {
                     </View>
                   )}
                 </View>
-                <View style={styles.inputContainer}>
+                <View
+                  style={[
+                    styles.inputContainer,
+                    Platform.OS === 'ios' && { marginHorizontal: 12 },
+                  ]}
+                >
                   <CustomMultipleSelectList
                     setSelected={setSelected}
                     data={categoryOptions}
@@ -236,12 +241,13 @@ export default function CreatePost(): JSX.Element {
                     label="Categorias"
                     placeholder="Buscar por categorias"
                     searchPlaceholder="Filtre por categoria"
-                    dropdownStyles={globalStyles.dropdwon}
+                    boxStyles={styles.optionSelect}
+                    dropdownStyles={styles.dropdwon}
                     badgeStyles={styles.badgeStyles}
                     badgeTextStyles={styles.badgeTextStyles}
                   />
                 </View>
-                <View>
+                <View style={styles.buttonContainer}>
                   {loading ? (
                     <ActivityIndicator
                       animating={true}
@@ -249,11 +255,8 @@ export default function CreatePost(): JSX.Element {
                       color="#4e46dd"
                     />
                   ) : (
-                    <TouchableOpacity
-                      style={styles.buttonContainer}
-                      onPress={() => handleSubmit()}
-                    >
-                      <Text style={styles.buttonText}>Criar Postagem</Text>
+                    <TouchableOpacity onPress={() => handleSubmit()}>
+                      <Text style={styles.buttonText}>Editar</Text>
                     </TouchableOpacity>
                   )}
                 </View>

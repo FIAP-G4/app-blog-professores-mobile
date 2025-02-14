@@ -1,11 +1,11 @@
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native'
 
 const register = StyleSheet.create({
   screen: {
     flex: 1,
     paddingLeft: 20,
     paddingRight: 20,
-    paddingTop: Platform.OS === 'ios' ? -50 : 0,
+    paddingTop: Platform.OS === 'ios' ? -50 : -20,
     backgroundColor: '#f3f4f6',
     justifyContent: 'center',
     alignItems: 'center',
@@ -40,7 +40,15 @@ const register = StyleSheet.create({
   buttonContainer: {
     marginBottom: 20,
     borderRadius: 10,
+    backgroundColor: '#4e46dd',
     overflow: 'hidden',
+  },
+  buttonText: {
+    padding: 10,
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
   },
   registerRow: {
     display: 'flex',
@@ -77,6 +85,6 @@ const register = StyleSheet.create({
   fields: {
     marginBottom: 30,
   },
-});
+})
 
-export default register;
+export default register

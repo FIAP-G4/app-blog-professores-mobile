@@ -6,6 +6,7 @@ import {
   View,
   ActivityIndicator,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native'
 import { SelectList } from 'react-native-dropdown-select-list'
 import { Formik } from 'formik'
@@ -15,7 +16,6 @@ import useCreateAccountForm from '@/app/utils/hooks/useCreateAccountForm'
 import { useAuth } from '@/context/AuthContext'
 import { Redirect } from 'expo-router'
 import globalStyles from '@/app/styles'
-import { Button } from 'react-native-paper';
 
 // Definição do esquema de validação com Yup
 const schema = Yup.object().shape({
@@ -34,7 +34,7 @@ export default function Register(): JSX.Element {
   isAuthenticated = true
 
   return !isAuthenticated ? (
-    <Redirect href='/postagens' />
+    <Redirect href="/postagens" />
   ) : (
     <SafeAreaView style={styles.screen}>
       <ScrollView style={styles.loginBox}>
@@ -83,7 +83,7 @@ export default function Register(): JSX.Element {
               <TextInput
                 style={globalStyles.input}
                 value={values.name}
-                placeholder='Digite seu nome'
+                placeholder="Digite seu nome"
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 placeholderTextColor={'#888'}
@@ -96,10 +96,10 @@ export default function Register(): JSX.Element {
               <TextInput
                 style={globalStyles.input}
                 value={values.email}
-                placeholder='Digite seu e-mail'
+                placeholder="Digite seu e-mail"
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
-                keyboardType='email-address'
+                keyboardType="email-address"
                 placeholderTextColor={'#888'}
               />
               <Text style={globalStyles.error}>
@@ -111,7 +111,7 @@ export default function Register(): JSX.Element {
                 style={globalStyles.input}
                 secureTextEntry
                 value={values.password}
-                placeholder='Digite sua senha'
+                placeholder="Digite sua senha"
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
                 placeholderTextColor={'#888'}
@@ -125,7 +125,7 @@ export default function Register(): JSX.Element {
                 style={globalStyles.input}
                 secureTextEntry
                 value={values.confirmPassword}
-                placeholder='Confirme sua senha'
+                placeholder="Confirme sua senha"
                 onChangeText={handleChange('confirmPassword')}
                 onBlur={handleBlur('confirmPassword')}
                 placeholderTextColor={'#888'}
@@ -138,15 +138,11 @@ export default function Register(): JSX.Element {
 
               <View style={styles.buttonContainer}>
                 {loading ? (
-                  <ActivityIndicator size='large' color='#4e46dd' />
+                  <ActivityIndicator size="large" color="#4e46dd" />
                 ) : (
-                  <Button
-                    onPress={handleSubmit as any}
-                    mode='contained'
-                    buttonColor='#4e46dd'
-                  >
-                    Registrar
-                  </Button>
+                  <TouchableOpacity onPress={() => handleSubmit()}>
+                    <Text style={styles.buttonText}>Registrar</Text>
+                  </TouchableOpacity>
                 )}
               </View>
             </View>

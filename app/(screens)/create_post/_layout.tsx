@@ -14,8 +14,6 @@ export default function PostsLayout() {
 
   return (
     <>
-      <View style={styles.subHeader}>
-      </View>
       <Slot />
     </>
   )
