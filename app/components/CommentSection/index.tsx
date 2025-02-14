@@ -3,10 +3,9 @@ import {
   Text,
   ScrollView,
   ActivityIndicator,
-  Button,
-  Modal,
   TouchableOpacity,
 } from 'react-native'
+import Modal from 'react-native-modal'
 import Post from '@/app/services/posts/IPost'
 import Comment from '../Comment'
 import { ICommentsFromGetPostById } from '@/app/services/comments/IComments'
@@ -96,6 +95,10 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
     }
   }
 
+  const handleCancel = () => {
+    setModalVisible(false)
+  }
+
   const updateCommentsAfterEdition = (comment: ICommentsFromGetPostById) => {
     setComments((prevComments) =>
       prevComments.map((prevComment) =>
@@ -177,68 +180,68 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
       </View>
       {commentToEdit && (
         <Modal
-          animationType='slide'
-          transparent={true}
-          visible={isModalVisible}
-          onRequestClose={() => {
-            setModalVisible(!isModalVisible)
+          animationIn='fadeIn'
+          animationOut='fadeOut'
+          onBackdropPress={() => {
+            setModalVisible(false)
           }}
+          isVisible={isModalVisible}
+          useNativeDriver
         >
           <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>Editar Comentário</Text>
+            <Text style={styles.modalTitle}>Altere seu comentário:</Text>
 
-              <Formik
-                initialValues={{ content: commentToEdit.content }}
-                validationSchema={schema}
-                onSubmit={(values) => handleEditSubmit(values)}
-              >
-                {({
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  values,
-                  errors,
-                  touched,
-                }) => (
-                  <View>
-                    <TextInput
-                      onChangeText={handleChange('content')}
-                      onBlur={handleBlur('content')}
-                      value={values.content}
-                      placeholder='Edite seu comentário...'
-                      keyboardType='twitter'
-                      multiline
-                      numberOfLines={5}
-                      style={styles.editCommentInput}
-                      placeholderTextColor={'#888'}
-                    />
+            <Formik
+              initialValues={{ content: commentToEdit.content }}
+              validationSchema={schema}
+              onSubmit={(values) => handleEditSubmit(values)}
+            >
+              {({
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+                errors,
+                touched,
+              }) => (
+                <View style={styles.modalContent}>
+                  <TextInput
+                    onChangeText={handleChange('content')}
+                    onBlur={handleBlur('content')}
+                    value={values.content}
+                    placeholder='Comente algo...'
+                    keyboardType='twitter'
+                    multiline
+                    numberOfLines={5}
+                    style={styles.newCommentInput}
+                    placeholderTextColor={'#888'}
+                  />
 
-                    <Text style={globalStyles.error}>
-                      {touched.content && errors.content ? errors.content : ''}
-                    </Text>
+                  <Text style={globalStyles.error}>
+                    {touched.content && errors.content ? errors.content : ''}
+                  </Text>
 
+                  {loadingEditCommentForm ? (
+                    <ActivityIndicator size='large' color='#4e46dd' />
+                  ) : (
                     <View style={styles.modalButtonContainer}>
-                      {loadingEditCommentForm ? (
-                        <ActivityIndicator size='large' color='#4e46dd' />
-                      ) : (
-                        <Button
-                          title='Salvar alterações'
-                          color='#4e46dd'
-                          onPress={handleSubmit as any}
-                        />
-                      )}
+                      <TouchableOpacity
+                        style={styles.confirmButton}
+                        onPress={handleSubmit as any}
+                      >
+                        <Text style={styles.confirmText}>Salvar</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.cancelButton}
+                        onPress={() => setModalVisible(false)}
+                      >
+                        <Text style={styles.cancelText}>Cancelar</Text>
+                      </TouchableOpacity>
                     </View>
-                  </View>
-                )}
-              </Formik>
-
-              <Button
-                title='Cancelar'
-                color='#ff0000'
-                onPress={() => setModalVisible(false)}
-              />
-            </View>
+                  )}
+                </View>
+              )}
+            </Formik>
           </View>
         </Modal>
       )}

@@ -69,10 +69,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   btnWrapper: {
-    width: '15%',
+    // width: '15%',
     backgroundColor: 'rgb(156, 163, 175)',
     display: 'flex',
     justifyContent: 'center',
+
     alignItems: 'center',
   },
   btn: {

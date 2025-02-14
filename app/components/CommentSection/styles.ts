@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native'
-import { Button } from 'react-native-paper'
 
 const styles = StyleSheet.create({
   container: {
@@ -85,34 +84,56 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    width: '80%',
     backgroundColor: 'white',
-    borderRadius: 10,
     padding: 20,
+    borderRadius: 10,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
   },
+
   modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
     marginBottom: 20,
   },
-  editCommentInput: {
+  modalContent: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
     width: '100%',
-    height: 100,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
   },
+
   modalButtonContainer: {
-    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 10,
+    width: '100%',
+  },
+  cancelButton: {
+    flex: 1,
+    padding: 10,
+    alignItems: 'center',
+    borderRadius: 5,
+    backgroundColor: '#ddd',
+    marginRight: 5,
+  },
+  confirmButton: {
+    flex: 1,
+    padding: 10,
+    alignItems: 'center',
+    borderRadius: 5,
+    backgroundColor: '#007bff',
+    marginLeft: 5,
+  },
+  cancelText: {
+    color: '#333',
+    fontWeight: 'bold',
+  },
+  confirmText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 })
 
