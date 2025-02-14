@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native'
-import { Button } from 'react-native-paper'
 
 const styles = StyleSheet.create({
   container: {
@@ -83,6 +82,58 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     paddingHorizontal: 8,
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+
+  modalTitle: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  modalContent: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+
+  modalButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 10,
+    width: '100%',
+  },
+  cancelButton: {
+    flex: 1,
+    padding: 10,
+    alignItems: 'center',
+    borderRadius: 5,
+    backgroundColor: '#ddd',
+    marginRight: 5,
+  },
+  confirmButton: {
+    flex: 1,
+    padding: 10,
+    alignItems: 'center',
+    borderRadius: 5,
+    backgroundColor: '#007bff',
+    marginLeft: 5,
+  },
+  cancelText: {
+    color: '#333',
+    fontWeight: 'bold',
+  },
+  confirmText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 })
 

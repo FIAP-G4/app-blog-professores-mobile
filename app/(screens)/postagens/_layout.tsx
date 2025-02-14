@@ -32,8 +32,16 @@ export default function PostsLayout() {
             ]}
             onPress={() => router.navigate('/postagens')}
           >
-            <Feather name='arrow-left' size={24} color='black' />
-            <Text>Voltar</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingHorizontal: 5,
+              }}
+            >
+              <Feather name='arrow-left' size={24} color='black' />
+              <Text style={{ width: 'auto' }}>Voltar</Text>
+            </View>
           </TouchableOpacity>
         )}
       </View>

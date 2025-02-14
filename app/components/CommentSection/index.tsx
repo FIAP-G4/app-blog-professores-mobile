@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native'
+import Modal from 'react-native-modal'
 import Post from '@/app/services/posts/IPost'
 import Comment from '../Comment'
 import { ICommentsFromGetPostById } from '@/app/services/comments/IComments'
@@ -30,11 +31,15 @@ interface CommentSectionProps {
 
 const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   const { loadingDelete, handleDeleteComment } = useDeleteComment()
-  const { handleChangeComment } = useEditCommentForm()
+  const { handleEditComment, loadingEditCommentForm } = useEditCommentForm()
   const [comments, setComments] = useState<ICommentsFromGetPostById[]>([])
   const { handleCreateComment, loadingCreateCommentForm } =
     useCreateCommentForm()
-  const { isAuthenticated, user } = useAuth()
+  const { isAuthenticated, loggedInUserId, user } = useAuth()
+  const [isModalVisible, setModalVisible] = useState(false)
+
+  const [commentToEdit, setCommentToEdit] =
+    useState<ICommentsFromGetPostById | null>(null)
 
   useEffect(() => {
     setComments(post.comments)
@@ -47,12 +52,17 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   }
 
   if (loadingDelete) {
-    return <ActivityIndicator size="large" color="#0000ff" />
+    return <ActivityIndicator size='large' color='#0000ff' />
   }
 
+  // const handleEdit = (comment: ICommentsFromGetPostById) => {
+  //   handleEditComment(comment.id as string)
+  //   updateCommentsAfterEdition(comment)
+  // }
+
   const handleEdit = (comment: ICommentsFromGetPostById) => {
-    handleChangeComment('content', comment.content)
-    updateCommentsAfterEdition(comment)
+    setCommentToEdit(comment)
+    setModalVisible(true)
   }
 
   const handleDelete = (commentId: string) => {
@@ -85,12 +95,25 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
     }
   }
 
+  const handleCancel = () => {
+    setModalVisible(false)
+  }
+
   const updateCommentsAfterEdition = (comment: ICommentsFromGetPostById) => {
     setComments((prevComments) =>
       prevComments.map((prevComment) =>
         prevComment.id === comment.id ? comment : prevComment,
       ),
     )
+  }
+
+  const handleEditSubmit = async (values: { content: string }) => {
+    if (commentToEdit) {
+      await handleEditComment(commentToEdit.id as string, values.content)
+      updateCommentsAfterEdition({ ...commentToEdit, content: values.content })
+      setModalVisible(false)
+      setCommentToEdit(null)
+    }
   }
 
   return isAuthenticated ? (
@@ -118,8 +141,8 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
               onChangeText={handleChange('content')}
               onBlur={handleBlur('content')}
               value={values.content}
-              placeholder="Deixe seu comentário..."
-              keyboardType="twitter"
+              placeholder='Deixe seu comentário...'
+              keyboardType='twitter'
               multiline
               numberOfLines={5}
               style={styles.newCommentInput}
@@ -130,7 +153,7 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
             </Text>
             <View style={styles.buttonContainer}>
               {loadingCreateCommentForm ? (
-                <ActivityIndicator size="large" color="#4e46dd" />
+                <ActivityIndicator size='large' color='#4e46dd' />
               ) : (
                 <TouchableOpacity
                   onPress={() => handleSubmit()}
@@ -155,7 +178,73 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
           />
         ))}
       </View>
-      <Toast />
+      {commentToEdit && (
+        <Modal
+          animationIn='fadeIn'
+          animationOut='fadeOut'
+          onBackdropPress={() => {
+            setModalVisible(false)
+          }}
+          isVisible={isModalVisible}
+          useNativeDriver
+        >
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Altere seu comentário:</Text>
+
+            <Formik
+              initialValues={{ content: commentToEdit.content }}
+              validationSchema={schema}
+              onSubmit={(values) => handleEditSubmit(values)}
+            >
+              {({
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+                errors,
+                touched,
+              }) => (
+                <View style={styles.modalContent}>
+                  <TextInput
+                    onChangeText={handleChange('content')}
+                    onBlur={handleBlur('content')}
+                    value={values.content}
+                    placeholder='Comente algo...'
+                    keyboardType='twitter'
+                    multiline
+                    numberOfLines={5}
+                    style={styles.newCommentInput}
+                    placeholderTextColor={'#888'}
+                  />
+
+                  <Text style={globalStyles.error}>
+                    {touched.content && errors.content ? errors.content : ''}
+                  </Text>
+
+                  {loadingEditCommentForm ? (
+                    <ActivityIndicator size='large' color='#4e46dd' />
+                  ) : (
+                    <View style={styles.modalButtonContainer}>
+                      <TouchableOpacity
+                        style={styles.confirmButton}
+                        onPress={handleSubmit as any}
+                      >
+                        <Text style={styles.confirmText}>Salvar</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.cancelButton}
+                        onPress={() => setModalVisible(false)}
+                      >
+                        <Text style={styles.cancelText}>Cancelar</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </View>
+              )}
+            </Formik>
+          </View>
+        </Modal>
+      )}
     </ScrollView>
   ) : (
     <ScrollView style={styles.container}>
@@ -170,7 +259,6 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
           />
         ))}
       </View>
-      <Toast />
     </ScrollView>
   )
 }

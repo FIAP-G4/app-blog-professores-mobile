@@ -4,13 +4,15 @@ import Toast from 'react-native-toast-message'
 import { AxiosError } from 'axios'
 import { createComment } from '@/app/services/comments/createComment'
 import { ICommentResponse } from '@/app/services/comments/IComment'
+import { ICommentsFromGetPostById } from '@/app/services/comments/IComments'
+import { updateComment } from '@/app/services/comments/updateComment'
 
 interface ErrorResponse {
   message: string
 }
 
 interface EditCommentForm {
-  postId: string
+  id: string
   content: string
 }
 
@@ -18,7 +20,7 @@ const useEditCommentForm = () => {
   const [loadingEditCommentForm, setLoadingEditCommentForm] =
     useState<boolean>(false)
   const [editCommentForm, setEditCommentForm] = useState<EditCommentForm>({
-    postId: '',
+    id: '',
     content: '',
   })
 
@@ -29,12 +31,13 @@ const useEditCommentForm = () => {
     }))
   }
 
-  const handleCreateComment = async (
-    values: EditCommentForm,
+  const handleEditComment = async (
+    id: string,
+    content: string,
   ): Promise<ICommentResponse | undefined> => {
     try {
       setLoadingEditCommentForm(true)
-      const response = await createComment(values.postId, values.content)
+      const response = await updateComment(id, content)
       setLoadingEditCommentForm(false)
 
       Toast.show({
@@ -52,7 +55,7 @@ const useEditCommentForm = () => {
     loadingEditCommentForm,
     editCommentForm,
     handleChangeComment,
-    handleCreateComment,
+    handleEditComment,
   }
 }
 
