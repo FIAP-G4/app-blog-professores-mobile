@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   View,
@@ -10,18 +10,18 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-} from 'react-native'
-import * as ImagePicker from 'expo-image-picker'
-import { useLocalSearchParams, useRouter } from 'expo-router'
-import usePost from '@/app/utils/hooks/usePost'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
-import { ActivityIndicator } from 'react-native-paper'
-import useCreatePostForm from '@/app/utils/hooks/useCreatePostForm'
-import useTagsList from '@/app/utils/hooks/useTagList'
-import styles from './styles'
-import { FontAwesome } from '@expo/vector-icons'
-import CustomMultipleSelectList from '@/app/components/CustomMultipleSelectList'
+} from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import usePost from '@/app/utils/hooks/usePost';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { ActivityIndicator } from 'react-native-paper';
+import useCreatePostForm from '@/app/utils/hooks/useCreatePostForm';
+import useTagsList from '@/app/utils/hooks/useTagList';
+import styles from './styles';
+import { FontAwesome } from '@expo/vector-icons';
+import CustomMultipleSelectList from '@/app/components/CustomMultipleSelectList';
 
 const schema = Yup.object().shape({
   title: Yup.string()
@@ -30,17 +30,17 @@ const schema = Yup.object().shape({
   content: Yup.string()
       .min(5, 'O conteúdo deve ter pelo menos 5 caracteres.')
       .required('Conteúdo é obrigatório'),
-})
+});
 
 export default function UpdatePost(): JSX.Element {
-  const { id } = useLocalSearchParams()
-  const router = useRouter()
-  const { post, loading: postLoading } = usePost(id as string)
-  const { handleCreatePost, loading } = useCreatePostForm()
-  const { tags } = useTagsList()
-  const categoryOptions = tags.map((tag) => ({ key: tag.id, value: tag.name }))
-  const [selected, setSelected] = useState<string[]>([]) // Alterado para string[]
-  const [image, setImage] = useState<string | null>(null)
+  const { id } = useLocalSearchParams();
+  const router = useRouter();
+  const { post, loading: postLoading } = usePost(id as string);
+  const { handleCreatePost, loading } = useCreatePostForm();
+  const { tags } = useTagsList();
+  const categoryOptions = tags.map((tag) => ({ key: tag.id, value: tag.name }));
+  const [selected, setSelected] = useState<string[]>([]);
+  const [image, setImage] = useState<string | null>(null);
 
   useEffect(() => {
     if (post) {
@@ -51,40 +51,37 @@ export default function UpdatePost(): JSX.Element {
             : null,
       };
 
-      // Aqui, você garante que as tags associadas ao post já sejam marcadas
-      const selectedTags = updatedPost.tags.map(tag => tag.id.toString());
-      setSelected(selectedTags); // Atualiza o estado `selected` com os IDs das tags
+      setSelected(updatedPost.tags.map((tag) => tag.name));
     }
   }, [post]);
 
-
   const handleSelectImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
       Alert.alert(
           'Permissão necessária',
           'É necessário permitir o acesso à galeria.',
-      )
-      return
+      );
+      return;
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       quality: 1,
-    })
+    });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri)
+      setImage(result.assets[0].uri);
     }
-  }
+  };
 
   const handleRemoveImage = () => {
-    setImage(null)
-  }
+    setImage(null);
+  };
 
   if (postLoading && id) {
-    return <ActivityIndicator animating={true} color="#0000ff" />
+    return <ActivityIndicator animating={true} color="#0000ff" />;
   }
 
   return (
@@ -100,62 +97,39 @@ export default function UpdatePost(): JSX.Element {
                   content: post?.content || '',
                 }}
                 validationSchema={schema}
-                onSubmit={(values, { resetForm }) => {
-                  // Filtra as tags selecionadas com base no estado `selected`
+                onSubmit={async (values, { resetForm }) => {
                   const selectedTags = categoryOptions
-                      .filter((tag) => selected.includes(tag.key)) // Alterei para usar 'key' em vez de 'id'
-                      .filter(Boolean); // Remove valores undefined/nulos, se houver
+                      .filter((tag) => selected.includes(tag.value))
+                      .map((tag) => ({ name: tag.value }));
 
-                  // Função para criar e preencher o FormData
-                  const createFormData = (imageBlob = null) => {
-                    const formData = new FormData();
-                    formData.append('title', values.title);
-                    formData.append('content', values.content);
+                  const formData = new FormData();
+                  formData.append('title', values.title);
+                  formData.append('content', values.content);
 
-                    // Adiciona as tags selecionadas ao FormData
-                    selectedTags.forEach((tag, index) => {
-                      formData.append(`tags[${index}][id]`, tag.key);
-                      formData.append(`tags[${index}][name]`, tag.value);
-                    });
-
-                    // Se houver uma imagem, adiciona ao FormData
-                    if (imageBlob) {
-                      formData.append('attachment', {
-                        uri: image,
-                        name: 'image.jpg',
-                        type: 'image/jpeg',
-                      });
-                    }
-
-                    return formData;
-                  };
-
-                  // Função para enviar o FormData e resetar o formulário
-                  const submitFormData = (formData) => {
-                    handleCreatePost(formData, id).then(() => {
-                      resetForm(); // Reseta o formulário
-                      setImage(null); // Limpa a imagem
-                      setSelected([]); // Limpa as tags selecionadas
-                      router.replace('/update_post'); // Redireciona
-                    });
-                  };
-
-                  // Se houver uma imagem, converte para blob e envia
-                  if (image) {
-                    fetch(image)
-                        .then((response) => response.blob())
-                        .then((blob) => {
-                          if (!blob) return; // Se não houver blob, não faz nada
-                          const formData = createFormData(blob); // Cria o FormData com a imagem
-                          submitFormData(formData); // Envia o FormData
-                        })
-                        .catch((err) => {
-                          console.error('Erro ao converter imagem:', err);
-                        });
+                  if (selectedTags.length > 0) {
+                    formData.append('tags', JSON.stringify(selectedTags));
                   } else {
-                    // Se não houver imagem, cria o FormData sem imagem e envia
-                    const formData = createFormData();
-                    submitFormData(formData);
+                    formData.append('tags', JSON.stringify([]));
+                  }
+
+                  if (image) {
+                    const response = await fetch(image);
+                    const blob = await response.blob();
+                    formData.append('attachment', {
+                      uri: image,
+                      name: 'image.jpg',
+                      type: 'image/jpeg',
+                    });
+                  }
+
+                  try {
+                    await handleCreatePost(formData, id);
+                    resetForm();
+                    setImage(null);
+                    setSelected([]);
+                    router.replace('/update_post');
+                  } catch (error) {
+                    console.error('Erro ao atualizar o post:', error);
                   }
                 }}
             >
@@ -232,7 +206,7 @@ export default function UpdatePost(): JSX.Element {
                       <CustomMultipleSelectList
                           setSelected={setSelected}
                           data={categoryOptions}
-                          save="key"
+                          save="value" // Usa o valor (nome da tag) para seleção
                           label="Categorias"
                           placeholder="Buscar por categorias"
                           searchPlaceholder="Filtre por categoria"
@@ -240,7 +214,7 @@ export default function UpdatePost(): JSX.Element {
                           dropdownStyles={styles.dropdwon}
                           badgeStyles={styles.badgeStyles}
                           badgeTextStyles={styles.badgeTextStyles}
-                          selected={selected} // Passando os valores selecionados
+                          selected={selected} // Passa os valores selecionados
                       />
                     </View>
 
@@ -263,5 +237,5 @@ export default function UpdatePost(): JSX.Element {
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
-  )
+  );
 }
