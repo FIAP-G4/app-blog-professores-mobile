@@ -107,7 +107,9 @@ export default function UpdatePost(): JSX.Element {
                   formData.append('content', values.content);
 
                   if (selectedTags.length > 0) {
-                    formData.append('tags', JSON.stringify(selectedTags));
+                    selectedTags.forEach((tag, index) => {
+                      formData.append(`tags[${index}][name]`, tag.name);
+                    })
                   } else {
                     formData.append('tags', JSON.stringify([]));
                   }

@@ -14,7 +14,6 @@ export const updatePost = async (postData: FormData, id): Promise<Post | undefin
         });
 
         if (response.data) {
-            console.log('Post atualizado:', response.data);
             return response.data;
         }
     } catch (error) {
