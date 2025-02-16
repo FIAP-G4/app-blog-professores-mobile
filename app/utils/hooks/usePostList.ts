@@ -12,10 +12,10 @@ const usePostList = (initialPage = 1, postsPerPage = 10) => {
   const [hasMorePosts, setHasMorePosts] = useState<boolean>(true)
 
   const fetchPosts = async (
-      page: number,
-      limit: number,
-      searchTerm: string,
-      tags: number[],
+    page: number,
+    limit: number,
+    searchTerm: string,
+    tags: number[],
   ) => {
     setLoading(true)
     try {
@@ -35,10 +35,10 @@ const usePostList = (initialPage = 1, postsPerPage = 10) => {
   }
 
   const loadMorePosts = async (
-      p0: number,
-      p1: number,
-      searchTerm: string,
-      selected: unknown,
+    p0: number,
+    p1: number,
+    searchTerm: string,
+    selected: unknown,
   ) => {
     if (loading || !hasMorePosts) return
 
@@ -59,7 +59,7 @@ const usePostList = (initialPage = 1, postsPerPage = 10) => {
 
   useEffect(() => {
     fetchPosts(currentPage, postsPerPage, searchTerm, tags)
-  }, [currentPage, searchTerm, tags])
+  }, [])
 
   return {
     posts,

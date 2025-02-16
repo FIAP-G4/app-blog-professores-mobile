@@ -51,14 +51,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   textInputWrapper: {
-    marginLeft: Platform.OS == 'ios' ? 20 : 0,
-    marginTop: Platform.OS == 'ios' ? 0 : 20,
+    marginLeft: Platform.OS === 'ios' ? 20 : 0,
+    marginTop: Platform.OS === 'ios' ? 0 : 20,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#ccc',
     paddingRight: 0,
     backgroundColor: 'white',
-    width: Platform.OS == 'ios' ? '90%' : '100%',
+    width: Platform.OS === 'ios' ? '90%' : '100%',
     height: 55,
     display: 'flex',
     flexDirection: 'row',
@@ -69,11 +69,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   btnWrapper: {
-    // width: '15%',
-    // backgroundColor: 'rgb(156, 163, 175)',
+    width: '15%',
+    backgroundColor: 'rgb(156, 163, 175)',
     display: 'flex',
     justifyContent: 'center',
-
+    color: '#FFF',
     alignItems: 'center',
   },
   btn: {
@@ -82,9 +82,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    color: '#FFF',
   },
   contentMultiSelect: {
-    margin: Platform.OS == 'ios' ? 20 : 0,
+    margin: Platform.OS === 'ios' ? 20 : 0,
   },
 })
 

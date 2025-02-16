@@ -44,10 +44,10 @@ export default function Posts(): JSX.Element {
         <CustomMultipleSelectList
           setSelected={(val: any) => setSelected(val)}
           data={categoryOptions}
-          save='key'
-          label='Categorias'
-          placeholder='Buscar por categorias'
-          searchPlaceholder='Filtre por categoria'
+          save="key"
+          label="Categorias"
+          placeholder="Buscar por categorias"
+          searchPlaceholder="Filtre por categoria"
           boxStyles={styles.optionSelect}
           dropdownStyles={styles.dropdown}
           badgeStyles={styles.badgeStyles}
@@ -57,7 +57,7 @@ export default function Posts(): JSX.Element {
       <View style={styles.textInputWrapper}>
         <TextInput
           style={styles.textInput}
-          placeholder='Buscar por postagens'
+          placeholder="Buscar por postagens"
           onChangeText={(value) => setSearchTerm(value)}
           value={searchTerm}
         />
@@ -69,11 +69,11 @@ export default function Posts(): JSX.Element {
               setCurrentPage(1)
             }}
           >
-            <AntDesign name='search1' size={24} color='rgb(156, 163, 175)' />
+            <AntDesign name="search1" size={24} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
       </View>
-      {loading && <ActivityIndicator size='large' color='#0000ff' />}
+      {loading && <ActivityIndicator size="large" color="#0000ff" />}
       <FlatList
         data={posts}
         renderItem={({ item }) => {
