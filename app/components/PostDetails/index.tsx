@@ -52,9 +52,9 @@ const PostDetails = (post: Post): JSX.Element => {
             <Text style={styles.stat}>
               <Ionicons name='eye' size={16} /> {views}
             </Text>
-            <Text style={styles.stat}>
-              <FontAwesome name='comments' size={16} /> {post.commentCount}
-            </Text>
+            {/* <Text style={styles.stat}>
+              <FontAwesome name='comments' size={16} /> {commentsCount}
+            </Text> */}
           </View>
         </View>
 

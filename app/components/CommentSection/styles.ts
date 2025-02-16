@@ -145,6 +145,18 @@ const styles = StyleSheet.create({
     padding: 30,
     // backgroundColor: '#F0F4FF',
   },
+  stats: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 15,
+  },
+  stat: {
+    fontSize: 14,
+    color: '#666',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 })
 
 export default styles

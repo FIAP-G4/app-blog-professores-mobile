@@ -22,6 +22,7 @@ import globalStyles from '@/app/styles'
 import styles from './styles'
 import { ICommentResponse } from '@/app/services/comments/IComment'
 import { Divider } from 'react-native-paper'
+import { FontAwesome, Ionicons } from '@expo/vector-icons'
 
 const schema = Yup.object().shape({
   content: Yup.string(),
@@ -41,15 +42,21 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   const [isModalVisible, setModalVisible] = useState(false)
   const [commentToEdit, setCommentToEdit] =
     useState<ICommentsFromGetPostById | null>(null)
+  const [commentsCount, setCommentsCount] = useState(post.commentCount)
 
   useEffect(() => {
     setComments(post.comments)
-  }, [post.comments])
+    setCommentsCount(post.commentCount)
+  }, [post.comments, post.commentCount])
 
   const updateComments = (deletedCommentId: string) => {
-    setComments((prevComments) =>
-      prevComments.filter((comment) => comment.id !== deletedCommentId),
-    )
+    setComments((prevComments) => {
+      const updatedComments = prevComments.filter(
+        (comment) => comment.id !== deletedCommentId,
+      )
+      setCommentsCount(updatedComments.length)
+      return updatedComments
+    })
   }
 
   if (loadingDelete) {
@@ -79,15 +86,19 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
     response: ICommentResponse | undefined,
   ) => {
     if (response) {
-      setComments((prevComments) => [
-        ...prevComments,
-        {
-          ...response,
-          user: {
-            name: user.name,
+      setComments((prevComments) => {
+        const updatedComments = [
+          ...prevComments,
+          {
+            ...response,
+            user: {
+              name: user.name,
+            },
           },
-        },
-      ])
+        ]
+        setCommentsCount(updatedComments.length)
+        return updatedComments
+      })
     }
   }
 
@@ -169,7 +180,12 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
       <Divider bold style={{ backgroundColor: 'rgb(156, 163, 175)' }} />
 
       <View style={styles.commentsSection}>
-        <Text style={styles.commentsTitle}>Comentários:</Text>
+        <View style={styles.stats}>
+          <Text style={styles.commentsTitle}>Comentários:</Text>
+          <Text style={styles.stat}>
+            <FontAwesome name='comments' size={16} /> {commentsCount}
+          </Text>
+        </View>
         {comments.length === 0 ? (
           <Text style={styles.noCommentsText}>Nenhum comentário...</Text>
         ) : (
@@ -252,6 +268,11 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
     <ScrollView style={styles.container}>
       <View style={styles.commentsSection}>
         <Text style={styles.commentsTitle}>Comentários:</Text>
+        {/* <View style={styles.stats}>
+          <Text style={styles.stat}>
+            <FontAwesome name='comments' size={16} /> {commentsCount}
+          </Text>
+        </View> */}
         {comments.length === 0 ? (
           <Text style={styles.noCommentsText}>Nenhum comentário...</Text>
         ) : (
