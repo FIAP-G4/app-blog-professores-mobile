@@ -71,13 +71,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 15,
+    gap: 5,
   },
   stat: {
     fontSize: 14,
-    color: '#666',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    columnGap: 5,
   },
   cardHeader: {
     marginBottom: 10,
