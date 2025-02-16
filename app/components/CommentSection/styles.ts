@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: '#fff',
+    marginBottom: 20,
   },
   header: {
     marginBottom: 16,
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 8,
+    marginTop: 20,
   },
   author: {
     fontSize: 16,
@@ -134,6 +136,14 @@ const styles = StyleSheet.create({
   confirmText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  noCommentsText: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 20,
+    padding: 30,
+    // backgroundColor: '#F0F4FF',
   },
 })
 

@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   btnWrapper: {
     // width: '15%',
-    backgroundColor: 'rgb(156, 163, 175)',
+    // backgroundColor: 'rgb(156, 163, 175)',
     display: 'flex',
     justifyContent: 'center',
 
