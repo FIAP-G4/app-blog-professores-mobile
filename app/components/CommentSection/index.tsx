@@ -1,30 +1,32 @@
+import React, { useEffect, useState } from 'react'
 import {
   View,
   Text,
   ScrollView,
   ActivityIndicator,
   TouchableOpacity,
+  TextInput,
+  FlatList,
 } from 'react-native'
 import Modal from 'react-native-modal'
+import { Formik } from 'formik'
+import * as Yup from 'yup'
+import Toast from 'react-native-toast-message'
+import { useAuth } from '@/context/AuthContext'
 import Post from '@/app/services/posts/IPost'
 import Comment from '../Comment'
 import { ICommentsFromGetPostById } from '@/app/services/comments/IComments'
 import useDeleteComment from '@/app/utils/hooks/useDeleteComment'
-import globalStyles from '@/app/styles'
-import { useEffect, useState } from 'react'
-import { useAuth } from '@/context/AuthContext'
-import { TextInput } from 'react-native-gesture-handler'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
-import Toast from 'react-native-toast-message'
 import useCreateCommentForm from '@/app/utils/hooks/useCreateCommentForm'
+import useEditCommentForm from '@/app/utils/hooks/useEditCommentForm'
+import globalStyles from '@/app/styles'
 import styles from './styles'
 import { ICommentResponse } from '@/app/services/comments/IComment'
-import useEditCommentForm from '@/app/utils/hooks/useEditCommentForm'
 
 const schema = Yup.object().shape({
   content: Yup.string(),
 })
+
 interface CommentSectionProps {
   post: Post
 }
@@ -37,7 +39,6 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
     useCreateCommentForm()
   const { isAuthenticated, loggedInUserId, user } = useAuth()
   const [isModalVisible, setModalVisible] = useState(false)
-
   const [commentToEdit, setCommentToEdit] =
     useState<ICommentsFromGetPostById | null>(null)
 
@@ -54,11 +55,6 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   if (loadingDelete) {
     return <ActivityIndicator size='large' color='#0000ff' />
   }
-
-  // const handleEdit = (comment: ICommentsFromGetPostById) => {
-  //   handleEditComment(comment.id as string)
-  //   updateCommentsAfterEdition(comment)
-  // }
 
   const handleEdit = (comment: ICommentsFromGetPostById) => {
     setCommentToEdit(comment)
@@ -95,10 +91,6 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
     }
   }
 
-  const handleCancel = () => {
-    setModalVisible(false)
-  }
-
   const updateCommentsAfterEdition = (comment: ICommentsFromGetPostById) => {
     setComments((prevComments) =>
       prevComments.map((prevComment) =>
@@ -115,6 +107,14 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
       setCommentToEdit(null)
     }
   }
+
+  const renderComment = ({ item }: { item: ICommentsFromGetPostById }) => (
+    <Comment
+      comment={item}
+      onEdit={() => handleEdit(item)}
+      onDelete={() => handleDelete(item.id as string)}
+    />
+  )
 
   return isAuthenticated ? (
     <ScrollView style={styles.container}>
@@ -168,15 +168,16 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
       </Formik>
 
       <View style={styles.commentsSection}>
-        <Text style={styles.commentsTitle}>Comentários</Text>
-        {comments?.map((comment: ICommentsFromGetPostById, index) => (
-          <Comment
-            key={index}
-            comment={comment}
-            onEdit={() => handleEdit(comment)}
-            onDelete={() => handleDelete(comment.id as string)}
+        <Text style={styles.commentsTitle}>Comentários:</Text>
+        {comments.length === 0 ? (
+          <Text style={styles.noCommentsText}>Sem comentários</Text>
+        ) : (
+          <FlatList
+            data={comments}
+            renderItem={renderComment}
+            keyExtractor={(item) => (item.id ? item.id.toString() : '')}
           />
-        ))}
+        )}
       </View>
       {commentToEdit && (
         <Modal
@@ -249,15 +250,16 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   ) : (
     <ScrollView style={styles.container}>
       <View style={styles.commentsSection}>
-        <Text style={styles.commentsTitle}>Comentários</Text>
-        {comments?.map((comment: ICommentsFromGetPostById, index) => (
-          <Comment
-            key={index}
-            comment={comment}
-            onEdit={() => handleEdit(comment)}
-            onDelete={() => handleDelete(comment.id as string)}
+        <Text style={styles.commentsTitle}>Comentários:</Text>
+        {comments.length === 0 ? (
+          <Text style={styles.noCommentsText}>Sem comentários</Text>
+        ) : (
+          <FlatList
+            data={comments}
+            renderItem={renderComment}
+            keyExtractor={(item) => (item.id ? item.id.toString() : '')}
           />
-        ))}
+        )}
       </View>
     </ScrollView>
   )
