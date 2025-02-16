@@ -1,9 +1,13 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import api from '../api'
 import Post from './IPost'
 
 export const postViewed = async (postId: Partial<Post>) => {
   try {
-    const token = localStorage.getItem('authToken')
+    const token = await AsyncStorage.getItem('authToken')
+    if (!token) {
+      throw new Error('No auth token found')
+    }
     const headers = {
       Authorization: `Bearer ${token}`,
     }
