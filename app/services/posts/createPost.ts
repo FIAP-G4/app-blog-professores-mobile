@@ -1,6 +1,6 @@
-import { Post } from '@/app/services/posts/IPost'
 import api from '@/app/services/api'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import Post from './IPost'
 
 export const createPost = async (
   postData: FormData,
