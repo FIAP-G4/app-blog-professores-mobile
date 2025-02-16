@@ -34,7 +34,7 @@ const PostDetails = (post: Post): JSX.Element => {
       {post.path_img && hasImage && (
         <View style={styles.cardImageWrapper}>
           <Image
-            resizeMode='cover'
+            resizeMode="cover"
             source={{ uri: `${baseApiUrl}/${post.path_img}` }}
             style={styles.cardImage}
             alt={post.title}
@@ -46,18 +46,15 @@ const PostDetails = (post: Post): JSX.Element => {
         <View style={styles.cardHeader}>
           <View style={styles.cardHeaderLeft}>
             <Text style={styles.cardTitle}>{post.title}</Text>
-            <Text style={styles.authorName}>{post.teacher?.user?.name}</Text>
-          </View>
-          <View style={styles.stats}>
-            <Text style={styles.stat}>
-              <Ionicons name='eye' size={16} /> {views}
-            </Text>
-            {/* <Text style={styles.stat}>
-              <FontAwesome name='comments' size={16} /> {commentsCount}
-            </Text> */}
           </View>
         </View>
-
+        <View style={styles.stats}>
+          <Text style={styles.authorName}>{post.teacher?.user?.name}</Text>
+          <View style={styles.stat}>
+            <Ionicons name="eye" size={16} color="#666" />
+            <Text>{views}</Text>
+          </View>
+        </View>
         <Text style={styles.cardContent}>{post.content}</Text>
         <View style={styles.cardTagsWrapper}>
           {post.tags &&
@@ -76,7 +73,7 @@ const PostDetails = (post: Post): JSX.Element => {
             </View>
           )}
           <View style={{ columnGap: 5, display: 'none' }}>
-            <Ionicons name='eye-outline' size={24} color='rgb(156, 163, 175)' />
+            <Ionicons name="eye-outline" size={24} color="rgb(156, 163, 175)" />
             <Text style={{ color: 'rgb(156, 163, 175)' }}>
               {post.viewedCount}
             </Text>
@@ -84,9 +81,9 @@ const PostDetails = (post: Post): JSX.Element => {
               |
             </Text>
             <FontAwesome
-              name='comment-o'
+              name="comment-o"
               size={24}
-              color='rgb(156, 163, 175)'
+              color="rgb(156, 163, 175)"
             />
             <Text style={{ color: 'rgb(156, 163, 175)' }}>
               {post.commentCount}
