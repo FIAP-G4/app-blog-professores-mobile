@@ -85,6 +85,13 @@ const register = StyleSheet.create({
   fields: {
     marginBottom: 30,
   },
+  keyboardAwareContainer: {
+    flex: 1, // Ocupa toda a tela
+  },
+  keyboardAwareContentContainer: {
+    flexGrow: 1, // Permite que o conteúdo cresça dentro do ScrollView
+    justifyContent: 'center', // Centraliza o conteúdo verticalmente
+  },
 })
 
 export default register
