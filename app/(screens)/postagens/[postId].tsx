@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { ScrollView, Text } from 'react-native'
+import { FlatList, ScrollView, Text } from 'react-native'
 import usePost from '@/app/utils/hooks/usePost'
 import styles from './styles'
 import PostDetails from '@/app/components/PostDetails'
@@ -15,9 +15,11 @@ const SinglePost = () => {
   return (
     <SafeAreaView style={[styles.screen, { flex: 1 }]}>
       {post ? (
-        <ScrollView>
-          <PostDetails {...post} />
-        </ScrollView>
+        <FlatList
+          data={[post]}
+          renderItem={({ item }) => <PostDetails {...item} />}
+          keyExtractor={(item) => item.id.toString()}
+        />
       ) : error ? (
         <Text>Postagem não encontrada!</Text>
       ) : null}
