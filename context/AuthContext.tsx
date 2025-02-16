@@ -50,7 +50,6 @@ export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   const handleUserType = useCallback((token: string) => {
     try {
       const jwt = jwtDecode<TokenPayload>(token)
-      console.log('DECODED JWT: ', jwt)
       const userType = jwt.type
       setIsTeacher(userType === 'teacher')
       setIsStudent(userType === 'student')

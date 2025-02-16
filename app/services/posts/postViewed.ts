@@ -11,7 +11,6 @@ export const postViewed = async (postId: string) => {
     const headers = {
       Authorization: `Bearer ${token}`,
     }
-    console.log(headers)
     const response = await api.post(`/posts/${postId}/viewed`, null, {
       headers,
     })

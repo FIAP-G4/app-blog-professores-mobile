@@ -43,7 +43,6 @@ export const usePostViewed = () => {
       if (isStudent && postId) {
         const response = await postViewed(postId)
         setIsLoadingPostViewed(false)
-        console.log('visualização marcada com sucesso')
         return response.data
       } else {
         return
