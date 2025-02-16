@@ -111,7 +111,7 @@ export default function UpdatePost(): JSX.Element {
                       formData.append(`tags[${index}][name]`, tag.name);
                     })
                   } else {
-                    formData.append('tags', JSON.stringify([]));
+                    formData.append('tags', '');
                   }
 
                   if (image) {
