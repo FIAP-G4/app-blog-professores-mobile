@@ -11,7 +11,6 @@ import {
 import Modal from 'react-native-modal'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import Toast from 'react-native-toast-message'
 import { useAuth } from '@/context/AuthContext'
 import Post from '@/app/services/posts/IPost'
 import Comment from '../Comment'
@@ -37,7 +36,7 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
   const [comments, setComments] = useState<ICommentsFromGetPostById[]>([])
   const { handleCreateComment, loadingCreateCommentForm } =
     useCreateCommentForm()
-  const { isAuthenticated, loggedInUserId, user } = useAuth()
+  const { isAuthenticated, user } = useAuth()
   const [isModalVisible, setModalVisible] = useState(false)
   const [commentToEdit, setCommentToEdit] =
     useState<ICommentsFromGetPostById | null>(null)
