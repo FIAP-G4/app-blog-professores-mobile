@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
     padding: 30,
-    backgroundColor: '#F0F4FF',
+    // backgroundColor: '#F0F4FF',
   },
 })
 

@@ -169,7 +169,7 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
       <View style={styles.commentsSection}>
         <Text style={styles.commentsTitle}>Comentários:</Text>
         {comments.length === 0 ? (
-          <Text style={styles.noCommentsText}>Sem comentários</Text>
+          <Text style={styles.noCommentsText}>Nenhum comentário...</Text>
         ) : (
           <FlatList
             data={comments}
@@ -251,7 +251,7 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
       <View style={styles.commentsSection}>
         <Text style={styles.commentsTitle}>Comentários:</Text>
         {comments.length === 0 ? (
-          <Text style={styles.noCommentsText}>Sem comentários</Text>
+          <Text style={styles.noCommentsText}>Nenhum comentário...</Text>
         ) : (
           <FlatList
             data={comments}
