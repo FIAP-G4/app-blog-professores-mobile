@@ -87,6 +87,11 @@ const styles = StyleSheet.create({
   contentMultiSelect: {
     margin: Platform.OS === 'ios' ? 20 : 0,
   },
+  backBtn: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 })
 
 export default styles

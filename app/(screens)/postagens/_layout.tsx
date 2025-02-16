@@ -22,26 +22,11 @@ export default function PostsLayout() {
         </Text>
         {segmentCheck && (
           <TouchableOpacity
-            style={[
-              styles.btnWrapper,
-              {
-                backgroundColor: 'transparent',
-                flexDirection: 'row',
-                columnGap: 5,
-              },
-            ]}
+            style={styles.backBtn}
             onPress={() => router.navigate('/postagens')}
           >
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingHorizontal: 5,
-              }}
-            >
-              <Feather name='arrow-left' size={24} color='black' />
-              <Text style={{ width: 'auto' }}>Voltar</Text>
-            </View>
+            <Feather name="arrow-left" size={24} color="black" />
+            <Text>Voltar</Text>
           </TouchableOpacity>
         )}
       </View>
