@@ -3,8 +3,20 @@ import Toast from 'react-native-toast-message'
 import { Slot } from 'expo-router'
 import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { useEffect, useState } from 'react'
+import { ActivityIndicator } from 'react-native-paper'
 
 export default function RootLayout() {
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setIsLoading(true)
+  }, [])
+
+  if (!isLoading) {
+    return <ActivityIndicator size='large' />
+  }
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AuthProvider>
