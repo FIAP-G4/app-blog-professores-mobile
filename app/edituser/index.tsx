@@ -37,7 +37,7 @@ export default function EditUser(): JSX.Element {
 
   return (
     <SafeAreaView style={{ backgroundColor: '#f3f4f6', height: '100%' }}>
-      <Header pageTitle='Blog Escolar' />
+      <Header pageTitle="Blog Escolar" />
       <View style={principalStyles.subHeader}>
         <Text style={principalStyles.pageTitle}>Editar usuario</Text>
       </View>
@@ -81,7 +81,7 @@ export default function EditUser(): JSX.Element {
               <TextInput
                 style={styles.input}
                 value={values.name}
-                placeholder='Digite seu nome'
+                placeholder="Digite seu nome"
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 placeholderTextColor={'#888'}
@@ -96,10 +96,10 @@ export default function EditUser(): JSX.Element {
               <TextInput
                 style={styles.input}
                 value={values.email}
-                placeholder='Digite seu e-mail'
+                placeholder="Digite seu e-mail"
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
-                keyboardType='email-address'
+                keyboardType="email-address"
                 placeholderTextColor={'#888'}
               />
               {touched.email && errors.email && (
@@ -138,7 +138,7 @@ export default function EditUser(): JSX.Element {
                     style={styles.input}
                     secureTextEntry
                     value={values.password}
-                    placeholder='Digite sua senha'
+                    placeholder="Digite sua senha"
                     onChangeText={handleChange('password')}
                     onBlur={handleBlur('password')}
                     placeholderTextColor={'#888'}
@@ -154,7 +154,7 @@ export default function EditUser(): JSX.Element {
                     style={styles.input}
                     secureTextEntry
                     value={values.confirmPassword}
-                    placeholder='Confirme sua senha'
+                    placeholder="Confirme sua senha"
                     onChangeText={handleChange('confirmPassword')}
                     onBlur={handleBlur('confirmPassword')}
                     placeholderTextColor={'#888'}

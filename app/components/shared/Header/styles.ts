@@ -1,9 +1,11 @@
+import { Platform } from 'react-native'
 import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: '#212836',
-    paddingVertical: 15,
+    paddingTop: Platform.OS === 'ios' ? 15 : 35,
+    paddingBottom: Platform.OS === 'ios' ? 15 : 15,
     paddingHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',
