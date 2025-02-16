@@ -1,10 +1,12 @@
 import { Link } from 'expo-router'
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import formattedDate from '@/app/utils/functions/formattedDate'
 import styles from './styles'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import Post from '@/app/services/posts/IPost'
+import { usePostViewed } from '@/app/utils/hooks/usePostViewed'
+import { useAuth } from '@/context/AuthContext'
 
 const CardPost = (props: Partial<Post>): JSX.Element => {
   const {
@@ -18,17 +20,37 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
     viewedCount,
     commentCount,
   } = props
+  const { handlePostViewed } = usePostViewed()
+  const { isStudent } = useAuth()
   const baseApiUrl = process.env.EXPO_PUBLIC_CORS_ORIGIN
-
   const hasImage = !!path_img
 
+  const handleCardClick = async (
+    id: string | undefined,
+    isStudent: boolean,
+  ) => {
+    try {
+      await handlePostViewed(isStudent, id)
+    } catch (error) {
+      console.error('Erro ao marcar post como visualizado:', error)
+    }
+  }
+
   return (
-    <Link key={id} id={id} style={styles.card} href={`/postagens/${id}`}>
+    <Link
+      key={id}
+      id={id}
+      style={styles.card}
+      href={`/postagens/${id}`}
+      onPress={() => {
+        handleCardClick(id, isStudent)
+      }}
+    >
       <View style={styles.container}>
         {path_img && (
           <View style={styles.cardImageWrapper}>
             <Image
-              resizeMode="cover"
+              resizeMode='cover'
               source={{ uri: `${baseApiUrl}/${path_img}` }}
               style={styles.cardImage}
               alt={title}
@@ -70,10 +92,10 @@ const CardPost = (props: Partial<Post>): JSX.Element => {
             )}
             <View style={styles.stats}>
               <Text style={styles.stat}>
-                <Ionicons name="eye" size={16} /> {viewedCount}
+                <Ionicons name='eye' size={16} /> {viewedCount}
               </Text>
               <Text style={styles.stat}>
-                <FontAwesome name="comments" size={16} /> {commentCount}
+                <FontAwesome name='comments' size={16} /> {commentCount}
               </Text>
             </View>
           </View>
