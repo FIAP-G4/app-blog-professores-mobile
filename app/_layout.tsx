@@ -3,8 +3,6 @@ import Toast from 'react-native-toast-message'
 import { Slot } from 'expo-router'
 import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-// import { useEffect, useState } from 'react'
-// import { ActivityIndicator } from 'react-native-paper'
 
 export default function RootLayout() {
   return (
