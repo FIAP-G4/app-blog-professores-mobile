@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 8,
+    marginTop: 20,
   },
   author: {
     fontSize: 16,

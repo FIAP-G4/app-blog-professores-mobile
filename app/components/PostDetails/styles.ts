@@ -1,6 +1,10 @@
 import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+  },
   card: {
     marginTop: 30,
     marginHorizontal: 'auto',

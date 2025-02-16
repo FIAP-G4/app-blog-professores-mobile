@@ -21,6 +21,7 @@ import useEditCommentForm from '@/app/utils/hooks/useEditCommentForm'
 import globalStyles from '@/app/styles'
 import styles from './styles'
 import { ICommentResponse } from '@/app/services/comments/IComment'
+import { Divider } from 'react-native-paper'
 
 const schema = Yup.object().shape({
   content: Yup.string(),
@@ -165,6 +166,7 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
           </View>
         )}
       </Formik>
+      <Divider bold style={{ backgroundColor: 'rgb(156, 163, 175)' }} />
 
       <View style={styles.commentsSection}>
         <Text style={styles.commentsTitle}>Comentários:</Text>
