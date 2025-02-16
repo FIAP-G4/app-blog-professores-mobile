@@ -13,6 +13,24 @@ export const usePostViewed = () => {
   const [isLoadingPostViewed, setIsLoadingPostViewed] = useState(false)
   const [error, setError] = useState(null)
 
+  const fetchPostViewed = async (postId: string) => {
+    setIsLoadingPostViewed(true)
+    setError(null)
+
+    try {
+      setIsLoadingPostViewed(true)
+      const response = await api.get<Post>(`/posts/${postId}`)
+      setIsLoadingPostViewed(false)
+      return response.data
+    } catch (error) {
+      setIsLoadingPostViewed(false)
+      errorsMessage(error as AxiosError<ErrorResponse>)
+      throw error
+    } finally {
+      setIsLoadingPostViewed(false)
+    }
+  }
+
   const handlePostViewed = async (
     isStudent: boolean,
     postId: string | undefined,
@@ -39,5 +57,5 @@ export const usePostViewed = () => {
     }
   }
 
-  return { handlePostViewed, isLoadingPostViewed, error }
+  return { handlePostViewed, fetchPostViewed, isLoadingPostViewed, error }
 }

@@ -1,12 +1,10 @@
-import React from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { FlatList, ScrollView, Text } from 'react-native'
+import { FlatList, Text } from 'react-native'
 import usePost from '@/app/utils/hooks/usePost'
 import styles from './styles'
 import PostDetails from '@/app/components/PostDetails'
 import Toast from 'react-native-toast-message'
-// import CommentSection from '@/app/components/CommentSection'
 
 const SinglePost = () => {
   const { postId } = useLocalSearchParams<{ postId: string }>()

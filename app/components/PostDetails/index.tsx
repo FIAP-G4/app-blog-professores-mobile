@@ -6,9 +6,26 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import Post from '@/app/services/posts/IPost'
 import CommentSection from '../CommentSection'
+import { useEffect, useState } from 'react'
+import { usePostViewed } from '@/app/utils/hooks/usePostViewed'
 
 const PostDetails = (post: Post): JSX.Element => {
   const baseApiUrl = process.env.EXPO_PUBLIC_CORS_ORIGIN
+  const [views, setViews] = useState(post.viewedCount)
+  const { fetchPostViewed } = usePostViewed()
+
+  const fetchViews = async () => {
+    try {
+      const response = await fetchPostViewed(post.id)
+      setViews(response.viewedCount)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchViews()
+  }, [])
 
   const hasImage = !!post.path_img
 
@@ -33,7 +50,7 @@ const PostDetails = (post: Post): JSX.Element => {
           </View>
           <View style={styles.stats}>
             <Text style={styles.stat}>
-              <Ionicons name='eye' size={16} /> {post.viewedCount}
+              <Ionicons name='eye' size={16} /> {views}
             </Text>
             <Text style={styles.stat}>
               <FontAwesome name='comments' size={16} /> {post.commentCount}
