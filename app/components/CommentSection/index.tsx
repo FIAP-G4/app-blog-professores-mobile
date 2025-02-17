@@ -244,16 +244,16 @@ const CommentSection = ({ post }: CommentSectionProps): JSX.Element => {
                   ) : (
                     <View style={styles.modalButtonContainer}>
                       <TouchableOpacity
-                        style={styles.confirmButton}
-                        onPress={handleSubmit as any}
-                      >
-                        <Text style={styles.confirmText}>Salvar</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
                         style={styles.cancelButton}
                         onPress={() => setModalVisible(false)}
                       >
                         <Text style={styles.cancelText}>Cancelar</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.confirmButton}
+                        onPress={handleSubmit as any}
+                      >
+                        <Text style={styles.confirmText}>Salvar</Text>
                       </TouchableOpacity>
                     </View>
                   )}
