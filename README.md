@@ -75,8 +75,14 @@ Você pode acessar o aplicativo de duas formas:
 - 📷 Escaneando o QR Code e abrindo diretamente no celular
 - 🖥️ Usando um emulador pelo terminal onde o app foi iniciado
 
+#### 8️⃣ 🔑 Login com o usuario Padrão
 
-#### 8️⃣ 🎥 Link para vídeo explicativo
+Logue na aplicação com as seguintes credenciais:
+- E-mail: admin@admin.com
+- Senha: 123456
+
+
+#### 9️⃣: 🎥 Link para vídeo explicativo
 
 [Assista ao vídeo aqui]()
 
