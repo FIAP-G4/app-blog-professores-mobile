@@ -34,20 +34,6 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
     
-  mobile:
-    container_name: mobile-app
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - "${APP_PORT}:${APP_PORT}"
-    networks:
-      - app-network
-    environment:
-      - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0 # Obrigatório para acessar o Expo DevTools dentro do container
-    tty: true 
-    stdin_open: true
 networks:
   app-network:
 

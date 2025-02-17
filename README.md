@@ -1,50 +1,83 @@
-# Welcome to your Expo app 👋
+# 📘 Aplicativo blog professores
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Este repositório contém o código-fonte do aplicativo Blog Professores, um app desenvolvido para facilitar a interação entre professores e alunos.
 
-## Get started
+## 🚀 Instalação
 
-1. Install dependencies
+Para começar a usar o projeto, siga os passos abaixo:
 
-   ```bash
-   npm install
-   ```
+#### 📋 Pré-requisitos: 
 
-2. Start the app
+- Instalar node v20.18.1+;
+- Instalar o docker; 
 
-   ```bash
-    npx expo start
-   ```
+#### 1️⃣ 🖥️ Clone o repositório
 
-In the output, you'll find options to open the app in a
+[![GitHub](https://img.shields.io/badge/GitHub-Clone-blue?logo=github&logoColor=white)](https://github.com/FIAP-G4/app-blog-professores-mobile)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Clone o projeto para o seu ambiente de desenvolvimento usando o comando git clone:
 
 ```bash
-npm run reset-project
+  git clone https://github.com/FIAP-G4/app-blog-professores-mobile.git
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+#### 2️⃣ 📂 Entre no diretório do projeto:
 
-## Learn more
+[![Directory](https://img.shields.io/badge/Directory-Browse-blue?logo=folder&logoColor=white)](#)
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+  cd app-blog-professores-mobile
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+#### 3️⃣ 🗂️ Configure o arquivo ENV
 
-## Join the community
+[![Files](https://img.shields.io/badge/configure_files-lightgrey?logo=file&logoColor=white)](#)
 
-Join our community of developers creating universal apps.
+Localize o arquivo `.env.example` na raiz do projeto e faça uma cópia dele sem a extensão `.example.` Por exemplo, renomeie `.env.example` para `.env`.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+#### 🔴  ATENÇÃO 
+  A variavel de ambiente do env `EXPO_PUBLIC_CORS_ORIGIN` deve ser definida com o ip local da sua maquina por exemplo `http://192.168.0.6:3000` as demais se quiser pode manter o valor que esta no `.env.example`
+
+#### 4️⃣ 📦 Instale as Dependências
+
+Execute o seguinte comando para instalar todas as dependências do projeto:
+
+```bash
+  npm install
+```
+
+#### 5️⃣ 🐳 Inicie o backend e o banco de dados com o Docker
+
+[![Docker](https://img.shields.io/badge/docker-blue?logo=docker&logoColor=white)](https://www.docker.com/)
+
+Certifique-se de ter o Docker instalado em sua máquina e execute o seguinte comando para iniciar o aplicativo:
+
+```bash
+  docker compose up -d
+```
+Pronto, foi iniciado 2 containers:
+
+  - postgres-fiap (o banco de dados);
+  - api-blog ( aplicação backend);
+
+
+#### 6️⃣ 🚀 Rodando o aplicativo
+
+Para rodar o APP, rode o seguinte comando no terminal
+
+```bash
+  npm run start
+```
+
+#### 7️⃣ 📱 acesse a aplicação
+
+Você pode acessar o aplicativo de duas formas:
+- 📷 Escaneando o QR Code e abrindo diretamente no celular
+- 🖥️ Usando um emulador pelo terminal onde o app foi iniciado
+
+
+#### 8️⃣ 🎥 Link para vídeo explicativo
+
+[Assista ao vídeo aqui]()
+
+![YouTube](https://img.shields.io/badge/YouTube-Watch-red?logo=youtube&logoColor=white)
