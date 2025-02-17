@@ -111,15 +111,25 @@ export default function AuthLayout() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: '#fff',
     height: 55,
-    position: 'fixed',
-    bottom: 0,
+    position: 'absolute',
+    left: 12,
+    right: 12,
     borderRadius: 16,
-    marginHorizontal: 12,
     paddingTop: 12,
     paddingBottom: 0,
-    marginBottom: Platform.OS === 'ios' ? 42 : 12,
+    marginBottom: Platform.OS === 'ios' ? 30 : 12, // Evita sobreposição com SafeAreaView no iPhone
+    borderTopWidth: 0,
+
+    // Sombras para iOS
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+
+    // Sombras para Android
+    elevation: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.98)', 
   },
   tabLabel: {
     fontSize: 12,
