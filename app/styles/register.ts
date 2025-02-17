@@ -38,7 +38,7 @@ const register = StyleSheet.create({
     marginBottom: 20,
   },
   buttonContainer: {
-    marginBottom: 20,
+    marginBottom: 55,
     borderRadius: 10,
     backgroundColor: '#4e46dd',
     overflow: 'hidden',
