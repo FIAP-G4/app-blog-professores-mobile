@@ -103,7 +103,7 @@ export default function CreatePost(): JSX.Element {
   }
 
   if (postLoading && id) {
-    return <ActivityIndicator animating={true} color="#0000ff" />
+    return <ActivityIndicator animating={true} color='#0000ff' />
   }
 
   return (
@@ -201,7 +201,7 @@ export default function CreatePost(): JSX.Element {
                   <Text style={styles.label}>Título</Text>
                   <TextInput
                     style={globalStyles.input}
-                    placeholder="Digite o título"
+                    placeholder='Digite o título'
                     value={values.title}
                     onChangeText={handleChange('title')}
                     onBlur={handleBlur('title')}
@@ -214,8 +214,8 @@ export default function CreatePost(): JSX.Element {
                 <View style={styles.inputContainer}>
                   <Text style={styles.label}>Conteúdo</Text>
                   <TextInput
-                    style={[globalStyles.input, { height: 100 }]}
-                    placeholder="Digite o conteúdo"
+                    style={[globalStyles.input]}
+                    placeholder='Digite o conteúdo'
                     value={values.content}
                     onChangeText={handleChange('content')}
                     onBlur={handleBlur('content')}
@@ -257,10 +257,10 @@ export default function CreatePost(): JSX.Element {
                   <CustomMultipleSelectList
                     setSelected={setSelected}
                     data={categoryOptions}
-                    save="key"
-                    label="Categorias"
-                    placeholder="Buscar por categorias"
-                    searchPlaceholder="Filtre por categoria"
+                    save='key'
+                    label='Categorias'
+                    placeholder='Buscar por categorias'
+                    searchPlaceholder='Filtre por categoria'
                     dropdownStyles={globalStyles.dropdwon}
                     badgeStyles={styles.badgeStyles}
                     badgeTextStyles={styles.badgeTextStyles}
@@ -270,8 +270,8 @@ export default function CreatePost(): JSX.Element {
                   {loading ? (
                     <ActivityIndicator
                       animating={true}
-                      size="large"
-                      color="#4e46dd"
+                      size='large'
+                      color='#4e46dd'
                     />
                   ) : (
                     <TouchableOpacity

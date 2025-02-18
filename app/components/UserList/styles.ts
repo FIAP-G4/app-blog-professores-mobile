@@ -81,6 +81,8 @@ const styles = StyleSheet.create({
   cardBody: {
     marginRight: 'auto',
     marginLeft: 12,
+    flexDirection: 'column',
+    flex: 1,
   },
   cardTitle: {
     fontSize: 16,
@@ -93,6 +95,13 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#616d79',
     marginTop: 3,
+    flexDirection: 'row',
+  },
+  email: {
+    flex: 1,
+    flexWrap: 'wrap',
+    flexShrink: 1,
+    width: '100%',
   },
   cardAction: {
     paddingRight: 16,
@@ -105,14 +114,14 @@ const styles = StyleSheet.create({
     borderRadius: 9999,
     alignItems: 'center',
     justifyContent: 'center',
-    color: '#FFFFFF', 
+    color: '#FFFFFF',
   },
   buttonActionEdit: {
     backgroundColor: '#3B82F6',
   },
   buttonActionDelete: {
-    backgroundColor: '#EF4444', 
+    backgroundColor: '#EF4444',
   },
-});
+})
 
 export default styles
