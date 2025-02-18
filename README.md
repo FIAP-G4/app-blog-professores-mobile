@@ -84,6 +84,6 @@ Logue na aplicação com as seguintes credenciais:
 
 #### 9️⃣: 🎥 Link para vídeo explicativo
 
-[Assista ao vídeo aqui]()
+[Assista ao vídeo aqui](https://youtu.be/tPE8YhTv-mg)
 
 ![YouTube](https://img.shields.io/badge/YouTube-Watch-red?logo=youtube&logoColor=white)
