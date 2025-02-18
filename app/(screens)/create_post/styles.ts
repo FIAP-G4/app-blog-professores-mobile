@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     width: '50%',
   },
   buttonContainer: {
-    marginBottom: Platform.OS === 'ios' ? 50 : 20,
+    marginBottom: Platform.OS === 'ios' ? 85 : 20,
     marginHorizontal: Platform.OS === 'ios' ? 32 : 12,
     backgroundColor: '#4e46dd',
     borderRadius: 8,
