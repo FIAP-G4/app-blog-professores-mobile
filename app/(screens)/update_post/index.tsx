@@ -52,6 +52,7 @@ export default function UpdatePost(): JSX.Element {
       };
 
       setSelected(updatedPost.tags.map((tag) => tag.name));
+      setImage(updatedPost.path_img);
     }
   }, [post]);
 
@@ -109,19 +110,22 @@ export default function UpdatePost(): JSX.Element {
                   if (selectedTags.length > 0) {
                     selectedTags.forEach((tag, index) => {
                       formData.append(`tags[${index}][name]`, tag.name);
-                    })
+                    });
                   } else {
                     formData.append('tags', '');
                   }
 
+
                   if (image) {
-                    const response = await fetch(image);
-                    const blob = await response.blob();
+                    const uriParts = image.split('.');
+                    const fileType = uriParts[uriParts.length - 1];
                     formData.append('attachment', {
                       uri: image,
-                      name: 'image.jpg',
-                      type: 'image/jpeg',
+                      name: `image.${fileType}`,
+                      type: `image/${fileType}`,
                     });
+                  } else if (image === null && post?.path_img) {
+                    formData.append('removerImagem', 'true');
                   }
 
                   try {
@@ -208,7 +212,7 @@ export default function UpdatePost(): JSX.Element {
                       <CustomMultipleSelectList
                           setSelected={setSelected}
                           data={categoryOptions}
-                          save="value" // Usa o valor (nome da tag) para seleção
+                          save="value"
                           label="Categorias"
                           placeholder="Buscar por categorias"
                           searchPlaceholder="Filtre por categoria"
@@ -216,7 +220,7 @@ export default function UpdatePost(): JSX.Element {
                           dropdownStyles={styles.dropdwon}
                           badgeStyles={styles.badgeStyles}
                           badgeTextStyles={styles.badgeTextStyles}
-                          selected={selected} // Passa os valores selecionados
+                          selected={selected}
                       />
                     </View>
 
@@ -236,6 +240,7 @@ export default function UpdatePost(): JSX.Element {
                   </View>
               )}
             </Formik>
+
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
