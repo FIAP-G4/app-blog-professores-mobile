@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {
-  SafeAreaView,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  Alert,
+    SafeAreaView,
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    ScrollView,
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    Alert,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -24,225 +24,275 @@ import { FontAwesome } from '@expo/vector-icons';
 import CustomMultipleSelectList from '@/app/components/CustomMultipleSelectList';
 
 const schema = Yup.object().shape({
-  title: Yup.string()
-      .min(5, 'O título deve ter pelo menos 5 caracteres.')
-      .required('Título é obrigatório'),
-  content: Yup.string()
-      .min(5, 'O conteúdo deve ter pelo menos 5 caracteres.')
-      .required('Conteúdo é obrigatório'),
+    title: Yup.string()
+        .min(5, 'O título deve ter pelo menos 5 caracteres.')
+        .required('Título é obrigatório'),
+    content: Yup.string()
+        .min(5, 'O conteúdo deve ter pelo menos 5 caracteres.')
+        .required('Conteúdo é obrigatório'),
 });
 
 export default function UpdatePost(): JSX.Element {
-  const { id } = useLocalSearchParams();
-  const router = useRouter();
-  const { post, loading: postLoading } = usePost(id as string);
-  const { handleCreatePost, loading } = useCreatePostForm();
-  const { tags } = useTagsList();
-  const categoryOptions = tags.map((tag) => ({ key: tag.id, value: tag.name }));
-  const [selected, setSelected] = useState<string[]>([]);
-  const [image, setImage] = useState<string | null>(null);
+    const { id } = useLocalSearchParams();
+    const router = useRouter();
+    const { post, loading: postLoading } = usePost(id as string);
+    const { handleCreatePost, loading } = useCreatePostForm();
+    const { tags } = useTagsList();
+    const categoryOptions = tags.map((tag) => ({ key: tag.id, value: tag.name }));
+    const [selected, setSelected] = useState<string[]>([]);
+    const [image, setImage] = useState<string | null>(null);
+    const [imageLoading, setImageLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (post) {
-      const updatedPost = {
-        ...post,
-        path_img: post.path_img
-            ? `${process.env.EXPO_PUBLIC_CORS_ORIGIN}/${post.path_img.replace(/^\/+/, '')}`
-            : null,
-      };
+    useEffect(() => {
+        if (post) {
+            const updatedPost = {
+                ...post,
+                path_img: post.path_img
+                    ? `${process.env.EXPO_PUBLIC_CORS_ORIGIN}/${post.path_img.replace(/^\/+/, '')}`
+                    : null,
+            };
 
-      setSelected(updatedPost.tags.map((tag) => tag.name));
-      setImage(updatedPost.path_img);
-    }
-  }, [post]);
+            setSelected(updatedPost.tags.map((tag) => tag.name));
+            setImage(updatedPost.path_img);
+        }
+    }, [post]);
 
-  const handleSelectImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert(
-          'Permissão necessária',
-          'É necessário permitir o acesso à galeria.',
-      );
-      return;
-    }
+    const handleSelectImage = async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+            Alert.alert(
+                'Permissão necessária',
+                'É necessário permitir o acesso à galeria.',
+            );
+            return;
+        }
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 1,
-    });
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            quality: 1,
+        });
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
-
-  const handleRemoveImage = () => {
-    setImage(null);
-  };
-
-  if (postLoading && id) {
-    return <ActivityIndicator animating={true} color="#0000ff" />;
-  }
-
-  return (
-      <SafeAreaView style={styles.container}>
-        <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{ flex: 1 }}
-        >
-          <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
-            <Formik
-                initialValues={{
-                  title: post?.title || '',
-                  content: post?.content || '',
-                }}
-                validationSchema={schema}
-                onSubmit={async (values, { resetForm }) => {
-                  const selectedTags = categoryOptions
-                      .filter((tag) => selected.includes(tag.value))
-                      .map((tag) => ({ name: tag.value }));
-
-                  const formData = new FormData();
-                  formData.append('title', values.title);
-                  formData.append('content', values.content);
-
-                  if (selectedTags.length > 0) {
-                    selectedTags.forEach((tag, index) => {
-                      formData.append(`tags[${index}][name]`, tag.name);
+        if (!result.canceled) {
+            setImageLoading(true);
+            setTimeout(async () => {
+                await fetch(result.assets[0].uri)
+                    .then((response) => response.blob())
+                    .then((blob) => {
+                        if (!blob) {
+                            console.error('Erro ao converter a imagem');
+                            return;
+                        }
+                        setImage(result.assets[0].uri);
+                    })
+                    .catch((err) => {
+                        console.error('Erro ao converter imagem:', err);
+                    })
+                    .finally(() => {
+                        setImageLoading(false);
                     });
-                  } else {
-                    formData.append('tags', '');
-                  }
+            }, 3000);
+        }
+    };
 
+    const handleRemoveImage = () => {
+        setImage(null);
+    };
 
-                  if (image) {
-                    const uriParts = image.split('.');
-                    const fileType = uriParts[uriParts.length - 1];
-                    formData.append('attachment', {
-                      uri: image,
-                      name: `image.${fileType}`,
-                      type: `image/${fileType}`,
-                    });
-                  } else if (image === null && post?.path_img) {
-                    formData.append('removerImagem', 'true');
-                  }
+    if (postLoading && id) {
+        return <ActivityIndicator animating={true} color="#0000ff" />;
+    }
 
-                  try {
-                    await handleCreatePost(formData, id);
-                    resetForm();
-                    setImage(null);
-                    setSelected([]);
-                    router.replace('/update_post');
-                  } catch (error) {
-                    console.error('Erro ao atualizar o post:', error);
-                  }
-                }}
+    return (
+        <SafeAreaView style={styles.container}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}
             >
-              {({
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  values,
-                  errors,
-                  touched,
-                }) => (
-                  <View>
-                    <View style={styles.inputContainer}>
-                      <Text style={styles.label}>Título</Text>
-                      <TextInput
-                          style={styles.input}
-                          placeholder="Digite o título"
-                          value={values.title}
-                          onChangeText={handleChange('title')}
-                          onBlur={handleBlur('title')}
-                      />
-                      {touched.title && errors.title && (
-                          <Text style={styles.errorText}>{errors.title}</Text>
-                      )}
-                    </View>
+                <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}>
+                    <Formik
+                        initialValues={{
+                            title: post?.title || '',
+                            content: post?.content || '',
+                        }}
+                        validationSchema={schema}
+                        onSubmit={async (values, { resetForm }) => {
+                            const selectedTags = categoryOptions
+                                .filter((tag) => selected.includes(tag.value))
+                                .map((tag) => ({ name: tag.value }));
 
-                    <View style={styles.inputContainer}>
-                      <Text style={styles.label}>Conteúdo</Text>
-                      <TextInput
-                          style={[styles.input, { height: 100 }]}
-                          placeholder="Digite o conteúdo"
-                          value={values.content}
-                          onChangeText={handleChange('content')}
-                          onBlur={handleBlur('content')}
-                          multiline
-                      />
-                      {touched.content && errors.content && (
-                          <Text style={styles.errorText}>{errors.content}</Text>
-                      )}
-                    </View>
+                            let formData = new FormData();
+                            formData.append('title', values.title);
+                            formData.append('content', values.content);
 
-                    <View style={styles.imageContainer}>
-                      <Text style={styles.label}>Imagem</Text>
-                      <TouchableOpacity
-                          style={styles.imageButton}
-                          onPress={handleSelectImage}
-                      >
-                        <Text style={styles.imageButtonText}>
-                          Selecionar Imagem
-                        </Text>
-                      </TouchableOpacity>
-                      {image && (
-                          <View style={styles.imagePreviewContainer}>
-                            <Image
-                                source={{ uri: image }}
-                                style={styles.imagePreview}
-                            />
-                            <TouchableOpacity
-                                style={styles.removeImageButton}
-                                onPress={handleRemoveImage}
-                            >
-                              <FontAwesome name="trash" size={20} color="#fff" />
-                            </TouchableOpacity>
-                          </View>
-                      )}
-                    </View>
+                            if (selectedTags.length > 0) {
+                                selectedTags.forEach((tag, index) => {
+                                    formData.append(`tags[${index}][name]`, tag.name);
+                                });
+                            } else {
+                                formData.append('tags', '');
+                            }
 
-                    <View
-                        style={[
-                          styles.inputContainer,
-                          Platform.OS === 'ios' && { marginHorizontal: 12 },
-                        ]}
+                            if (image) {
+                                await fetch(image)
+                                    .then((response) => response.blob())
+                                    .then(async (blob) => {
+                                        if (!blob) {
+                                            console.error('Erro ao converter a imagem');
+                                            return;
+                                        }
+
+                                        formData.append('attachment', {
+                                            uri: image,
+                                            name: 'image.jpg',
+                                            type: 'image/jpeg',
+                                        });
+
+                                        await handleCreatePost(formData, id)
+                                            .then(() => {
+                                                formData = new FormData();
+                                                resetForm();
+                                                setImage(null);
+                                                setSelected([]);
+                                                router.replace('/update_post');
+                                            })
+                                            .catch((error) => {
+                                                console.error('Erro ao enviar o post:', error);
+                                            });
+                                    })
+                                    .catch((err) => {
+                                        console.error('Erro ao converter imagem:', err);
+                                    });
+                            } else if (image === null && post?.path_img) {
+                                formData.append('removerImagem', 'true');
+
+                                try {
+                                    await handleCreatePost(formData, id);
+                                    resetForm();
+                                    setImage(null);
+                                    setSelected([]);
+                                    router.replace('/update_post');
+                                } catch (error) {
+                                    console.error('Erro ao enviar o post:', error);
+                                }
+                            } else {
+                                try {
+                                    await handleCreatePost(formData, id);
+                                    resetForm();
+                                    setImage(null);
+                                    setSelected([]);
+                                    router.replace('/update_post');
+                                } catch (error) {
+                                    console.error('Erro ao enviar o post:', error);
+                                }
+                            }
+                        }}
                     >
-                      <CustomMultipleSelectList
-                          setSelected={setSelected}
-                          data={categoryOptions}
-                          save="value"
-                          label="Categorias"
-                          placeholder="Buscar por categorias"
-                          searchPlaceholder="Filtre por categoria"
-                          boxStyles={styles.optionSelect}
-                          dropdownStyles={styles.dropdwon}
-                          badgeStyles={styles.badgeStyles}
-                          badgeTextStyles={styles.badgeTextStyles}
-                          selected={selected}
-                      />
-                    </View>
+                        {({
+                              handleChange,
+                              handleBlur,
+                              handleSubmit,
+                              values,
+                              errors,
+                              touched,
+                          }) => (
+                            <View>
+                                <View style={styles.inputContainer}>
+                                    <Text style={styles.label}>Título</Text>
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="Digite o título"
+                                        value={values.title}
+                                        onChangeText={handleChange('title')}
+                                        onBlur={handleBlur('title')}
+                                    />
+                                    {touched.title && errors.title && (
+                                        <Text style={styles.errorText}>{errors.title}</Text>
+                                    )}
+                                </View>
 
-                    <View style={styles.buttonContainer}>
-                      {loading ? (
-                          <ActivityIndicator
-                              animating={true}
-                              size="large"
-                              color="#4e46dd"
-                          />
-                      ) : (
-                          <TouchableOpacity onPress={() => handleSubmit()}>
-                            <Text style={styles.buttonText}>Editar</Text>
-                          </TouchableOpacity>
-                      )}
-                    </View>
-                  </View>
-              )}
-            </Formik>
+                                <View style={styles.inputContainer}>
+                                    <Text style={styles.label}>Conteúdo</Text>
+                                    <TextInput
+                                        style={[styles.input, { height: 100 }]}
+                                        placeholder="Digite o conteúdo"
+                                        value={values.content}
+                                        onChangeText={handleChange('content')}
+                                        onBlur={handleBlur('content')}
+                                        multiline
+                                    />
+                                    {touched.content && errors.content && (
+                                        <Text style={styles.errorText}>{errors.content}</Text>
+                                    )}
+                                </View>
 
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-  );
+                                <View style={styles.imageContainer}>
+                                    <Text style={styles.label}>Imagem</Text>
+                                    <TouchableOpacity
+                                        style={styles.imageButton}
+                                        onPress={handleSelectImage}
+                                    >
+                                        <Text style={styles.imageButtonText}>
+                                            Selecionar Imagem
+                                        </Text>
+                                    </TouchableOpacity>
+                                    {imageLoading ? ( // Exibe o loading enquanto a imagem está sendo carregada
+                                        <ActivityIndicator size="large" color="#0000ff" />
+                                    ) : image ? (
+                                        <View style={styles.imagePreviewContainer}>
+                                            <Image
+                                                source={{ uri: image }}
+                                                style={styles.imagePreview}
+                                            />
+                                            <TouchableOpacity
+                                                style={styles.removeImageButton}
+                                                onPress={handleRemoveImage}
+                                            >
+                                                <FontAwesome name="trash" size={20} color="#fff" />
+                                            </TouchableOpacity>
+                                        </View>
+                                    ) : null}
+                                </View>
+
+                                <View
+                                    style={[
+                                        styles.inputContainer,
+                                        Platform.OS === 'ios' && { marginHorizontal: 12 },
+                                    ]}
+                                >
+                                    <CustomMultipleSelectList
+                                        setSelected={setSelected}
+                                        data={categoryOptions}
+                                        save="value"
+                                        label="Categorias"
+                                        placeholder="Buscar por categorias"
+                                        searchPlaceholder="Filtre por categoria"
+                                        boxStyles={styles.optionSelect}
+                                        dropdownStyles={styles.dropdwon}
+                                        badgeStyles={styles.badgeStyles}
+                                        badgeTextStyles={styles.badgeTextStyles}
+                                        selected={selected}
+                                    />
+                                </View>
+
+                                <View style={styles.buttonContainer}>
+                                    {loading ? (
+                                        <ActivityIndicator
+                                            animating={true}
+                                            size="large"
+                                            color="#4e46dd"
+                                        />
+                                    ) : (
+                                        <TouchableOpacity onPress={() => handleSubmit()}>
+                                            <Text style={styles.buttonText}>Editar</Text>
+                                        </TouchableOpacity>
+                                    )}
+                                </View>
+                            </View>
+                        )}
+                    </Formik>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
+    );
 }

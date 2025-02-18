@@ -42,6 +42,7 @@ export default function CreatePost(): JSX.Element {
   const categoryOptions = tags.map((tag) => ({ key: tag.id, value: tag.name }))
   const [selected, setSelected] = useState<number[]>([])
   const [image, setImage] = useState<string | null>(null)
+  const [imageLoading, setImageLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (post) {
@@ -76,7 +77,24 @@ export default function CreatePost(): JSX.Element {
     })
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri)
+      setImageLoading(true);
+      setTimeout(async () => {
+        await fetch(result.assets[0].uri)
+            .then((response) => response.blob())
+            .then((blob) => {
+              if (!blob) {
+                console.error('Erro ao converter a imagem');
+                return;
+              }
+              setImage(result.assets[0].uri);
+            })
+            .catch((err) => {
+              console.error('Erro ao converter imagem:', err);
+            })
+            .finally(() => {
+              setImageLoading(false);
+            });
+      }, 3000);
     }
   }
 
@@ -209,29 +227,31 @@ export default function CreatePost(): JSX.Element {
                 </View>
 
                 <View style={styles.imageContainer}>
-                  <Text style={globalStyles.label}>Imagem</Text>
+                  <Text style={styles.label}>Imagem</Text>
                   <TouchableOpacity
-                    style={styles.imageButton}
-                    onPress={handleSelectImage}
+                      style={styles.imageButton}
+                      onPress={handleSelectImage}
                   >
                     <Text style={styles.imageButtonText}>
                       Selecionar Imagem
                     </Text>
                   </TouchableOpacity>
-                  {image && (
-                    <View style={styles.imagePreviewContainer}>
-                      <Image
-                        source={{ uri: image }}
-                        style={styles.imagePreview}
-                      />
-                      <TouchableOpacity
-                        style={styles.removeImageButton}
-                        onPress={handleRemoveImage}
-                      >
-                        <FontAwesome name="trash" size={20} color="#fff" />
-                      </TouchableOpacity>
-                    </View>
-                  )}
+                  {imageLoading ? (
+                      <ActivityIndicator size="large" color="#0000ff" />
+                  ) : image ? (
+                      <View style={styles.imagePreviewContainer}>
+                        <Image
+                            source={{ uri: image }}
+                            style={styles.imagePreview}
+                        />
+                        <TouchableOpacity
+                            style={styles.removeImageButton}
+                            onPress={handleRemoveImage}
+                        >
+                          <FontAwesome name="trash" size={20} color="#fff" />
+                        </TouchableOpacity>
+                      </View>
+                  ) : null}
                 </View>
                 <View style={styles.inputContainer}>
                   <CustomMultipleSelectList
