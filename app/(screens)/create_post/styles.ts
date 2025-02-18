@@ -4,9 +4,9 @@ const styles = StyleSheet.create({
   container: {
     //flex: 1,
     margin: 16,
+    padding: 12,
     borderRadius: 10,
     backgroundColor: 'white',
-    padding: 12,
   },
   header: {
     paddingVertical: 20,
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     width: '50%',
   },
   buttonContainer: {
-    marginBottom: 20,
+    marginBottom: Platform.OS === 'ios' ? 50 : 20,
     marginHorizontal: Platform.OS === 'ios' ? 32 : 12,
     backgroundColor: '#4e46dd',
     borderRadius: 8,
