@@ -93,7 +93,7 @@ export default function CreatePost(): JSX.Element {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.box}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <Formik
             initialValues={{
               title: post?.title || '',
@@ -174,7 +174,12 @@ export default function CreatePost(): JSX.Element {
               touched,
             }) => (
               <View>
-                <View style={styles.inputContainer}>
+                <View
+                  style={[
+                    styles.inputContainer,
+                    { marginTop: Platform.OS === 'ios' ? 20 : 0 },
+                  ]}
+                >
                   <Text style={styles.label}>Título</Text>
                   <TextInput
                     style={globalStyles.input}

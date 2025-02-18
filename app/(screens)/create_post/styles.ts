@@ -2,7 +2,7 @@ import { Platform, StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    //flex: 1,
     margin: 16,
     borderRadius: 10,
     backgroundColor: 'white',
@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   inputContainer: {
-    marginTop: Platform.OS === 'ios' ? 20 : 0,
+    marginTop: 0,
     marginHorizontal: Platform.OS === 'ios' ? 20 : 0,
     padding: 10,
-    marginBottom: 10,
+    marginBottom: 0,
     elevation: 3,
   },
   fields: {
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4e46dd',
     padding: 10,
     borderRadius: 5,
-    marginBottom: 10,
+    marginBottom: 0,
   },
   imageButtonText: {
     color: '#fff',
