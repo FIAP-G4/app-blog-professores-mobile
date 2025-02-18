@@ -2,8 +2,10 @@ import { Platform, StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   screen: {
+    flex: 1,
     paddingTop: 30,
     paddingHorizontal: 20,
+    marginBottom: Platform.OS === 'ios' ? 80 : 70,
     backgroundColor: '#f3f4f6',
   },
   subHeader: {

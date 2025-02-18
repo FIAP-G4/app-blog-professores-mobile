@@ -40,7 +40,7 @@ export default function Posts(): JSX.Element {
   )
 
   return (
-    <SafeAreaView style={[styles.screen, { flex: 1 }]}>
+    <SafeAreaView style={styles.screen}>
       <View style={styles.contentMultiSelect}>
         <CustomMultipleSelectList
           setSelected={(val: any) => setSelected(val)}
